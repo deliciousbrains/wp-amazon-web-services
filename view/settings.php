@@ -50,6 +50,9 @@ define( 'AWS_SECRET_ACCESS_KEY', '****************************************' );</
 	<tr valign="top">
 		<td colspan="2">
 			<button type="submit" class="button button-primary"><?php _e( 'Save Changes', 'amazon-web-services' ); ?></button>
+			<?php if ( $this->get_access_key_id() || $this->get_secret_access_key() ) : ?>
+			&nbsp;<button class="button remove-keys"><?php _e( 'Remove Keys', 'amazon-web-services' ); ?></button>
+			<?php endif; ?>
 		</td>
 	</tr>
 	</table>
