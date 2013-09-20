@@ -4,7 +4,7 @@ Plugin Name: Amazon Web Services
 Plugin URI: http://wordpress.org/extend/plugins/amazon-web-services/
 Description: Includes the Amazon Web Services PHP libraries, stores access keys, and allows other plugins to hook into it
 Author: Brad Touesnard
-Version: 0.1b1
+Version: 0.1
 Author URI: http://bradt.ca/
 */
 
