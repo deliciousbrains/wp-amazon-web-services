@@ -65,6 +65,11 @@ return array (
             'https' => true,
             'hostname' => 'iam.amazonaws.com',
         ),
+        'cn-north-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'iam.cn-north-1.amazonaws.com.cn',
+        ),
         'us-gov-west-1' => array(
             'http' => false,
             'https' => true,
@@ -203,6 +208,14 @@ return array (
                     'reason' => 'The request was rejected because the type of user for the transaction was incorrect.',
                     'class' => 'InvalidUserTypeException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that is temporarily unmodifiable, such as a user name that was deleted and then recreated. The error indicates that the request is likely to succeed if you try again after waiting several minutes. The error message describes the entity.',
+                    'class' => 'EntityTemporarilyUnmodifiableException',
+                ),
             ),
         ),
         'CreateAccessKey' => array(
@@ -269,6 +282,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
                     'class' => 'EntityAlreadyExistsException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -405,6 +422,10 @@ return array (
                     'reason' => 'The request was rejected because the provided password did not meet the requirements imposed by the account password policy.',
                     'class' => 'PasswordPolicyViolationException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'CreateRole' => array(
@@ -457,6 +478,52 @@ return array (
                 array(
                     'reason' => 'The request was rejected because the policy document was malformed. The error message describes the specific error.',
                     'class' => 'MalformedPolicyDocumentException',
+                ),
+            ),
+        ),
+        'CreateSAMLProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'CreateSAMLProviderResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'CreateSAMLProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'SAMLMetadataDocument' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1000,
+                    'maxLength' => 10000000,
+                ),
+                'Name' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 128,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
+                    'class' => 'EntityAlreadyExistsException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -588,6 +655,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteAccessKey' => array(
@@ -626,6 +697,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteAccountAlias' => array(
@@ -657,6 +732,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -719,6 +798,10 @@ return array (
                     'reason' => 'The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.',
                     'class' => 'DeleteConflictException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteGroupPolicy' => array(
@@ -758,6 +841,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteInstanceProfile' => array(
@@ -793,6 +880,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.',
                     'class' => 'DeleteConflictException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -830,6 +921,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteRole' => array(
@@ -865,6 +960,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.',
                     'class' => 'DeleteConflictException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -905,6 +1004,41 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+            ),
+        ),
+        'DeleteSAMLProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DeleteSAMLProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'SAMLProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'class' => 'InvalidInputException',
+                ),
             ),
         ),
         'DeleteServerCertificate' => array(
@@ -940,6 +1074,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.',
                     'class' => 'DeleteConflictException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -979,6 +1117,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteUser' => array(
@@ -1007,6 +1149,10 @@ return array (
                 ),
             ),
             'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
@@ -1054,6 +1200,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'DeleteVirtualMFADevice' => array(
@@ -1089,6 +1239,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.',
                     'class' => 'DeleteConflictException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -1420,6 +1574,41 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
+        'GetSAMLProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'GetSAMLProviderResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'GetSAMLProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'SAMLProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'class' => 'InvalidInputException',
                 ),
             ),
         ),
@@ -1929,6 +2118,25 @@ return array (
                 ),
             ),
         ),
+        'ListSAMLProviders' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ListSAMLProvidersResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'ListSAMLProviders',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+            ),
+        ),
         'ListServerCertificates' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -2110,11 +2318,6 @@ return array (
                 'AssignmentStatus' => array(
                     'type' => 'string',
                     'location' => 'aws.query',
-                    'enum' => array(
-                        'Assigned',
-                        'Unassigned',
-                        'Any',
-                    ),
                 ),
                 'Marker' => array(
                     'type' => 'string',
@@ -2329,6 +2532,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'RemoveUserFromGroup' => array(
@@ -2367,6 +2574,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -2425,6 +2636,10 @@ return array (
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'UpdateAccessKey' => array(
@@ -2461,16 +2676,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'aws.query',
-                    'enum' => array(
-                        'Active',
-                        'Inactive',
-                    ),
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -2532,6 +2747,10 @@ return array (
                     'reason' => 'The request was rejected because the policy document was malformed. The error message describes the specific error.',
                     'class' => 'MalformedPolicyDocumentException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'UpdateAssumeRolePolicy' => array(
@@ -2574,6 +2793,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because the policy document was malformed. The error message describes the specific error.',
                     'class' => 'MalformedPolicyDocumentException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -2623,6 +2846,10 @@ return array (
                     'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
                     'class' => 'EntityAlreadyExistsException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'UpdateLoginProfile' => array(
@@ -2669,6 +2896,56 @@ return array (
                 array(
                     'reason' => 'The request was rejected because the provided password did not meet the requirements imposed by the account password policy.',
                     'class' => 'PasswordPolicyViolationException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+            ),
+        ),
+        'UpdateSAMLProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'UpdateSAMLProviderResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'UpdateSAMLProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'SAMLMetadataDocument' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1000,
+                    'maxLength' => 10000000,
+                ),
+                'SAMLProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -2718,6 +2995,10 @@ return array (
                     'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
                     'class' => 'EntityAlreadyExistsException',
                 ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
             ),
         ),
         'UpdateSigningCertificate' => array(
@@ -2754,16 +3035,16 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'aws.query',
-                    'enum' => array(
-                        'Active',
-                        'Inactive',
-                    ),
                 ),
             ),
             'errorResponses' => array(
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
             ),
         ),
@@ -2808,6 +3089,10 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
                 ),
                 array(
                     'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
@@ -3110,6 +3395,16 @@ return array (
                 ),
             ),
         ),
+        'CreateSAMLProviderResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'SAMLProviderArn' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
         'CreateUserResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -3206,6 +3501,12 @@ return array (
                         ),
                         'AllowUsersToChangePassword' => array(
                             'type' => 'boolean',
+                        ),
+                        'ExpirePasswords' => array(
+                            'type' => 'boolean',
+                        ),
+                        'MaxPasswordAge' => array(
+                            'type' => 'numeric',
                         ),
                     ),
                 ),
@@ -3460,6 +3761,24 @@ return array (
                     'location' => 'xml',
                 ),
                 'PolicyDocument' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
+        'GetSAMLProviderResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'SAMLMetadataDocument' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'CreateDate' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'ValidUntil' => array(
                     'type' => 'string',
                     'location' => 'xml',
                 ),
@@ -3947,6 +4266,32 @@ return array (
                 ),
             ),
         ),
+        'ListSAMLProvidersResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'SAMLProviderList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'SAMLProviderListEntry',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
+                            'ValidUntil' => array(
+                                'type' => 'string',
+                            ),
+                            'CreateDate' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'ListServerCertificatesResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -4147,6 +4492,16 @@ return array (
                 ),
             ),
         ),
+        'UpdateSAMLProviderResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'SAMLProviderArn' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
         'UploadServerCertificateResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -4203,119 +4558,120 @@ return array (
         ),
     ),
     'iterators' => array(
-        'operations' => array(
-            'GetGroup' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Users',
-            ),
-            'ListAccessKeys' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'AccessKeyMetadata',
-            ),
-            'ListAccountAliases' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'AccountAliases',
-            ),
-            'ListGroupPolicies' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'PolicyNames',
-            ),
-            'ListGroups' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Groups',
-            ),
-            'ListGroupsForUser' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Groups',
-            ),
-            'ListInstanceProfiles' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'InstanceProfiles',
-            ),
-            'ListInstanceProfilesForRole' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'InstanceProfiles',
-            ),
-            'ListMFADevices' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'MFADevices',
-            ),
-            'ListRolePolicies' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'PolicyNames',
-            ),
-            'ListRoles' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Roles',
-            ),
-            'ListServerCertificates' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'ServerCertificateMetadataList',
-            ),
-            'ListSigningCertificates' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Certificates',
-            ),
-            'ListUserPolicies' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'PolicyNames',
-            ),
-            'ListUsers' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'Users',
-            ),
-            'ListVirtualMFADevices' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'more_key' => 'IsTruncated',
-                'limit_key' => 'MaxItems',
-                'result_key' => 'VirtualMFADevices',
-            ),
+        'GetGroup' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Users',
+        ),
+        'ListAccessKeys' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'AccessKeyMetadata',
+        ),
+        'ListAccountAliases' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'AccountAliases',
+        ),
+        'ListGroupPolicies' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'PolicyNames',
+        ),
+        'ListGroups' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Groups',
+        ),
+        'ListGroupsForUser' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Groups',
+        ),
+        'ListInstanceProfiles' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'InstanceProfiles',
+        ),
+        'ListInstanceProfilesForRole' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'InstanceProfiles',
+        ),
+        'ListMFADevices' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'MFADevices',
+        ),
+        'ListRolePolicies' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'PolicyNames',
+        ),
+        'ListRoles' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Roles',
+        ),
+        'ListSAMLProviders' => array(
+            'result_key' => 'SAMLProviderList',
+        ),
+        'ListServerCertificates' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'ServerCertificateMetadataList',
+        ),
+        'ListSigningCertificates' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Certificates',
+        ),
+        'ListUserPolicies' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'PolicyNames',
+        ),
+        'ListUsers' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'Users',
+        ),
+        'ListVirtualMFADevices' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'VirtualMFADevices',
         ),
     ),
 );

@@ -39,8 +39,12 @@ class CurlMulti extends AbstractHasDispatcher implements CurlMultiInterface
         CURLM_INTERNAL_ERROR  => array('CURLM_INTERNAL_ERROR', 'This can only be returned if libcurl bugs. Please report it to us!')
     );
 
-    public function __construct()
+    /** @var float */
+    protected $selectTimeout;
+
+    public function __construct($selectTimeout = 1.0)
     {
+        $this->selectTimeout = $selectTimeout;
         $this->multiHandle = curl_multi_init();
         // @codeCoverageIgnoreStart
         if ($this->multiHandle === false) {
@@ -129,8 +133,7 @@ class CurlMulti extends AbstractHasDispatcher implements CurlMultiInterface
         $multiException = new MultiTransferException('Errors during multi transfer');
 
         while ($e = array_shift($exceptions)) {
-            $multiException->add($e['exception']);
-            $multiException->addFailedRequest($e['request']);
+            $multiException->addFailedRequestWithException($e['request'], $e['exception']);
         }
 
         // Add successful requests
@@ -230,7 +233,7 @@ class CurlMulti extends AbstractHasDispatcher implements CurlMultiInterface
                 // Perform a usleep if a select returns -1: https://bugs.php.net/bug.php?id=61141
                 usleep(150);
             }
-            $selectTimeout = 1;
+            $selectTimeout = $this->selectTimeout;
         } while ($active);
     }
 

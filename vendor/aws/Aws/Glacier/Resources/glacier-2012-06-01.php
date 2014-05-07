@@ -42,10 +42,20 @@ return array (
             'https' => true,
             'hostname' => 'glacier.eu-west-1.amazonaws.com',
         ),
+        'ap-southeast-2' => array(
+            'http' => true,
+            'https' => true,
+            'hostname' => 'glacier.ap-southeast-2.amazonaws.com',
+        ),
         'ap-northeast-1' => array(
             'http' => true,
             'https' => true,
             'hostname' => 'glacier.ap-northeast-1.amazonaws.com',
+        ),
+        'cn-north-1' => array(
+            'http' => true,
+            'https' => true,
+            'hostname' => 'glacier.cn-north-1.amazonaws.com.cn',
         ),
     ),
     'operations' => array(
@@ -502,6 +512,24 @@ return array (
                 'RetrievalByteRange' => array(
                     'type' => 'string',
                     'location' => 'json',
+                ),
+                'InventoryRetrievalParameters' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'StartDate' => array(
+                            'type' => 'string',
+                        ),
+                        'EndDate' => array(
+                            'type' => 'string',
+                        ),
+                        'Limit' => array(
+                            'type' => 'string',
+                        ),
+                        'Marker' => array(
+                            'type' => 'string',
+                        ),
+                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -1040,6 +1068,27 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                 ),
+                'InventoryRetrievalParameters' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'Format' => array(
+                            'type' => 'string',
+                        ),
+                        'StartDate' => array(
+                            'type' => 'string',
+                        ),
+                        'EndDate' => array(
+                            'type' => 'string',
+                        ),
+                        'Limit' => array(
+                            'type' => 'string',
+                        ),
+                        'Marker' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
             ),
         ),
         'DescribeVaultOutput' => array(
@@ -1221,6 +1270,26 @@ return array (
                             'RetrievalByteRange' => array(
                                 'type' => 'string',
                             ),
+                            'InventoryRetrievalParameters' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Format' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'StartDate' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'EndDate' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Limit' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Marker' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -1359,6 +1428,32 @@ return array (
                     'sentAs' => 'x-amz-sha256-tree-hash',
                 ),
             ),
+        ),
+    ),
+    'iterators' => array(
+        'ListJobs' => array(
+            'input_token' => 'marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'limit',
+            'result_key' => 'JobList',
+        ),
+        'ListMultipartUploads' => array(
+            'input_token' => 'marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'limit',
+            'result_key' => 'UploadsList',
+        ),
+        'ListParts' => array(
+            'input_token' => 'marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'limit',
+            'result_key' => 'Parts',
+        ),
+        'ListVaults' => array(
+            'input_token' => 'marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'limit',
+            'result_key' => 'VaultList',
         ),
     ),
     'waiters' => array(

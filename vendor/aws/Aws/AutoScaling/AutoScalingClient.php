@@ -26,6 +26,7 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
 /**
  * Client to interact with Auto Scaling
  *
+ * @method Model attachInstances(array $args = array()) {@command AutoScaling AttachInstances}
  * @method Model createAutoScalingGroup(array $args = array()) {@command AutoScaling CreateAutoScalingGroup}
  * @method Model createLaunchConfiguration(array $args = array()) {@command AutoScaling CreateLaunchConfiguration}
  * @method Model createOrUpdateTags(array $args = array()) {@command AutoScaling CreateOrUpdateTags}
@@ -35,6 +36,7 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method Model deletePolicy(array $args = array()) {@command AutoScaling DeletePolicy}
  * @method Model deleteScheduledAction(array $args = array()) {@command AutoScaling DeleteScheduledAction}
  * @method Model deleteTags(array $args = array()) {@command AutoScaling DeleteTags}
+ * @method Model describeAccountLimits(array $args = array()) {@command AutoScaling DescribeAccountLimits}
  * @method Model describeAdjustmentTypes(array $args = array()) {@command AutoScaling DescribeAdjustmentTypes}
  * @method Model describeAutoScalingGroups(array $args = array()) {@command AutoScaling DescribeAutoScalingGroups}
  * @method Model describeAutoScalingInstances(array $args = array()) {@command AutoScaling DescribeAutoScalingInstances}
@@ -69,8 +71,8 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method ResourceIteratorInterface getDescribeScheduledActionsIterator(array $args = array()) The input array uses the parameters of the DescribeScheduledActions operation
  * @method ResourceIteratorInterface getDescribeTagsIterator(array $args = array()) The input array uses the parameters of the DescribeTags operation
  *
- * @link http://docs.aws.amazon.com/aws-sdk-php-2/guide/latest/service-autoscaling.html User guide
- * @link http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.AutoScaling.AutoScalingClient.html API docs
+ * @link http://docs.aws.amazon.com/aws-sdk-php/guide/latest/service-autoscaling.html User guide
+ * @link http://docs.aws.amazon.com/aws-sdk-php/latest/class-Aws.AutoScaling.AutoScalingClient.html API docs
  */
 class AutoScalingClient extends AbstractClient
 {
@@ -82,7 +84,7 @@ class AutoScalingClient extends AbstractClient
      * @param array|Collection $config Client configuration data
      *
      * @return self
-     * @see \Aws\Common\Client\DefaultClient for a list of available configuration options
+     * @link http://docs.aws.amazon.com/aws-sdk-php/guide/latest/configuration.html#client-configuration-options
      */
     public static function factory($config = array())
     {

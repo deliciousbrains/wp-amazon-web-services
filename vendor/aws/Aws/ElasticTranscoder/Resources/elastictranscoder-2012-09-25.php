@@ -52,16 +52,6 @@ return array (
             'https' => true,
             'hostname' => 'elastictranscoder.ap-southeast-1.amazonaws.com',
         ),
-        'ap-southeast-2' => array(
-            'http' => false,
-            'https' => true,
-            'hostname' => 'elastictranscoder.ap-southeast-2.amazonaws.com',
-        ),
-        'sa-east-1' => array(
-            'http' => false,
-            'https' => true,
-            'hostname' => 'elastictranscoder.sa-east-1.amazonaws.com',
-        ),
     ),
     'operations' => array(
         'CancelJob' => array(
@@ -180,6 +170,63 @@ return array (
                                 ),
                             ),
                         ),
+                        'AlbumArt' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'MergePolicy' => array(
+                                    'type' => 'string',
+                                ),
+                                'Artwork' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'Artwork',
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'InputKey' => array(
+                                                'type' => 'string',
+                                                'minLength' => 1,
+                                                'maxLength' => 255,
+                                            ),
+                                            'MaxWidth' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'MaxHeight' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'SizingPolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'PaddingPolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'AlbumArtFormat' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'Composition' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'Clip',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'TimeSpan' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'StartTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Duration' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
                 'Outputs' => array(
@@ -222,6 +269,63 @@ return array (
                                             'type' => 'string',
                                             'minLength' => 1,
                                             'maxLength' => 255,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'AlbumArt' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'MergePolicy' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Artwork' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'Artwork',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'InputKey' => array(
+                                                    'type' => 'string',
+                                                    'minLength' => 1,
+                                                    'maxLength' => 255,
+                                                ),
+                                                'MaxWidth' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'MaxHeight' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'SizingPolicy' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'PaddingPolicy' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'AlbumArtFormat' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'Composition' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'Clip',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'TimeSpan' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'StartTime' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Duration' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -572,6 +676,14 @@ return array (
                         'Channels' => array(
                             'type' => 'string',
                         ),
+                        'CodecOptions' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'Profile' => array(
+                                    'type' => 'string',
+                                ),
+                            ),
+                        ),
                     ),
                 ),
                 'Thumbnails' => array(
@@ -793,6 +905,16 @@ return array (
             'class' => 'Guzzle\\Service\\Command\\OperationCommand',
             'responseClass' => 'ListPipelinesResponse',
             'responseType' => 'model',
+            'parameters' => array(
+                'Ascending' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                ),
+                'PageToken' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                ),
+            ),
             'errorResponses' => array(
                 array(
                     'reason' => 'One or more required parameter values were not provided in the request.',
@@ -809,8 +931,6 @@ return array (
                     'reason' => 'Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.',
                     'class' => 'InternalServiceException',
                 ),
-            ),
-            'parameters' => array(
             ),
         ),
         'ListPresets' => array(
@@ -819,6 +939,16 @@ return array (
             'class' => 'Guzzle\\Service\\Command\\OperationCommand',
             'responseClass' => 'ListPresetsResponse',
             'responseType' => 'model',
+            'parameters' => array(
+                'Ascending' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                ),
+                'PageToken' => array(
+                    'type' => 'string',
+                    'location' => 'query',
+                ),
+            ),
             'errorResponses' => array(
                 array(
                     'reason' => 'One or more required parameter values were not provided in the request.',
@@ -835,8 +965,6 @@ return array (
                     'reason' => 'Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.',
                     'class' => 'InternalServiceException',
                 ),
-            ),
-            'parameters' => array(
             ),
         ),
         'ReadJob' => array(
@@ -1259,6 +1387,9 @@ return array (
                         'Id' => array(
                             'type' => 'string',
                         ),
+                        'Arn' => array(
+                            'type' => 'string',
+                        ),
                         'PipelineId' => array(
                             'type' => 'string',
                         ),
@@ -1336,6 +1467,61 @@ return array (
                                         ),
                                     ),
                                 ),
+                                'AlbumArt' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'MergePolicy' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Artwork' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'Artwork',
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'InputKey' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'MaxWidth' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'MaxHeight' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'SizingPolicy' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'PaddingPolicy' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'AlbumArtFormat' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                'Composition' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'Clip',
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'TimeSpan' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'StartTime' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Duration' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         'Outputs' => array(
@@ -1388,6 +1574,61 @@ return array (
                                                 ),
                                                 'InputKey' => array(
                                                     'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'AlbumArt' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'MergePolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Artwork' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'Artwork',
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'InputKey' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxWidth' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxHeight' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'SizingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'PaddingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'AlbumArtFormat' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Composition' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'Clip',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'TimeSpan' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'StartTime' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Duration' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -1560,6 +1801,9 @@ return array (
                         'Id' => array(
                             'type' => 'string',
                         ),
+                        'Arn' => array(
+                            'type' => 'string',
+                        ),
                         'Name' => array(
                             'type' => 'string',
                         ),
@@ -1583,6 +1827,14 @@ return array (
                                 ),
                                 'Channels' => array(
                                     'type' => 'string',
+                                ),
+                                'CodecOptions' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Profile' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
                                 ),
                             ),
                         ),
@@ -1729,6 +1981,9 @@ return array (
                             'Id' => array(
                                 'type' => 'string',
                             ),
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
                             'PipelineId' => array(
                                 'type' => 'string',
                             ),
@@ -1806,6 +2061,61 @@ return array (
                                             ),
                                         ),
                                     ),
+                                    'AlbumArt' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'MergePolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Artwork' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'Artwork',
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'InputKey' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxWidth' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxHeight' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'SizingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'PaddingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'AlbumArtFormat' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Composition' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'Clip',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'TimeSpan' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'StartTime' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Duration' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                             'Outputs' => array(
@@ -1858,6 +2168,61 @@ return array (
                                                     ),
                                                     'InputKey' => array(
                                                         'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        'AlbumArt' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'MergePolicy' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Artwork' => array(
+                                                    'type' => 'array',
+                                                    'items' => array(
+                                                        'name' => 'Artwork',
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'InputKey' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'MaxWidth' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'MaxHeight' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'SizingPolicy' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'PaddingPolicy' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'AlbumArtFormat' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        'Composition' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'Clip',
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'TimeSpan' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'StartTime' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Duration' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -1922,6 +2287,9 @@ return array (
                             'Id' => array(
                                 'type' => 'string',
                             ),
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
                             'PipelineId' => array(
                                 'type' => 'string',
                             ),
@@ -1999,6 +2367,61 @@ return array (
                                             ),
                                         ),
                                     ),
+                                    'AlbumArt' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'MergePolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Artwork' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'Artwork',
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'InputKey' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxWidth' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxHeight' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'SizingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'PaddingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'AlbumArtFormat' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Composition' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'Clip',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'TimeSpan' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'StartTime' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Duration' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                             'Outputs' => array(
@@ -2051,6 +2474,61 @@ return array (
                                                     ),
                                                     'InputKey' => array(
                                                         'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        'AlbumArt' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'MergePolicy' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Artwork' => array(
+                                                    'type' => 'array',
+                                                    'items' => array(
+                                                        'name' => 'Artwork',
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'InputKey' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'MaxWidth' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'MaxHeight' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'SizingPolicy' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'PaddingPolicy' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'AlbumArtFormat' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        'Composition' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'Clip',
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'TimeSpan' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'StartTime' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Duration' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -2219,6 +2697,10 @@ return array (
                         ),
                     ),
                 ),
+                'NextPageToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
             ),
         ),
         'ListPresetsResponse' => array(
@@ -2233,6 +2715,9 @@ return array (
                         'type' => 'object',
                         'properties' => array(
                             'Id' => array(
+                                'type' => 'string',
+                            ),
+                            'Arn' => array(
                                 'type' => 'string',
                             ),
                             'Name' => array(
@@ -2258,6 +2743,14 @@ return array (
                                     ),
                                     'Channels' => array(
                                         'type' => 'string',
+                                    ),
+                                    'CodecOptions' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Profile' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
                                     ),
                                 ),
                             ),
@@ -2385,6 +2878,10 @@ return array (
                         ),
                     ),
                 ),
+                'NextPageToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
             ),
         ),
         'ReadJobResponse' => array(
@@ -2396,6 +2893,9 @@ return array (
                     'location' => 'json',
                     'properties' => array(
                         'Id' => array(
+                            'type' => 'string',
+                        ),
+                        'Arn' => array(
                             'type' => 'string',
                         ),
                         'PipelineId' => array(
@@ -2475,6 +2975,61 @@ return array (
                                         ),
                                     ),
                                 ),
+                                'AlbumArt' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'MergePolicy' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Artwork' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'Artwork',
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'InputKey' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'MaxWidth' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'MaxHeight' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'SizingPolicy' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'PaddingPolicy' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'AlbumArtFormat' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                'Composition' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'Clip',
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'TimeSpan' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'StartTime' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Duration' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         'Outputs' => array(
@@ -2527,6 +3082,61 @@ return array (
                                                 ),
                                                 'InputKey' => array(
                                                     'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'AlbumArt' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'MergePolicy' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Artwork' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'Artwork',
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'InputKey' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxWidth' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'MaxHeight' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'SizingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'PaddingPolicy' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'AlbumArtFormat' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Composition' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'Clip',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'TimeSpan' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'StartTime' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Duration' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -2699,6 +3309,9 @@ return array (
                         'Id' => array(
                             'type' => 'string',
                         ),
+                        'Arn' => array(
+                            'type' => 'string',
+                        ),
                         'Name' => array(
                             'type' => 'string',
                         ),
@@ -2722,6 +3335,14 @@ return array (
                                 ),
                                 'Channels' => array(
                                     'type' => 'string',
+                                ),
+                                'CodecOptions' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Profile' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
                                 ),
                             ),
                         ),
@@ -3218,23 +3839,25 @@ return array (
         ),
     ),
     'iterators' => array(
-        'operations' => array(
-            'ListJobsByPipeline' => array(
-                'token_param' => 'PageToken',
-                'token_key' => 'NextPageToken',
-                'result_key' => 'Jobs',
-            ),
-            'ListJobsByStatus' => array(
-                'token_param' => 'PageToken',
-                'token_key' => 'NextPageToken',
-                'result_key' => 'Jobs',
-            ),
-            'ListPipelines' => array(
-                'result_key' => 'Pipelines',
-            ),
-            'ListPresets' => array(
-                'result_key' => 'Presets',
-            ),
+        'ListJobsByPipeline' => array(
+            'input_token' => 'PageToken',
+            'output_token' => 'NextPageToken',
+            'result_key' => 'Jobs',
+        ),
+        'ListJobsByStatus' => array(
+            'input_token' => 'PageToken',
+            'output_token' => 'NextPageToken',
+            'result_key' => 'Jobs',
+        ),
+        'ListPipelines' => array(
+            'input_token' => 'PageToken',
+            'output_token' => 'NextPageToken',
+            'result_key' => 'Pipelines',
+        ),
+        'ListPresets' => array(
+            'input_token' => 'PageToken',
+            'output_token' => 'NextPageToken',
+            'result_key' => 'Presets',
         ),
     ),
 );

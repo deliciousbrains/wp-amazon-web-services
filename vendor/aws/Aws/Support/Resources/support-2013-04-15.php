@@ -75,11 +75,11 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
                 array(
-                    'reason' => 'Returned when the CaseId requested could not be located.',
+                    'reason' => 'The requested CaseId could not be located.',
                     'class' => 'CaseIdNotFoundException',
                 ),
             ),
@@ -111,7 +111,6 @@ return array (
                     'location' => 'json',
                 ),
                 'serviceCode' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
@@ -120,7 +119,6 @@ return array (
                     'location' => 'json',
                 ),
                 'categoryCode' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
@@ -151,11 +149,11 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
                 array(
-                    'reason' => 'Returned when you have exceeded the case creation limit for an account.',
+                    'reason' => 'The case creation limit for the account has been exceeded.',
                     'class' => 'CaseCreationLimitExceededException',
                 ),
             ),
@@ -224,11 +222,11 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
                 array(
-                    'reason' => 'Returned when the CaseId requested could not be located.',
+                    'reason' => 'The requested CaseId could not be located.',
                     'class' => 'CaseIdNotFoundException',
                 ),
             ),
@@ -280,11 +278,11 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
                 array(
-                    'reason' => 'Returned when the CaseId requested could not be located.',
+                    'reason' => 'The requested CaseId could not be located.',
                     'class' => 'CaseIdNotFoundException',
                 ),
             ),
@@ -326,7 +324,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -359,7 +357,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -397,7 +395,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -435,7 +433,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -473,7 +471,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -507,7 +505,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -541,7 +539,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
             ),
@@ -574,11 +572,11 @@ return array (
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Returns HTTP error 500.',
+                    'reason' => 'An internal server error occurred.',
                     'class' => 'InternalServerErrorException',
                 ),
                 array(
-                    'reason' => 'Returned when the CaseId requested could not be located.',
+                    'reason' => 'The requested CaseId could not be located.',
                     'class' => 'CaseIdNotFoundException',
                 ),
             ),
@@ -1022,34 +1020,32 @@ return array (
         ),
     ),
     'iterators' => array(
-        'operations' => array(
-            'DescribeCases' => array(
-                'token_param' => 'nextToken',
-                'token_key' => 'nextToken',
-                'limit_key' => 'maxResults',
-                'result_key' => 'cases',
-            ),
-            'DescribeCommunications' => array(
-                'token_param' => 'nextToken',
-                'token_key' => 'nextToken',
-                'limit_key' => 'maxResults',
-                'result_key' => 'communications',
-            ),
-            'DescribeServices' => array(
-                'result_key' => 'services',
-            ),
-            'DescribeTrustedAdvisorCheckRefreshStatuses' => array(
-                'result_key' => 'statuses',
-            ),
-            'DescribeTrustedAdvisorCheckSummaries' => array(
-                'result_key' => 'summaries',
-            ),
-            'DescribeSeverityLevels' => array(
-                'result_key' => 'severityLevelsList',
-            ),
-            'DescribeTrustedAdvisorChecks' => array(
-                'result_key' => 'checks',
-            ),
+        'DescribeCases' => array(
+            'input_token' => 'nextToken',
+            'output_token' => 'nextToken',
+            'limit_key' => 'maxResults',
+            'result_key' => 'cases',
+        ),
+        'DescribeCommunications' => array(
+            'input_token' => 'nextToken',
+            'output_token' => 'nextToken',
+            'limit_key' => 'maxResults',
+            'result_key' => 'communications',
+        ),
+        'DescribeServices' => array(
+            'result_key' => 'services',
+        ),
+        'DescribeTrustedAdvisorCheckRefreshStatuses' => array(
+            'result_key' => 'statuses',
+        ),
+        'DescribeTrustedAdvisorCheckSummaries' => array(
+            'result_key' => 'summaries',
+        ),
+        'DescribeSeverityLevels' => array(
+            'result_key' => 'severityLevelsList',
+        ),
+        'DescribeTrustedAdvisorChecks' => array(
+            'result_key' => 'checks',
         ),
     ),
 );

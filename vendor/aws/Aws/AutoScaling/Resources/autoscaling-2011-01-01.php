@@ -63,6 +63,11 @@ return array (
             'https' => true,
             'hostname' => 'autoscaling.sa-east-1.amazonaws.com',
         ),
+        'cn-north-1' => array(
+            'http' => true,
+            'https' => true,
+            'hostname' => 'autoscaling.cn-north-1.amazonaws.com.cn',
+        ),
         'us-gov-west-1' => array(
             'http' => true,
             'https' => true,
@@ -70,6 +75,43 @@ return array (
         ),
     ),
     'operations' => array(
+        'AttachInstances' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'AttachInstances',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2011-01-01',
+                ),
+                'InstanceIds' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'InstanceIds.member',
+                    'items' => array(
+                        'name' => 'XmlStringMaxLen16',
+                        'type' => 'string',
+                        'minLength' => 1,
+                        'maxLength' => 16,
+                    ),
+                ),
+                'AutoScalingGroupName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 1600,
+                ),
+            ),
+        ),
         'CreateAutoScalingGroup' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -95,11 +137,16 @@ return array (
                     'maxLength' => 255,
                 ),
                 'LaunchConfigurationName' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'aws.query',
                     'minLength' => 1,
                     'maxLength' => 1600,
+                ),
+                'InstanceId' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 16,
                 ),
                 'MinSize' => array(
                     'required' => true,
@@ -243,7 +290,6 @@ return array (
                     'maxLength' => 255,
                 ),
                 'ImageId' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'aws.query',
                     'minLength' => 1,
@@ -269,8 +315,13 @@ return array (
                     'location' => 'aws.query',
                     'maxLength' => 21847,
                 ),
+                'InstanceId' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 16,
+                ),
                 'InstanceType' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'aws.query',
                     'minLength' => 1,
@@ -320,7 +371,25 @@ return array (
                                         'minimum' => 1,
                                         'maximum' => 1024,
                                     ),
+                                    'VolumeType' => array(
+                                        'type' => 'string',
+                                        'minLength' => 1,
+                                        'maxLength' => 255,
+                                    ),
+                                    'DeleteOnTermination' => array(
+                                        'type' => 'boolean',
+                                        'format' => 'boolean-string',
+                                    ),
+                                    'Iops' => array(
+                                        'type' => 'numeric',
+                                        'minimum' => 100,
+                                        'maximum' => 4000,
+                                    ),
                                 ),
+                            ),
+                            'NoDevice' => array(
+                                'type' => 'boolean',
+                                'format' => 'boolean-string',
                             ),
                         ),
                     ),
@@ -351,6 +420,17 @@ return array (
                     'type' => 'boolean',
                     'format' => 'boolean-string',
                     'location' => 'aws.query',
+                ),
+                'AssociatePublicIpAddress' => array(
+                    'type' => 'boolean',
+                    'format' => 'boolean-string',
+                    'location' => 'aws.query',
+                ),
+                'PlacementTenancy' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 64,
                 ),
             ),
             'errorResponses' => array(
@@ -646,6 +726,25 @@ return array (
                 ),
             ),
         ),
+        'DescribeAccountLimits' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'DescribeAccountLimitsAnswer',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeAccountLimits',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2011-01-01',
+                ),
+            ),
+        ),
         'DescribeAdjustmentTypes' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -700,8 +799,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -742,8 +839,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
                 'NextToken' => array(
                     'type' => 'string',
@@ -811,8 +906,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -876,8 +969,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -928,8 +1019,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -974,8 +1063,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
                 'NextToken' => array(
                     'type' => 'string',
@@ -1067,8 +1154,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -1124,8 +1209,6 @@ return array (
                 'MaxRecords' => array(
                     'type' => 'numeric',
                     'location' => 'aws.query',
-                    'minimum' => 1,
-                    'maximum' => 50,
                 ),
             ),
             'errorResponses' => array(
@@ -1773,6 +1856,20 @@ return array (
             'type' => 'object',
             'additionalProperties' => true,
         ),
+        'DescribeAccountLimitsAnswer' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'MaxNumberOfAutoScalingGroups' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'MaxNumberOfLaunchConfigurations' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
         'DescribeAdjustmentTypesAnswer' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -2079,7 +2176,19 @@ return array (
                                                 'VolumeSize' => array(
                                                     'type' => 'numeric',
                                                 ),
+                                                'VolumeType' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'DeleteOnTermination' => array(
+                                                    'type' => 'boolean',
+                                                ),
+                                                'Iops' => array(
+                                                    'type' => 'numeric',
+                                                ),
                                             ),
+                                        ),
+                                        'NoDevice' => array(
+                                            'type' => 'boolean',
                                         ),
                                     ),
                                 ),
@@ -2103,6 +2212,12 @@ return array (
                             ),
                             'EbsOptimized' => array(
                                 'type' => 'boolean',
+                            ),
+                            'AssociatePublicIpAddress' => array(
+                                'type' => 'boolean',
+                            ),
+                            'PlacementTenancy' => array(
+                                'type' => 'string',
                             ),
                         ),
                     ),
@@ -2462,55 +2577,53 @@ return array (
         ),
     ),
     'iterators' => array(
-        'operations' => array(
-            'DescribeAutoScalingGroups' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'AutoScalingGroups',
-            ),
-            'DescribeAutoScalingInstances' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'AutoScalingInstances',
-            ),
-            'DescribeLaunchConfigurations' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'LaunchConfigurations',
-            ),
-            'DescribeNotificationConfigurations' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'NotificationConfigurations',
-            ),
-            'DescribePolicies' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ScalingPolicies',
-            ),
-            'DescribeScalingActivities' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Activities',
-            ),
-            'DescribeScheduledActions' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ScheduledUpdateGroupActions',
-            ),
-            'DescribeTags' => array(
-                'token_param' => 'NextToken',
-                'token_key' => 'NextToken',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Tags',
-            ),
+        'DescribeAutoScalingGroups' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'AutoScalingGroups',
+        ),
+        'DescribeAutoScalingInstances' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'AutoScalingInstances',
+        ),
+        'DescribeLaunchConfigurations' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'LaunchConfigurations',
+        ),
+        'DescribeNotificationConfigurations' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'NotificationConfigurations',
+        ),
+        'DescribePolicies' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ScalingPolicies',
+        ),
+        'DescribeScalingActivities' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Activities',
+        ),
+        'DescribeScheduledActions' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ScheduledUpdateGroupActions',
+        ),
+        'DescribeTags' => array(
+            'input_token' => 'NextToken',
+            'output_token' => 'NextToken',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Tags',
         ),
     ),
 );

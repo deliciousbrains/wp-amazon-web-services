@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,8 +22,8 @@ namespace Doctrine\Common\Cache;
 /**
  * Filesystem cache driver.
  *
- * @since   2.3
- * @author  Fabio B. Silva <fabio.bat.silva@gmail.com>
+ * @since  2.3
+ * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
 class FilesystemCache extends FileCache
 {
@@ -109,6 +108,6 @@ class FilesystemCache extends FileCache
             mkdir($filepath, 0777, true);
         }
 
-        return file_put_contents($filename, $lifeTime . PHP_EOL . $data);
+        return file_put_contents($filename, $lifeTime . PHP_EOL . $data) !== false;
     }
 }

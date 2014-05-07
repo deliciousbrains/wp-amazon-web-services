@@ -65,6 +65,11 @@ return array (
             'https' => true,
             'hostname' => 'dynamodb.sa-east-1.amazonaws.com',
         ),
+        'cn-north-1' => array(
+            'http' => true,
+            'https' => true,
+            'hostname' => 'dynamodb.cn-north-1.amazonaws.com.cn',
+        ),
         'us-gov-west-1' => array(
             'http' => false,
             'https' => true,
@@ -164,6 +169,7 @@ return array (
                                 'items' => array(
                                     'name' => 'AttributeName',
                                     'type' => 'string',
+                                    'maxLength' => 65535,
                                 ),
                             ),
                             'ConsistentRead' => array(
@@ -176,10 +182,6 @@ return array (
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -347,18 +349,10 @@ return array (
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
                 'ReturnItemCollectionMetrics' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'SIZE',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -418,11 +412,6 @@ return array (
                             'AttributeType' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'enum' => array(
-                                    'S',
-                                    'N',
-                                    'B',
-                                ),
                             ),
                         ),
                     ),
@@ -453,10 +442,6 @@ return array (
                             'KeyType' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'enum' => array(
-                                    'HASH',
-                                    'RANGE',
-                                ),
                             ),
                         ),
                     ),
@@ -492,10 +477,6 @@ return array (
                                         'KeyType' => array(
                                             'required' => true,
                                             'type' => 'string',
-                                            'enum' => array(
-                                                'HASH',
-                                                'RANGE',
-                                            ),
                                         ),
                                     ),
                                 ),
@@ -506,11 +487,6 @@ return array (
                                 'properties' => array(
                                     'ProjectionType' => array(
                                         'type' => 'string',
-                                        'enum' => array(
-                                            'ALL',
-                                            'KEYS_ONLY',
-                                            'INCLUDE',
-                                        ),
                                     ),
                                     'NonKeyAttributes' => array(
                                         'type' => 'array',
@@ -522,6 +498,80 @@ return array (
                                             'minLength' => 1,
                                             'maxLength' => 255,
                                         ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'GlobalSecondaryIndexes' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'GlobalSecondaryIndex',
+                        'type' => 'object',
+                        'properties' => array(
+                            'IndexName' => array(
+                                'required' => true,
+                                'type' => 'string',
+                                'minLength' => 3,
+                                'maxLength' => 255,
+                            ),
+                            'KeySchema' => array(
+                                'required' => true,
+                                'type' => 'array',
+                                'minItems' => 1,
+                                'maxItems' => 2,
+                                'items' => array(
+                                    'name' => 'KeySchemaElement',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'AttributeName' => array(
+                                            'required' => true,
+                                            'type' => 'string',
+                                            'minLength' => 1,
+                                            'maxLength' => 255,
+                                        ),
+                                        'KeyType' => array(
+                                            'required' => true,
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'Projection' => array(
+                                'required' => true,
+                                'type' => 'object',
+                                'properties' => array(
+                                    'ProjectionType' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'NonKeyAttributes' => array(
+                                        'type' => 'array',
+                                        'minItems' => 1,
+                                        'maxItems' => 20,
+                                        'items' => array(
+                                            'name' => 'NonKeyAttributeName',
+                                            'type' => 'string',
+                                            'minLength' => 1,
+                                            'maxLength' => 255,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'ProvisionedThroughput' => array(
+                                'required' => true,
+                                'type' => 'object',
+                                'properties' => array(
+                                    'ReadCapacityUnits' => array(
+                                        'required' => true,
+                                        'type' => 'numeric',
+                                        'minimum' => 1,
+                                    ),
+                                    'WriteCapacityUnits' => array(
+                                        'required' => true,
+                                        'type' => 'numeric',
+                                        'minimum' => 1,
                                     ),
                                 ),
                             ),
@@ -552,7 +602,7 @@ return array (
                     'class' => 'ResourceInUseException',
                 ),
                 array(
-                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10.',
+                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10. Also, for tables with secondary indexes, only one of those tables can be in the CREATING state at any point in time. Do not attempt to create more than one such table simultaneously. The total limit of tables in the ACTIVE state is 250.',
                     'class' => 'LimitExceededException',
                 ),
                 array(
@@ -692,35 +742,72 @@ return array (
                                 'type' => 'boolean',
                                 'format' => 'boolean-string',
                             ),
+                            'ComparisonOperator' => array(
+                                'type' => 'string',
+                            ),
+                            'AttributeValueList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'AttributeValue',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'S' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'N' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'B' => array(
+                                            'type' => 'string',
+                                            'filters' => array(
+                                                'base64_encode',
+                                            ),
+                                        ),
+                                        'SS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'StringAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'NS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'NumberAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'BS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'BinaryAttributeValue',
+                                                'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_encode',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
+                ),
+                'ConditionalOperator' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'ReturnValues' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'NONE',
-                        'ALL_OLD',
-                        'UPDATED_OLD',
-                        'ALL_NEW',
-                        'UPDATED_NEW',
-                    ),
                 ),
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
                 'ReturnItemCollectionMetrics' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'SIZE',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -785,7 +872,7 @@ return array (
                     'class' => 'ResourceNotFoundException',
                 ),
                 array(
-                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10.',
+                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10. Also, for tables with secondary indexes, only one of those tables can be in the CREATING state at any point in time. Do not attempt to create more than one such table simultaneously. The total limit of tables in the ACTIVE state is 250.',
                     'class' => 'LimitExceededException',
                 ),
                 array(
@@ -918,6 +1005,7 @@ return array (
                     'items' => array(
                         'name' => 'AttributeName',
                         'type' => 'string',
+                        'maxLength' => 65535,
                     ),
                 ),
                 'ConsistentRead' => array(
@@ -928,10 +1016,6 @@ return array (
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -1121,35 +1205,72 @@ return array (
                                 'type' => 'boolean',
                                 'format' => 'boolean-string',
                             ),
+                            'ComparisonOperator' => array(
+                                'type' => 'string',
+                            ),
+                            'AttributeValueList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'AttributeValue',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'S' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'N' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'B' => array(
+                                            'type' => 'string',
+                                            'filters' => array(
+                                                'base64_encode',
+                                            ),
+                                        ),
+                                        'SS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'StringAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'NS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'NumberAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'BS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'BinaryAttributeValue',
+                                                'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_encode',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
                 'ReturnValues' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'NONE',
-                        'ALL_OLD',
-                        'UPDATED_OLD',
-                        'ALL_NEW',
-                        'UPDATED_NEW',
-                    ),
                 ),
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
                 'ReturnItemCollectionMetrics' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'SIZE',
-                        'NONE',
-                    ),
+                ),
+                'ConditionalOperator' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
             ),
             'errorResponses' => array(
@@ -1212,12 +1333,6 @@ return array (
                 'Select' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'ALL_ATTRIBUTES',
-                        'ALL_PROJECTED_ATTRIBUTES',
-                        'SPECIFIC_ATTRIBUTES',
-                        'COUNT',
-                    ),
                 ),
                 'AttributesToGet' => array(
                     'type' => 'array',
@@ -1226,6 +1341,7 @@ return array (
                     'items' => array(
                         'name' => 'AttributeName',
                         'type' => 'string',
+                        'maxLength' => 65535,
                     ),
                 ),
                 'Limit' => array(
@@ -1295,24 +1411,74 @@ return array (
                             'ComparisonOperator' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'enum' => array(
-                                    'EQ',
-                                    'NE',
-                                    'IN',
-                                    'LE',
-                                    'LT',
-                                    'GE',
-                                    'GT',
-                                    'BETWEEN',
-                                    'NOT_NULL',
-                                    'NULL',
-                                    'CONTAINS',
-                                    'NOT_CONTAINS',
-                                    'BEGINS_WITH',
-                                ),
                             ),
                         ),
                     ),
+                ),
+                'QueryFilter' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'additionalProperties' => array(
+                        'type' => 'object',
+                        'data' => array(
+                            'shape_name' => 'AttributeName',
+                        ),
+                        'properties' => array(
+                            'AttributeValueList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'AttributeValue',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'S' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'N' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'B' => array(
+                                            'type' => 'string',
+                                            'filters' => array(
+                                                'base64_encode',
+                                            ),
+                                        ),
+                                        'SS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'StringAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'NS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'NumberAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'BS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'BinaryAttributeValue',
+                                                'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_encode',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'ComparisonOperator' => array(
+                                'required' => true,
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+                'ConditionalOperator' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'ScanIndexForward' => array(
                     'type' => 'boolean',
@@ -1370,10 +1536,6 @@ return array (
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -1426,6 +1588,7 @@ return array (
                     'items' => array(
                         'name' => 'AttributeName',
                         'type' => 'string',
+                        'maxLength' => 65535,
                     ),
                 ),
                 'Limit' => array(
@@ -1436,12 +1599,6 @@ return array (
                 'Select' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'ALL_ATTRIBUTES',
-                        'ALL_PROJECTED_ATTRIBUTES',
-                        'SPECIFIC_ATTRIBUTES',
-                        'COUNT',
-                    ),
                 ),
                 'ScanFilter' => array(
                     'type' => 'object',
@@ -1500,24 +1657,13 @@ return array (
                             'ComparisonOperator' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'enum' => array(
-                                    'EQ',
-                                    'NE',
-                                    'IN',
-                                    'LE',
-                                    'LT',
-                                    'GE',
-                                    'GT',
-                                    'BETWEEN',
-                                    'NOT_NULL',
-                                    'NULL',
-                                    'CONTAINS',
-                                    'NOT_CONTAINS',
-                                    'BEGINS_WITH',
-                                ),
                             ),
                         ),
                     ),
+                ),
+                'ConditionalOperator' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'ExclusiveStartKey' => array(
                     'type' => 'object',
@@ -1570,21 +1716,17 @@ return array (
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
                 'TotalSegments' => array(
                     'type' => 'numeric',
                     'location' => 'json',
                     'minimum' => 1,
-                    'maximum' => 4096,
+                    'maximum' => 1000000,
                 ),
                 'Segment' => array(
                     'type' => 'numeric',
                     'location' => 'json',
-                    'maximum' => 4095,
+                    'maximum' => 999999,
                 ),
             ),
             'errorResponses' => array(
@@ -1731,11 +1873,6 @@ return array (
                             ),
                             'Action' => array(
                                 'type' => 'string',
-                                'enum' => array(
-                                    'ADD',
-                                    'PUT',
-                                    'DELETE',
-                                ),
                             ),
                         ),
                     ),
@@ -1794,35 +1931,72 @@ return array (
                                 'type' => 'boolean',
                                 'format' => 'boolean-string',
                             ),
+                            'ComparisonOperator' => array(
+                                'type' => 'string',
+                            ),
+                            'AttributeValueList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'AttributeValue',
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'S' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'N' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'B' => array(
+                                            'type' => 'string',
+                                            'filters' => array(
+                                                'base64_encode',
+                                            ),
+                                        ),
+                                        'SS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'StringAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'NS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'NumberAttributeValue',
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                        'BS' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'BinaryAttributeValue',
+                                                'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_encode',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
+                ),
+                'ConditionalOperator' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'ReturnValues' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'NONE',
-                        'ALL_OLD',
-                        'UPDATED_OLD',
-                        'ALL_NEW',
-                        'UPDATED_NEW',
-                    ),
                 ),
                 'ReturnConsumedCapacity' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'TOTAL',
-                        'NONE',
-                    ),
                 ),
                 'ReturnItemCollectionMetrics' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => array(
-                        'SIZE',
-                        'NONE',
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -1877,7 +2051,6 @@ return array (
                     'maxLength' => 255,
                 ),
                 'ProvisionedThroughput' => array(
-                    'required' => true,
                     'type' => 'object',
                     'location' => 'json',
                     'properties' => array(
@@ -1893,6 +2066,43 @@ return array (
                         ),
                     ),
                 ),
+                'GlobalSecondaryIndexUpdates' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'GlobalSecondaryIndexUpdate',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Update' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'IndexName' => array(
+                                        'required' => true,
+                                        'type' => 'string',
+                                        'minLength' => 3,
+                                        'maxLength' => 255,
+                                    ),
+                                    'ProvisionedThroughput' => array(
+                                        'required' => true,
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'ReadCapacityUnits' => array(
+                                                'required' => true,
+                                                'type' => 'numeric',
+                                                'minimum' => 1,
+                                            ),
+                                            'WriteCapacityUnits' => array(
+                                                'required' => true,
+                                                'type' => 'numeric',
+                                                'minimum' => 1,
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'errorResponses' => array(
                 array(
@@ -1904,7 +2114,7 @@ return array (
                     'class' => 'ResourceNotFoundException',
                 ),
                 array(
-                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10.',
+                    'reason' => 'The number of concurrent table requests (cumulative number of tables in the CREATING, DELETING or UPDATING state) exceeds the maximum allowed of 10. Also, for tables with secondary indexes, only one of those tables can be in the CREATING state at any point in time. Do not attempt to create more than one such table simultaneously. The total limit of tables in the ACTIVE state is 250.',
                     'class' => 'LimitExceededException',
                 ),
                 array(
@@ -1938,6 +2148,9 @@ return array (
                                     ),
                                     'B' => array(
                                         'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
                                     ),
                                     'SS' => array(
                                         'type' => 'array',
@@ -1958,6 +2171,9 @@ return array (
                                         'items' => array(
                                             'name' => 'BinaryAttributeValue',
                                             'type' => 'string',
+                                            'filters' => array(
+                                                'base64_decode',
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -1987,6 +2203,9 @@ return array (
                                             ),
                                             'B' => array(
                                                 'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_decode',
+                                                ),
                                             ),
                                             'SS' => array(
                                                 'type' => 'array',
@@ -2007,6 +2226,9 @@ return array (
                                                 'items' => array(
                                                     'name' => 'BinaryAttributeValue',
                                                     'type' => 'string',
+                                                    'filters' => array(
+                                                        'base64_decode',
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -2038,6 +2260,36 @@ return array (
                             ),
                             'CapacityUnits' => array(
                                 'type' => 'numeric',
+                            ),
+                            'Table' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                            'LocalSecondaryIndexes' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'CapacityUnits' => array(
+                                            'type' => 'numeric',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'GlobalSecondaryIndexes' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'CapacityUnits' => array(
+                                            'type' => 'numeric',
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                     ),
@@ -2073,6 +2325,9 @@ return array (
                                                     ),
                                                     'B' => array(
                                                         'type' => 'string',
+                                                        'filters' => array(
+                                                            'base64_decode',
+                                                        ),
                                                     ),
                                                     'SS' => array(
                                                         'type' => 'array',
@@ -2093,6 +2348,9 @@ return array (
                                                         'items' => array(
                                                             'name' => 'BinaryAttributeValue',
                                                             'type' => 'string',
+                                                            'filters' => array(
+                                                                'base64_decode',
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2116,6 +2374,9 @@ return array (
                                                     ),
                                                     'B' => array(
                                                         'type' => 'string',
+                                                        'filters' => array(
+                                                            'base64_decode',
+                                                        ),
                                                     ),
                                                     'SS' => array(
                                                         'type' => 'array',
@@ -2136,6 +2397,9 @@ return array (
                                                         'items' => array(
                                                             'name' => 'BinaryAttributeValue',
                                                             'type' => 'string',
+                                                            'filters' => array(
+                                                                'base64_decode',
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2169,6 +2433,9 @@ return array (
                                             ),
                                             'B' => array(
                                                 'type' => 'string',
+                                                'filters' => array(
+                                                    'base64_decode',
+                                                ),
                                             ),
                                             'SS' => array(
                                                 'type' => 'array',
@@ -2189,6 +2456,9 @@ return array (
                                                 'items' => array(
                                                     'name' => 'BinaryAttributeValue',
                                                     'type' => 'string',
+                                                    'filters' => array(
+                                                        'base64_decode',
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -2217,6 +2487,36 @@ return array (
                             ),
                             'CapacityUnits' => array(
                                 'type' => 'numeric',
+                            ),
+                            'Table' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                            'LocalSecondaryIndexes' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'CapacityUnits' => array(
+                                            'type' => 'numeric',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'GlobalSecondaryIndexes' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'CapacityUnits' => array(
+                                            'type' => 'numeric',
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                     ),
@@ -2344,6 +2644,77 @@ return array (
                                 ),
                             ),
                         ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'GlobalSecondaryIndexDescription',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'IndexName' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeySchema' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'KeySchemaElement',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'AttributeName' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyType' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Projection' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'ProjectionType' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NonKeyAttributes' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'NonKeyAttributeName',
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexStatus' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'ProvisionedThroughput' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'LastIncreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'LastDecreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NumberOfDecreasesToday' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'ReadCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'WriteCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexSizeBytes' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'ItemCount' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -2366,6 +2737,9 @@ return array (
                             ),
                             'B' => array(
                                 'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
                             ),
                             'SS' => array(
                                 'type' => 'array',
@@ -2386,6 +2760,9 @@ return array (
                                 'items' => array(
                                     'name' => 'BinaryAttributeValue',
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                             ),
                         ),
@@ -2400,6 +2777,36 @@ return array (
                         ),
                         'CapacityUnits' => array(
                             'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -2420,6 +2827,9 @@ return array (
                                     ),
                                     'B' => array(
                                         'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
                                     ),
                                     'SS' => array(
                                         'type' => 'array',
@@ -2440,6 +2850,9 @@ return array (
                                         'items' => array(
                                             'name' => 'BinaryAttributeValue',
                                             'type' => 'string',
+                                            'filters' => array(
+                                                'base64_decode',
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -2577,6 +2990,77 @@ return array (
                                 ),
                             ),
                         ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'GlobalSecondaryIndexDescription',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'IndexName' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeySchema' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'KeySchemaElement',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'AttributeName' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyType' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Projection' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'ProjectionType' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NonKeyAttributes' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'NonKeyAttributeName',
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexStatus' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'ProvisionedThroughput' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'LastIncreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'LastDecreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NumberOfDecreasesToday' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'ReadCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'WriteCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexSizeBytes' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'ItemCount' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -2702,6 +3186,77 @@ return array (
                                 ),
                             ),
                         ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'GlobalSecondaryIndexDescription',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'IndexName' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeySchema' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'KeySchemaElement',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'AttributeName' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyType' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Projection' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'ProjectionType' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NonKeyAttributes' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'NonKeyAttributeName',
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexStatus' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'ProvisionedThroughput' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'LastIncreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'LastDecreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NumberOfDecreasesToday' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'ReadCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'WriteCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexSizeBytes' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'ItemCount' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -2724,6 +3279,9 @@ return array (
                             ),
                             'B' => array(
                                 'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
                             ),
                             'SS' => array(
                                 'type' => 'array',
@@ -2744,6 +3302,9 @@ return array (
                                 'items' => array(
                                     'name' => 'BinaryAttributeValue',
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                             ),
                         ),
@@ -2758,6 +3319,36 @@ return array (
                         ),
                         'CapacityUnits' => array(
                             'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -2799,6 +3390,9 @@ return array (
                             ),
                             'B' => array(
                                 'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
                             ),
                             'SS' => array(
                                 'type' => 'array',
@@ -2819,6 +3413,9 @@ return array (
                                 'items' => array(
                                     'name' => 'BinaryAttributeValue',
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                             ),
                         ),
@@ -2833,6 +3430,36 @@ return array (
                         ),
                         'CapacityUnits' => array(
                             'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -2853,6 +3480,9 @@ return array (
                                     ),
                                     'B' => array(
                                         'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
                                     ),
                                     'SS' => array(
                                         'type' => 'array',
@@ -2873,6 +3503,9 @@ return array (
                                         'items' => array(
                                             'name' => 'BinaryAttributeValue',
                                             'type' => 'string',
+                                            'filters' => array(
+                                                'base64_decode',
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -2910,6 +3543,9 @@ return array (
                                 ),
                                 'B' => array(
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                                 'SS' => array(
                                     'type' => 'array',
@@ -2930,110 +3566,9 @@ return array (
                                     'items' => array(
                                         'name' => 'BinaryAttributeValue',
                                         'type' => 'string',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'Count' => array(
-                    'type' => 'numeric',
-                    'location' => 'json',
-                ),
-                'LastEvaluatedKey' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'additionalProperties' => array(
-                        'type' => 'object',
-                        'properties' => array(
-                            'S' => array(
-                                'type' => 'string',
-                            ),
-                            'N' => array(
-                                'type' => 'string',
-                            ),
-                            'B' => array(
-                                'type' => 'string',
-                            ),
-                            'SS' => array(
-                                'type' => 'array',
-                                'items' => array(
-                                    'name' => 'StringAttributeValue',
-                                    'type' => 'string',
-                                ),
-                            ),
-                            'NS' => array(
-                                'type' => 'array',
-                                'items' => array(
-                                    'name' => 'NumberAttributeValue',
-                                    'type' => 'string',
-                                ),
-                            ),
-                            'BS' => array(
-                                'type' => 'array',
-                                'items' => array(
-                                    'name' => 'BinaryAttributeValue',
-                                    'type' => 'string',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'ConsumedCapacity' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'properties' => array(
-                        'TableName' => array(
-                            'type' => 'string',
-                        ),
-                        'CapacityUnits' => array(
-                            'type' => 'numeric',
-                        ),
-                    ),
-                ),
-            ),
-        ),
-        'ScanOutput' => array(
-            'type' => 'object',
-            'additionalProperties' => true,
-            'properties' => array(
-                'Items' => array(
-                    'type' => 'array',
-                    'location' => 'json',
-                    'items' => array(
-                        'name' => 'AttributeMap',
-                        'type' => 'object',
-                        'additionalProperties' => array(
-                            'type' => 'object',
-                            'properties' => array(
-                                'S' => array(
-                                    'type' => 'string',
-                                ),
-                                'N' => array(
-                                    'type' => 'string',
-                                ),
-                                'B' => array(
-                                    'type' => 'string',
-                                ),
-                                'SS' => array(
-                                    'type' => 'array',
-                                    'items' => array(
-                                        'name' => 'StringAttributeValue',
-                                        'type' => 'string',
-                                    ),
-                                ),
-                                'NS' => array(
-                                    'type' => 'array',
-                                    'items' => array(
-                                        'name' => 'NumberAttributeValue',
-                                        'type' => 'string',
-                                    ),
-                                ),
-                                'BS' => array(
-                                    'type' => 'array',
-                                    'items' => array(
-                                        'name' => 'BinaryAttributeValue',
-                                        'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
                                     ),
                                 ),
                             ),
@@ -3062,6 +3597,9 @@ return array (
                             ),
                             'B' => array(
                                 'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
                             ),
                             'SS' => array(
                                 'type' => 'array',
@@ -3082,6 +3620,9 @@ return array (
                                 'items' => array(
                                     'name' => 'BinaryAttributeValue',
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                             ),
                         ),
@@ -3096,6 +3637,186 @@ return array (
                         ),
                         'CapacityUnits' => array(
                             'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'ScanOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Items' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'AttributeMap',
+                        'type' => 'object',
+                        'additionalProperties' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'S' => array(
+                                    'type' => 'string',
+                                ),
+                                'N' => array(
+                                    'type' => 'string',
+                                ),
+                                'B' => array(
+                                    'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
+                                ),
+                                'SS' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'StringAttributeValue',
+                                        'type' => 'string',
+                                    ),
+                                ),
+                                'NS' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'NumberAttributeValue',
+                                        'type' => 'string',
+                                    ),
+                                ),
+                                'BS' => array(
+                                    'type' => 'array',
+                                    'items' => array(
+                                        'name' => 'BinaryAttributeValue',
+                                        'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'Count' => array(
+                    'type' => 'numeric',
+                    'location' => 'json',
+                ),
+                'ScannedCount' => array(
+                    'type' => 'numeric',
+                    'location' => 'json',
+                ),
+                'LastEvaluatedKey' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'additionalProperties' => array(
+                        'type' => 'object',
+                        'properties' => array(
+                            'S' => array(
+                                'type' => 'string',
+                            ),
+                            'N' => array(
+                                'type' => 'string',
+                            ),
+                            'B' => array(
+                                'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
+                            ),
+                            'SS' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'StringAttributeValue',
+                                    'type' => 'string',
+                                ),
+                            ),
+                            'NS' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'NumberAttributeValue',
+                                    'type' => 'string',
+                                ),
+                            ),
+                            'BS' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'BinaryAttributeValue',
+                                    'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'ConsumedCapacity' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'TableName' => array(
+                            'type' => 'string',
+                        ),
+                        'CapacityUnits' => array(
+                            'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -3119,6 +3840,9 @@ return array (
                             ),
                             'B' => array(
                                 'type' => 'string',
+                                'filters' => array(
+                                    'base64_decode',
+                                ),
                             ),
                             'SS' => array(
                                 'type' => 'array',
@@ -3139,6 +3863,9 @@ return array (
                                 'items' => array(
                                     'name' => 'BinaryAttributeValue',
                                     'type' => 'string',
+                                    'filters' => array(
+                                        'base64_decode',
+                                    ),
                                 ),
                             ),
                         ),
@@ -3153,6 +3880,36 @@ return array (
                         ),
                         'CapacityUnits' => array(
                             'type' => 'numeric',
+                        ),
+                        'Table' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'CapacityUnits' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'LocalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'CapacityUnits' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -3173,6 +3930,9 @@ return array (
                                     ),
                                     'B' => array(
                                         'type' => 'string',
+                                        'filters' => array(
+                                            'base64_decode',
+                                        ),
                                     ),
                                     'SS' => array(
                                         'type' => 'array',
@@ -3193,6 +3953,9 @@ return array (
                                         'items' => array(
                                             'name' => 'BinaryAttributeValue',
                                             'type' => 'string',
+                                            'filters' => array(
+                                                'base64_decode',
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -3330,9 +4093,105 @@ return array (
                                 ),
                             ),
                         ),
+                        'GlobalSecondaryIndexes' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'GlobalSecondaryIndexDescription',
+                                'type' => 'object',
+                                'properties' => array(
+                                    'IndexName' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeySchema' => array(
+                                        'type' => 'array',
+                                        'items' => array(
+                                            'name' => 'KeySchemaElement',
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'AttributeName' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyType' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Projection' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'ProjectionType' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NonKeyAttributes' => array(
+                                                'type' => 'array',
+                                                'items' => array(
+                                                    'name' => 'NonKeyAttributeName',
+                                                    'type' => 'string',
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexStatus' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'ProvisionedThroughput' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'LastIncreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'LastDecreaseDateTime' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'NumberOfDecreasesToday' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'ReadCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                            'WriteCapacityUnits' => array(
+                                                'type' => 'numeric',
+                                            ),
+                                        ),
+                                    ),
+                                    'IndexSizeBytes' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'ItemCount' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
+        ),
+    ),
+    'iterators' => array(
+        'BatchGetItem' => array(
+            'input_token' => 'RequestItems',
+            'output_token' => 'UnprocessedKeys',
+            'result_key' => 'Responses/*',
+        ),
+        'ListTables' => array(
+            'input_token' => 'ExclusiveStartTableName',
+            'output_token' => 'LastEvaluatedTableName',
+            'limit_key' => 'Limit',
+            'result_key' => 'TableNames',
+        ),
+        'Query' => array(
+            'input_token' => 'ExclusiveStartKey',
+            'output_token' => 'LastEvaluatedKey',
+            'limit_key' => 'Limit',
+            'result_key' => 'Items',
+        ),
+        'Scan' => array(
+            'input_token' => 'ExclusiveStartKey',
+            'output_token' => 'LastEvaluatedKey',
+            'limit_key' => 'Limit',
+            'result_key' => 'Items',
         ),
     ),
     'waiters' => array(

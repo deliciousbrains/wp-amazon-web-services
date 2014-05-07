@@ -22,27 +22,22 @@ use Guzzle\Http\Message\RequestInterface;
 
 /**
  * Amazon S3 signature interface
- * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAuthentication.html
+ * @link http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
  */
 interface S3SignatureInterface extends SignatureInterface
 {
     /**
-     * Sign a string for Amazon S3
+     * Create a pre-signed URL
      *
-     * @param string               $string      String to sign
+     * @param RequestInterface     $request Request to sign
      * @param CredentialsInterface $credentials Credentials used to sign
-     *
+     * @param int|string|\DateTime $expires The time at which the URL should expire. This can be a Unix timestamp, a
+     *                                      PHP DateTime object, or a string that can be evaluated by strtotime
      * @return string
      */
-    public function signString($string, CredentialsInterface $credentials);
-
-    /**
-     * Create a canonicalized string for a signature.
-     *
-     * @param RequestInterface $request Base on the request
-     * @param string           $expires Pass a UNIX timestamp if creating a query signature
-     *
-     * @return string Returns a canonicalized string for an Amazon S3 signature.
-     */
-    public function createCanonicalizedString(RequestInterface $request, $expires = null);
+    public function createPresignedUrl(
+        RequestInterface $request,
+        CredentialsInterface $credentials,
+        $expires
+    );
 }

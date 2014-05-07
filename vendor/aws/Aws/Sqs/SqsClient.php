@@ -35,6 +35,7 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method Model deleteQueue(array $args = array()) {@command Sqs DeleteQueue}
  * @method Model getQueueAttributes(array $args = array()) {@command Sqs GetQueueAttributes}
  * @method Model getQueueUrl(array $args = array()) {@command Sqs GetQueueUrl}
+ * @method Model listDeadLetterSourceQueues(array $args = array()) {@command Sqs ListDeadLetterSourceQueues}
  * @method Model listQueues(array $args = array()) {@command Sqs ListQueues}
  * @method Model receiveMessage(array $args = array()) {@command Sqs ReceiveMessage}
  * @method Model removePermission(array $args = array()) {@command Sqs RemovePermission}
@@ -43,8 +44,8 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method Model setQueueAttributes(array $args = array()) {@command Sqs SetQueueAttributes}
  * @method ResourceIteratorInterface getListQueuesIterator(array $args = array()) The input array uses the parameters of the ListQueues operation
  *
- * @link http://docs.aws.amazon.com/aws-sdk-php-2/guide/latest/service-sqs.html User guide
- * @link http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.Sqs.SqsClient.html API docs
+ * @link http://docs.aws.amazon.com/aws-sdk-php/guide/latest/service-sqs.html User guide
+ * @link http://docs.aws.amazon.com/aws-sdk-php/latest/class-Aws.Sqs.SqsClient.html API docs
  */
 class SqsClient extends AbstractClient
 {
@@ -56,7 +57,7 @@ class SqsClient extends AbstractClient
      * @param array|Collection $config Client configuration data
      *
      * @return self
-     * @see \Aws\Common\Client\DefaultClient for a list of available configuration options
+     * @link http://docs.aws.amazon.com/aws-sdk-php/guide/latest/configuration.html#client-configuration-options
      */
     public static function factory($config = array())
     {

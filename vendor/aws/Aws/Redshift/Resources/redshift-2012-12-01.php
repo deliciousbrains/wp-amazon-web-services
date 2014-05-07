@@ -38,6 +38,16 @@ return array (
             'https' => true,
             'hostname' => 'redshift.eu-west-1.amazonaws.com',
         ),
+        'ap-southeast-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'redshift.ap-southeast-1.amazonaws.com',
+        ),
+        'ap-southeast-2' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'redshift.ap-southeast-2.amazonaws.com',
+        ),
         'ap-northeast-1' => array(
             'http' => false,
             'https' => true,
@@ -307,6 +317,18 @@ return array (
                     'format' => 'boolean-string',
                     'location' => 'aws.query',
                 ),
+                'HsmClientCertificateIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'ElasticIp' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
             ),
             'errorResponses' => array(
                 array(
@@ -350,12 +372,24 @@ return array (
                     'class' => 'InvalidClusterSubnetGroupStateException',
                 ),
                 array(
-                    'reason' => 'The requested subnet is valid, or not all of the subnets are in the same VPC.',
+                    'reason' => 'The requested subnet is not valid, or not all of the subnets are in the same VPC.',
                     'class' => 'InvalidSubnetException',
                 ),
                 array(
                     'reason' => 'Your account is not authorized to perform the requested operation.',
                     'class' => 'UnauthorizedOperationException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateNotFoundException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationNotFoundException',
+                ),
+                array(
+                    'reason' => 'The Elastic IP (EIP) is invalid or cannot be found.',
+                    'class' => 'InvalidElasticIpException',
                 ),
             ),
         ),
@@ -541,12 +575,203 @@ return array (
                     'class' => 'ClusterSubnetQuotaExceededException',
                 ),
                 array(
-                    'reason' => 'The requested subnet is valid, or not all of the subnets are in the same VPC.',
+                    'reason' => 'The requested subnet is not valid, or not all of the subnets are in the same VPC.',
                     'class' => 'InvalidSubnetException',
                 ),
                 array(
                     'reason' => 'Your account is not authorized to perform the requested operation.',
                     'class' => 'UnauthorizedOperationException',
+                ),
+            ),
+        ),
+        'CreateEventSubscription' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EventSubscriptionWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'CreateEventSubscription',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'SubscriptionName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SnsTopicArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SourceType' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SourceIds' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'SourceIds.member',
+                    'items' => array(
+                        'name' => 'SourceId',
+                        'type' => 'string',
+                    ),
+                ),
+                'EventCategories' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'EventCategories.member',
+                    'items' => array(
+                        'name' => 'EventCategory',
+                        'type' => 'string',
+                    ),
+                ),
+                'Severity' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'Enabled' => array(
+                    'type' => 'boolean',
+                    'format' => 'boolean-string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request would exceed the allowed number of event subscriptions for this account. For information about increasing your quota, go to Limits in Amazon Redshift in the Amazon Redshift Management Guide.',
+                    'class' => 'EventSubscriptionQuotaExceededException',
+                ),
+                array(
+                    'reason' => 'There is already an existing event notification subscription with the specified name.',
+                    'class' => 'SubscriptionAlreadyExistException',
+                ),
+                array(
+                    'reason' => 'Amazon SNS has responded that there is a problem with the specified Amazon SNS topic.',
+                    'class' => 'SNSInvalidTopicException',
+                ),
+                array(
+                    'reason' => 'You do not have permission to publish to the specified Amazon SNS topic.',
+                    'class' => 'SNSNoAuthorizationException',
+                ),
+                array(
+                    'reason' => 'An Amazon SNS topic with the specified Amazon Resource Name (ARN) does not exist.',
+                    'class' => 'SNSTopicArnNotFoundException',
+                ),
+                array(
+                    'reason' => 'An Amazon Redshift event with the specified event ID does not exist.',
+                    'class' => 'SubscriptionEventIdNotFoundException',
+                ),
+                array(
+                    'reason' => 'The value specified for the event category was not one of the allowed values, or it specified a category that does not apply to the specified source type. The allowed values are Configuration, Management, Monitoring, and Security.',
+                    'class' => 'SubscriptionCategoryNotFoundException',
+                ),
+                array(
+                    'reason' => 'The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.',
+                    'class' => 'SubscriptionSeverityNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified Amazon Redshift event source could not be found.',
+                    'class' => 'SourceNotFoundException',
+                ),
+            ),
+        ),
+        'CreateHsmClientCertificate' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'HsmClientCertificateWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'CreateHsmClientCertificate',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmClientCertificateIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'There is already an existing Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateAlreadyExistsException',
+                ),
+                array(
+                    'reason' => 'The quota for HSM client certificates has been reached. For information about increasing your quota, go to Limits in Amazon Redshift in the Amazon Redshift Management Guide.',
+                    'class' => 'HsmClientCertificateQuotaExceededException',
+                ),
+            ),
+        ),
+        'CreateHsmConfiguration' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'HsmConfigurationWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'CreateHsmConfiguration',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'Description' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmIpAddress' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmPartitionName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmPartitionPassword' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmServerPublicCertificate' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'There is already an existing Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationAlreadyExistsException',
+                ),
+                array(
+                    'reason' => 'The quota for HSM configurations has been reached. For information about increasing your quota, go to Limits in Amazon Redshift in the Amazon Redshift Management Guide.',
+                    'class' => 'HsmConfigurationQuotaExceededException',
                 ),
             ),
         ),
@@ -742,6 +967,104 @@ return array (
                 array(
                     'reason' => 'The cluster subnet group name does not refer to an existing cluster subnet group.',
                     'class' => 'ClusterSubnetGroupNotFoundException',
+                ),
+            ),
+        ),
+        'DeleteEventSubscription' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DeleteEventSubscription',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'SubscriptionName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An Amazon Redshift event notification subscription with the specified name does not exist.',
+                    'class' => 'SubscriptionNotFoundException',
+                ),
+            ),
+        ),
+        'DeleteHsmClientCertificate' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DeleteHsmClientCertificate',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmClientCertificateIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified HSM client certificate is not in the available state, or it is still in use by one or more Amazon Redshift clusters.',
+                    'class' => 'InvalidHsmClientCertificateStateException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateNotFoundException',
+                ),
+            ),
+        ),
+        'DeleteHsmConfiguration' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DeleteHsmConfiguration',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.',
+                    'class' => 'InvalidHsmConfigurationStateException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationNotFoundException',
                 ),
             ),
         ),
@@ -1069,6 +1392,66 @@ return array (
                 ),
             ),
         ),
+        'DescribeEventCategories' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EventCategoriesMessage',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeEventCategories',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'SourceType' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+        ),
+        'DescribeEventSubscriptions' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EventSubscriptionsMessage',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeEventSubscriptions',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'SubscriptionName' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'MaxRecords' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                ),
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An Amazon Redshift event notification subscription with the specified name does not exist.',
+                    'class' => 'SubscriptionNotFoundException',
+                ),
+            ),
+        ),
         'DescribeEvents' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -1093,12 +1476,6 @@ return array (
                 'SourceType' => array(
                     'type' => 'string',
                     'location' => 'aws.query',
-                    'enum' => array(
-                        'cluster',
-                        'cluster-parameter-group',
-                        'cluster-security-group',
-                        'cluster-snapshot',
-                    ),
                 ),
                 'StartTime' => array(
                     'type' => array(
@@ -1129,6 +1506,110 @@ return array (
                 'Marker' => array(
                     'type' => 'string',
                     'location' => 'aws.query',
+                ),
+            ),
+        ),
+        'DescribeHsmClientCertificates' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'HsmClientCertificateMessage',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeHsmClientCertificates',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmClientCertificateIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'MaxRecords' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                ),
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateNotFoundException',
+                ),
+            ),
+        ),
+        'DescribeHsmConfigurations' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'HsmConfigurationMessage',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeHsmConfigurations',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'MaxRecords' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                ),
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationNotFoundException',
+                ),
+            ),
+        ),
+        'DescribeLoggingStatus' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'LoggingStatus',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeLoggingStatus',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
                 ),
             ),
         ),
@@ -1275,6 +1756,196 @@ return array (
                 ),
             ),
         ),
+        'DisableLogging' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'LoggingStatus',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DisableLogging',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+            ),
+        ),
+        'DisableSnapshotCopy' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ClusterWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DisableSnapshotCopy',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+                array(
+                    'reason' => 'The cluster already has cross-region snapshot copy disabled.',
+                    'class' => 'SnapshotCopyAlreadyDisabledException',
+                ),
+                array(
+                    'reason' => 'The specified cluster is not in the available state.',
+                    'class' => 'InvalidClusterStateException',
+                ),
+                array(
+                    'reason' => 'Your account is not authorized to perform the requested operation.',
+                    'class' => 'UnauthorizedOperationException',
+                ),
+            ),
+        ),
+        'EnableLogging' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'LoggingStatus',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'EnableLogging',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'BucketName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'S3KeyPrefix' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+                array(
+                    'reason' => 'Could not find the specified S3 bucket.',
+                    'class' => 'BucketNotFoundException',
+                ),
+                array(
+                    'reason' => 'The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.',
+                    'class' => 'InsufficientS3BucketPolicyFaultException',
+                ),
+                array(
+                    'reason' => 'The string specified for the logging S3 key prefix does not comply with the documented constraints.',
+                    'class' => 'InvalidS3KeyPrefixFaultException',
+                ),
+                array(
+                    'reason' => 'The S3 bucket name is invalid. For more information about naming rules, go to Bucket Restrictions and Limitations in the Amazon Simple Storage Service (S3) Developer Guide.',
+                    'class' => 'InvalidS3BucketNameFaultException',
+                ),
+            ),
+        ),
+        'EnableSnapshotCopy' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ClusterWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'EnableSnapshotCopy',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'DestinationRegion' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'RetentionPeriod' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified options are incompatible.',
+                    'class' => 'IncompatibleOrderableOptionsException',
+                ),
+                array(
+                    'reason' => 'The specified cluster is not in the available state.',
+                    'class' => 'InvalidClusterStateException',
+                ),
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+                array(
+                    'reason' => 'Cross-region snapshot copy was temporarily disabled. Try your request again.',
+                    'class' => 'CopyToRegionDisabledException',
+                ),
+                array(
+                    'reason' => 'The cluster already has cross-region snapshot copy enabled.',
+                    'class' => 'SnapshotCopyAlreadyEnabledException',
+                ),
+                array(
+                    'reason' => 'The specified region is incorrect or does not exist.',
+                    'class' => 'UnknownSnapshotCopyRegionException',
+                ),
+                array(
+                    'reason' => 'Your account is not authorized to perform the requested operation.',
+                    'class' => 'UnauthorizedOperationException',
+                ),
+            ),
+        ),
         'ModifyCluster' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -1352,6 +2023,14 @@ return array (
                     'format' => 'boolean-string',
                     'location' => 'aws.query',
                 ),
+                'HsmClientCertificateIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
             ),
             'errorResponses' => array(
                 array(
@@ -1389,6 +2068,14 @@ return array (
                 array(
                     'reason' => 'Your account is not authorized to perform the requested operation.',
                     'class' => 'UnauthorizedOperationException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateNotFoundException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationNotFoundException',
                 ),
             ),
         ),
@@ -1514,12 +2201,152 @@ return array (
                     'class' => 'SubnetAlreadyInUseException',
                 ),
                 array(
-                    'reason' => 'The requested subnet is valid, or not all of the subnets are in the same VPC.',
+                    'reason' => 'The requested subnet is not valid, or not all of the subnets are in the same VPC.',
                     'class' => 'InvalidSubnetException',
                 ),
                 array(
                     'reason' => 'Your account is not authorized to perform the requested operation.',
                     'class' => 'UnauthorizedOperationException',
+                ),
+            ),
+        ),
+        'ModifyEventSubscription' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EventSubscriptionWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'ModifyEventSubscription',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'SubscriptionName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SnsTopicArn' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SourceType' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'SourceIds' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'SourceIds.member',
+                    'items' => array(
+                        'name' => 'SourceId',
+                        'type' => 'string',
+                    ),
+                ),
+                'EventCategories' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'EventCategories.member',
+                    'items' => array(
+                        'name' => 'EventCategory',
+                        'type' => 'string',
+                    ),
+                ),
+                'Severity' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'Enabled' => array(
+                    'type' => 'boolean',
+                    'format' => 'boolean-string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An Amazon Redshift event notification subscription with the specified name does not exist.',
+                    'class' => 'SubscriptionNotFoundException',
+                ),
+                array(
+                    'reason' => 'Amazon SNS has responded that there is a problem with the specified Amazon SNS topic.',
+                    'class' => 'SNSInvalidTopicException',
+                ),
+                array(
+                    'reason' => 'You do not have permission to publish to the specified Amazon SNS topic.',
+                    'class' => 'SNSNoAuthorizationException',
+                ),
+                array(
+                    'reason' => 'An Amazon SNS topic with the specified Amazon Resource Name (ARN) does not exist.',
+                    'class' => 'SNSTopicArnNotFoundException',
+                ),
+                array(
+                    'reason' => 'An Amazon Redshift event with the specified event ID does not exist.',
+                    'class' => 'SubscriptionEventIdNotFoundException',
+                ),
+                array(
+                    'reason' => 'The value specified for the event category was not one of the allowed values, or it specified a category that does not apply to the specified source type. The allowed values are Configuration, Management, Monitoring, and Security.',
+                    'class' => 'SubscriptionCategoryNotFoundException',
+                ),
+                array(
+                    'reason' => 'The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.',
+                    'class' => 'SubscriptionSeverityNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified Amazon Redshift event source could not be found.',
+                    'class' => 'SourceNotFoundException',
+                ),
+            ),
+        ),
+        'ModifySnapshotCopyRetentionPeriod' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ClusterWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'ModifySnapshotCopyRetentionPeriod',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'RetentionPeriod' => array(
+                    'required' => true,
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+                array(
+                    'reason' => 'Cross-region snapshot copy was temporarily disabled. Try your request again.',
+                    'class' => 'SnapshotCopyDisabledException',
+                ),
+                array(
+                    'reason' => 'Your account is not authorized to perform the requested operation.',
+                    'class' => 'UnauthorizedOperationException',
+                ),
+                array(
+                    'reason' => 'The specified cluster is not in the available state.',
+                    'class' => 'InvalidClusterStateException',
                 ),
             ),
         ),
@@ -1731,6 +2558,18 @@ return array (
                     'type' => 'string',
                     'location' => 'aws.query',
                 ),
+                'HsmClientCertificateIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'HsmConfigurationIdentifier' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+                'ElasticIp' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
             ),
             'errorResponses' => array(
                 array(
@@ -1778,7 +2617,7 @@ return array (
                     'class' => 'InvalidClusterSubnetGroupStateException',
                 ),
                 array(
-                    'reason' => 'The requested subnet is valid, or not all of the subnets are in the same VPC.',
+                    'reason' => 'The requested subnet is not valid, or not all of the subnets are in the same VPC.',
                     'class' => 'InvalidSubnetException',
                 ),
                 array(
@@ -1788,6 +2627,18 @@ return array (
                 array(
                     'reason' => 'Your account is not authorized to perform the requested operation.',
                     'class' => 'UnauthorizedOperationException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM client certificate with the specified identifier.',
+                    'class' => 'HsmClientCertificateNotFoundException',
+                ),
+                array(
+                    'reason' => 'There is no Amazon Redshift HSM configuration with the specified identifier.',
+                    'class' => 'HsmConfigurationNotFoundException',
+                ),
+                array(
+                    'reason' => 'The Elastic IP (EIP) is invalid or cannot be found.',
+                    'class' => 'InvalidElasticIpException',
                 ),
             ),
         ),
@@ -1885,6 +2736,40 @@ return array (
                 array(
                     'reason' => 'The snapshot identifier does not refer to an existing cluster snapshot.',
                     'class' => 'ClusterSnapshotNotFoundException',
+                ),
+            ),
+        ),
+        'RotateEncryptionKey' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ClusterWrapper',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'RotateEncryptionKey',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-12-01',
+                ),
+                'ClusterIdentifier' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The ClusterIdentifier parameter does not refer to an existing cluster.',
+                    'class' => 'ClusterNotFoundException',
+                ),
+                array(
+                    'reason' => 'The specified cluster is not in the available state.',
+                    'class' => 'InvalidClusterStateException',
                 ),
             ),
         ),
@@ -2002,6 +2887,9 @@ return array (
                         'Encrypted' => array(
                             'type' => 'boolean',
                         ),
+                        'EncryptedWithHSM' => array(
+                            'type' => 'boolean',
+                        ),
                         'AccountsWithRestoreAccess' => array(
                             'type' => 'array',
                             'items' => array(
@@ -2035,6 +2923,9 @@ return array (
                         ),
                         'ElapsedTimeInSeconds' => array(
                             'type' => 'numeric',
+                        ),
+                        'SourceRegion' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),
@@ -2207,6 +3098,67 @@ return array (
                                 ),
                             ),
                         ),
+                        'HsmStatus' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'HsmClientCertificateIdentifier' => array(
+                                    'type' => 'string',
+                                ),
+                                'HsmConfigurationIdentifier' => array(
+                                    'type' => 'string',
+                                ),
+                                'Status' => array(
+                                    'type' => 'string',
+                                ),
+                            ),
+                        ),
+                        'ClusterSnapshotCopyStatus' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'DestinationRegion' => array(
+                                    'type' => 'string',
+                                ),
+                                'RetentionPeriod' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'ClusterPublicKey' => array(
+                            'type' => 'string',
+                        ),
+                        'ClusterNodes' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'ClusterNode',
+                                'type' => 'object',
+                                'sentAs' => 'member',
+                                'properties' => array(
+                                    'NodeRole' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'PrivateIPAddress' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'PublicIPAddress' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                        ),
+                        'ElasticIpStatus' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'ElasticIp' => array(
+                                    'type' => 'string',
+                                ),
+                                'Status' => array(
+                                    'type' => 'string',
+                                ),
+                            ),
+                        ),
+                        'ClusterRevisionNumber' => array(
+                            'type' => 'string',
+                        ),
                     ),
                 ),
             ),
@@ -2281,6 +3233,109 @@ return array (
                                     ),
                                 ),
                             ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'EventSubscriptionWrapper' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'EventSubscription' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'data' => array(
+                        'wrapper' => true,
+                    ),
+                    'properties' => array(
+                        'CustomerAwsId' => array(
+                            'type' => 'string',
+                        ),
+                        'CustSubscriptionId' => array(
+                            'type' => 'string',
+                        ),
+                        'SnsTopicArn' => array(
+                            'type' => 'string',
+                        ),
+                        'Status' => array(
+                            'type' => 'string',
+                        ),
+                        'SubscriptionCreationTime' => array(
+                            'type' => 'string',
+                        ),
+                        'SourceType' => array(
+                            'type' => 'string',
+                        ),
+                        'SourceIdsList' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'SourceId',
+                                'type' => 'string',
+                                'sentAs' => 'SourceId',
+                            ),
+                        ),
+                        'EventCategoriesList' => array(
+                            'type' => 'array',
+                            'items' => array(
+                                'name' => 'EventCategory',
+                                'type' => 'string',
+                                'sentAs' => 'EventCategory',
+                            ),
+                        ),
+                        'Severity' => array(
+                            'type' => 'string',
+                        ),
+                        'Enabled' => array(
+                            'type' => 'boolean',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'HsmClientCertificateWrapper' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'HsmClientCertificate' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'data' => array(
+                        'wrapper' => true,
+                    ),
+                    'properties' => array(
+                        'HsmClientCertificateIdentifier' => array(
+                            'type' => 'string',
+                        ),
+                        'HsmClientCertificatePublicKey' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'HsmConfigurationWrapper' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'HsmConfiguration' => array(
+                    'type' => 'object',
+                    'location' => 'xml',
+                    'data' => array(
+                        'wrapper' => true,
+                    ),
+                    'properties' => array(
+                        'HsmConfigurationIdentifier' => array(
+                            'type' => 'string',
+                        ),
+                        'Description' => array(
+                            'type' => 'string',
+                        ),
+                        'HsmIpAddress' => array(
+                            'type' => 'string',
+                        ),
+                        'HsmPartitionName' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),
@@ -2488,6 +3543,9 @@ return array (
                             'Encrypted' => array(
                                 'type' => 'boolean',
                             ),
+                            'EncryptedWithHSM' => array(
+                                'type' => 'boolean',
+                            ),
                             'AccountsWithRestoreAccess' => array(
                                 'type' => 'array',
                                 'items' => array(
@@ -2521,6 +3579,9 @@ return array (
                             ),
                             'ElapsedTimeInSeconds' => array(
                                 'type' => 'numeric',
+                            ),
+                            'SourceRegion' => array(
+                                'type' => 'string',
                             ),
                         ),
                     ),
@@ -2786,6 +3847,67 @@ return array (
                                     ),
                                 ),
                             ),
+                            'HsmStatus' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'HsmClientCertificateIdentifier' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'HsmConfigurationIdentifier' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Status' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                            'ClusterSnapshotCopyStatus' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'DestinationRegion' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'RetentionPeriod' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
+                            ),
+                            'ClusterPublicKey' => array(
+                                'type' => 'string',
+                            ),
+                            'ClusterNodes' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'ClusterNode',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'NodeRole' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'PrivateIPAddress' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'PublicIPAddress' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'ElasticIpStatus' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'ElasticIp' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Status' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                            'ClusterRevisionNumber' => array(
+                                'type' => 'string',
+                            ),
                         ),
                     ),
                 ),
@@ -2846,6 +3968,114 @@ return array (
                 ),
             ),
         ),
+        'EventCategoriesMessage' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'EventCategoriesMapList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'EventCategoriesMap',
+                        'type' => 'object',
+                        'sentAs' => 'EventCategoriesMap',
+                        'properties' => array(
+                            'SourceType' => array(
+                                'type' => 'string',
+                            ),
+                            'Events' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'EventInfoMap',
+                                    'type' => 'object',
+                                    'sentAs' => 'EventInfoMap',
+                                    'properties' => array(
+                                        'EventId' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'EventCategories' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'EventCategory',
+                                                'type' => 'string',
+                                                'sentAs' => 'EventCategory',
+                                            ),
+                                        ),
+                                        'EventDescription' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Severity' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'EventSubscriptionsMessage' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'EventSubscriptionsList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'EventSubscription',
+                        'type' => 'object',
+                        'sentAs' => 'EventSubscription',
+                        'properties' => array(
+                            'CustomerAwsId' => array(
+                                'type' => 'string',
+                            ),
+                            'CustSubscriptionId' => array(
+                                'type' => 'string',
+                            ),
+                            'SnsTopicArn' => array(
+                                'type' => 'string',
+                            ),
+                            'Status' => array(
+                                'type' => 'string',
+                            ),
+                            'SubscriptionCreationTime' => array(
+                                'type' => 'string',
+                            ),
+                            'SourceType' => array(
+                                'type' => 'string',
+                            ),
+                            'SourceIdsList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'SourceId',
+                                    'type' => 'string',
+                                    'sentAs' => 'SourceId',
+                                ),
+                            ),
+                            'EventCategoriesList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'EventCategory',
+                                    'type' => 'string',
+                                    'sentAs' => 'EventCategory',
+                                ),
+                            ),
+                            'Severity' => array(
+                                'type' => 'string',
+                            ),
+                            'Enabled' => array(
+                                'type' => 'boolean',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'EventsMessage' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -2871,11 +4101,115 @@ return array (
                             'Message' => array(
                                 'type' => 'string',
                             ),
+                            'EventCategories' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'EventCategory',
+                                    'type' => 'string',
+                                    'sentAs' => 'EventCategory',
+                                ),
+                            ),
+                            'Severity' => array(
+                                'type' => 'string',
+                            ),
                             'Date' => array(
+                                'type' => 'string',
+                            ),
+                            'EventId' => array(
                                 'type' => 'string',
                             ),
                         ),
                     ),
+                ),
+            ),
+        ),
+        'HsmClientCertificateMessage' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'HsmClientCertificates' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'HsmClientCertificate',
+                        'type' => 'object',
+                        'sentAs' => 'HsmClientCertificate',
+                        'properties' => array(
+                            'HsmClientCertificateIdentifier' => array(
+                                'type' => 'string',
+                            ),
+                            'HsmClientCertificatePublicKey' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'HsmConfigurationMessage' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'HsmConfigurations' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'HsmConfiguration',
+                        'type' => 'object',
+                        'sentAs' => 'HsmConfiguration',
+                        'properties' => array(
+                            'HsmConfigurationIdentifier' => array(
+                                'type' => 'string',
+                            ),
+                            'Description' => array(
+                                'type' => 'string',
+                            ),
+                            'HsmIpAddress' => array(
+                                'type' => 'string',
+                            ),
+                            'HsmPartitionName' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'LoggingStatus' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'LoggingEnabled' => array(
+                    'type' => 'boolean',
+                    'location' => 'xml',
+                ),
+                'BucketName' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'S3KeyPrefix' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'LastSuccessfulDeliveryTime' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'LastFailureTime' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'LastFailureMessage' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
                 ),
             ),
         ),
@@ -3097,6 +4431,26 @@ return array (
                         'sentAs' => 'member',
                     ),
                 ),
+                'AvgResizeRateInMegaBytesPerSecond' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'TotalResizeDataInMegaBytes' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'ProgressInMegaBytes' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'ElapsedTimeInSeconds' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
+                'EstimatedTimeToCompletionInSeconds' => array(
+                    'type' => 'numeric',
+                    'location' => 'xml',
+                ),
             ),
         ),
         'ClusterParameterGroupNameMessage' => array(
@@ -3179,77 +4533,95 @@ return array (
         ),
     ),
     'iterators' => array(
-        'operations' => array(
-            'DescribeClusterParameterGroups' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ParameterGroups',
-            ),
-            'DescribeClusterParameters' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Parameters',
-            ),
-            'DescribeClusterSecurityGroups' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ClusterSecurityGroups',
-            ),
-            'DescribeClusterSnapshots' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Snapshots',
-            ),
-            'DescribeClusterSubnetGroups' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ClusterSubnetGroups',
-            ),
-            'DescribeClusterVersions' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ClusterVersions',
-            ),
-            'DescribeClusters' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Clusters',
-            ),
-            'DescribeDefaultClusterParameters' => array(
-                'token_param' => 'Marker',
-                'limit_key' => 'MaxRecords',
-            ),
-            'DescribeEvents' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'Events',
-            ),
-            'DescribeOrderableClusterOptions' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'OrderableClusterOptions',
-            ),
-            'DescribeReservedNodeOfferings' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ReservedNodeOfferings',
-            ),
-            'DescribeReservedNodes' => array(
-                'token_param' => 'Marker',
-                'token_key' => 'Marker',
-                'limit_key' => 'MaxRecords',
-                'result_key' => 'ReservedNodes',
-            ),
+        'DescribeClusterParameterGroups' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ParameterGroups',
+        ),
+        'DescribeClusterParameters' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Parameters',
+        ),
+        'DescribeClusterSecurityGroups' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ClusterSecurityGroups',
+        ),
+        'DescribeClusterSnapshots' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Snapshots',
+        ),
+        'DescribeClusterSubnetGroups' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ClusterSubnetGroups',
+        ),
+        'DescribeClusterVersions' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ClusterVersions',
+        ),
+        'DescribeClusters' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Clusters',
+        ),
+        'DescribeDefaultClusterParameters' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Parameters',
+        ),
+        'DescribeEventSubscriptions' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'EventSubscriptionsList',
+        ),
+        'DescribeEvents' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'Events',
+        ),
+        'DescribeHsmClientCertificates' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'HsmClientCertificates',
+        ),
+        'DescribeHsmConfigurations' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'HsmConfigurations',
+        ),
+        'DescribeOrderableClusterOptions' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'OrderableClusterOptions',
+        ),
+        'DescribeReservedNodeOfferings' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ReservedNodeOfferings',
+        ),
+        'DescribeReservedNodes' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'limit_key' => 'MaxRecords',
+            'result_key' => 'ReservedNodes',
         ),
     ),
     'waiters' => array(
