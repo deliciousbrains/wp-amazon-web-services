@@ -6,6 +6,7 @@ Description: Includes the Amazon Web Services PHP libraries, stores access keys,
 Author: Brad Touesnard
 Version: 0.1
 Author URI: http://bradt.ca/
+Network: True
 */
 
 // Copyright (c) 2013 Brad Touesnard. All rights reserved.
