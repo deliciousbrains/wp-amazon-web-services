@@ -48,12 +48,12 @@ define( 'AWS_SECRET_ACCESS_KEY', '****************************************' );</
 		<td><input type="text" name="secret_access_key" value="<?php echo $this->get_secret_access_key() ? '-- not shown --' : ''; ?>" size="50" autocomplete="off" /></td>
 	</tr>
 	<tr valign="top">
-		<td colspan="2">
+		<th colspan="2" scope="row">
 			<button type="submit" class="button button-primary"><?php _e( 'Save Changes', 'amazon-web-services' ); ?></button>
 			<?php if ( $this->get_access_key_id() || $this->get_secret_access_key() ) : ?>
 			&nbsp;<button class="button remove-keys"><?php _e( 'Remove Keys', 'amazon-web-services' ); ?></button>
 			<?php endif; ?>
-		</td>
+		</th>
 	</tr>
 	</table>
 
