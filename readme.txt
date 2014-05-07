@@ -3,8 +3,8 @@ Contributors: bradt
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5VPMGLLK94XJC
 Tags: amazon, amazon web services
 Requires at least: 3.5
-Tested up to: 3.6.1
-Stable tag: 0.1
+Tested up to: 3.9
+Stable tag: 0.2-dev
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
