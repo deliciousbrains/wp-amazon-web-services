@@ -30,6 +30,31 @@ return array (
             'https' => true,
             'hostname' => 'kinesis.us-east-1.amazonaws.com',
         ),
+        'us-west-2' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'kinesis.us-west-2.amazonaws.com',
+        ),
+        'eu-west-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'kinesis.eu-west-1.amazonaws.com',
+        ),
+        'ap-northeast-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'kinesis.ap-northeast-1.amazonaws.com',
+        ),
+        'ap-southeast-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'kinesis.ap-southeast-1.amazonaws.com',
+        ),
+        'ap-southeast-2' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'kinesis.ap-southeast-2.amazonaws.com',
+        ),
     ),
     'operations' => array(
         'CreateStream' => array(

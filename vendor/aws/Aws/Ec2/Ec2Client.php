@@ -154,6 +154,7 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method Model modifyNetworkInterfaceAttribute(array $args = array()) {@command Ec2 ModifyNetworkInterfaceAttribute}
  * @method Model modifyReservedInstances(array $args = array()) {@command Ec2 ModifyReservedInstances}
  * @method Model modifySnapshotAttribute(array $args = array()) {@command Ec2 ModifySnapshotAttribute}
+ * @method Model modifySubnetAttribute(array $args = array()) {@command Ec2 ModifySubnetAttribute}
  * @method Model modifyVolumeAttribute(array $args = array()) {@command Ec2 ModifyVolumeAttribute}
  * @method Model modifyVpcAttribute(array $args = array()) {@command Ec2 ModifyVpcAttribute}
  * @method Model monitorInstances(array $args = array()) {@command Ec2 MonitorInstances}
@@ -218,7 +219,6 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method ResourceIteratorInterface getDescribeRegionsIterator(array $args = array()) The input array uses the parameters of the DescribeRegions operation
  * @method ResourceIteratorInterface getDescribeReservedInstancesIterator(array $args = array()) The input array uses the parameters of the DescribeReservedInstances operation
  * @method ResourceIteratorInterface getDescribeReservedInstancesListingsIterator(array $args = array()) The input array uses the parameters of the DescribeReservedInstancesListings operation
- * @method ResourceIteratorInterface getDescribeReservedInstancesModificationsIterator(array $args = array()) The input array uses the parameters of the DescribeReservedInstancesModifications operation
  * @method ResourceIteratorInterface getDescribeReservedInstancesOfferingsIterator(array $args = array()) The input array uses the parameters of the DescribeReservedInstancesOfferings operation
  * @method ResourceIteratorInterface getDescribeRouteTablesIterator(array $args = array()) The input array uses the parameters of the DescribeRouteTables operation
  * @method ResourceIteratorInterface getDescribeSecurityGroupsIterator(array $args = array()) The input array uses the parameters of the DescribeSecurityGroups operation
@@ -229,7 +229,6 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  * @method ResourceIteratorInterface getDescribeTagsIterator(array $args = array()) The input array uses the parameters of the DescribeTags operation
  * @method ResourceIteratorInterface getDescribeVolumeStatusIterator(array $args = array()) The input array uses the parameters of the DescribeVolumeStatus operation
  * @method ResourceIteratorInterface getDescribeVolumesIterator(array $args = array()) The input array uses the parameters of the DescribeVolumes operation
- * @method ResourceIteratorInterface getDescribeVpcPeeringConnectionsIterator(array $args = array()) The input array uses the parameters of the DescribeVpcPeeringConnections operation
  * @method ResourceIteratorInterface getDescribeVpcsIterator(array $args = array()) The input array uses the parameters of the DescribeVpcs operation
  * @method ResourceIteratorInterface getDescribeVpnConnectionsIterator(array $args = array()) The input array uses the parameters of the DescribeVpnConnections operation
  * @method ResourceIteratorInterface getDescribeVpnGatewaysIterator(array $args = array()) The input array uses the parameters of the DescribeVpnGateways operation
@@ -239,7 +238,7 @@ use Guzzle\Service\Resource\ResourceIteratorInterface;
  */
 class Ec2Client extends AbstractClient
 {
-    const LATEST_API_VERSION = '2014-02-01';
+    const LATEST_API_VERSION = '2014-06-15';
 
     /**
      * Factory method to create a new AWS Elastic Beanstalk client using an array of configuration options.
@@ -255,12 +254,16 @@ class Ec2Client extends AbstractClient
             $config[Options::SIGNATURE] = new SignatureV4();
         }
 
-        return ClientBuilder::factory(__NAMESPACE__)
+        $client = ClientBuilder::factory(__NAMESPACE__)
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
                 Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/ec2-%s.php'
             ))
             ->build();
+
+        $client->addSubscriber(new CopySnapshotListener());
+
+        return $client;
     }
 }
