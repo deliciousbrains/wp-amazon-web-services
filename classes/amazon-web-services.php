@@ -30,7 +30,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	function admin_menu() {
-		$icon_url = plugins_url( 'asset/img/icon16.png', $this->plugin_file_path );
+		if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
+			$icon_url = plugins_url( 'assets/img/icon16.png', $this->plugin_file_path );
+		} else {
+			$icon_url = false;
+		}
 
 		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array( $this, 'render_page' ), $icon_url );
 
@@ -48,7 +52,9 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			add_action( 'load-' . $hook_suffix , array( $this, 'plugin_load' ) );
 		}
 
-		add_action( 'admin_print_styles', array( $this, 'enqueue_menu_styles' ) );
+		if ( $icon_url === false ) {
+			add_action( 'admin_print_styles', array( $this, 'enqueue_menu_styles' ) );
+		}
 	}
 
 	function add_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
