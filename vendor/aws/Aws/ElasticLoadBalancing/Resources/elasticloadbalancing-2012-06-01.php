@@ -75,6 +75,72 @@ return array (
         ),
     ),
     'operations' => array(
+        'AddTags' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'AddTags',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-06-01',
+                ),
+                'LoadBalancerNames' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'LoadBalancerNames.member',
+                    'items' => array(
+                        'name' => 'AccessPointName',
+                        'type' => 'string',
+                    ),
+                ),
+                'Tags' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'Tags.member',
+                    'minItems' => 1,
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'required' => true,
+                                'type' => 'string',
+                                'minLength' => 1,
+                                'maxLength' => 128,
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                                'maxLength' => 256,
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified load balancer could not be found.',
+                    'class' => 'AccessPointNotFoundException',
+                ),
+                array(
+                    'reason' => 'The quota for the number of tags that can be assigned to a load balancer has been reached.',
+                    'class' => 'TooManyTagsException',
+                ),
+                array(
+                    'reason' => 'The same tag key specified multiple times.',
+                    'class' => 'DuplicateTagKeysException',
+                ),
+            ),
+        ),
         'ApplySecurityGroupsToLoadBalancer' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -428,10 +494,32 @@ return array (
                     'type' => 'string',
                     'location' => 'aws.query',
                 ),
+                'Tags' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'Tags.member',
+                    'minItems' => 1,
+                    'items' => array(
+                        'name' => 'Tag',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'required' => true,
+                                'type' => 'string',
+                                'minLength' => 1,
+                                'maxLength' => 128,
+                            ),
+                            'Value' => array(
+                                'type' => 'string',
+                                'maxLength' => 256,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'errorResponses' => array(
                 array(
-                    'reason' => 'Load balancer name already exists for this account. Please choose another name.',
+                    'reason' => 'The load balancer name already exists for this account. Please choose another name.',
                     'class' => 'DuplicateAccessPointNameException',
                 ),
                 array(
@@ -461,6 +549,14 @@ return array (
                 array(
                     'reason' => 'Invalid value for scheme. Scheme can only be specified for load balancers in VPC.',
                     'class' => 'InvalidSchemeException',
+                ),
+                array(
+                    'reason' => 'The quota for the number of tags that can be assigned to a load balancer has been reached.',
+                    'class' => 'TooManyTagsException',
+                ),
+                array(
+                    'reason' => 'The same tag key specified multiple times.',
+                    'class' => 'DuplicateTagKeysException',
                 ),
             ),
         ),
@@ -951,6 +1047,49 @@ return array (
                     'type' => 'string',
                     'location' => 'aws.query',
                 ),
+                'PageSize' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                    'minimum' => 1,
+                    'maximum' => 400,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified load balancer could not be found.',
+                    'class' => 'AccessPointNotFoundException',
+                ),
+            ),
+        ),
+        'DescribeTags' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'DescribeTagsOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DescribeTags',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-06-01',
+                ),
+                'LoadBalancerNames' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'LoadBalancerNames.member',
+                    'minItems' => 1,
+                    'maxItems' => 20,
+                    'items' => array(
+                        'name' => 'AccessPointName',
+                        'type' => 'string',
+                    ),
+                ),
             ),
             'errorResponses' => array(
                 array(
@@ -1156,6 +1295,17 @@ return array (
                                 ),
                             ),
                         ),
+                        'ConnectionSettings' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'IdleTimeout' => array(
+                                    'required' => true,
+                                    'type' => 'numeric',
+                                    'minimum' => 1,
+                                    'maximum' => 3600,
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -1220,6 +1370,59 @@ return array (
                 array(
                     'reason' => 'The specified EndPoint is not valid.',
                     'class' => 'InvalidEndPointException',
+                ),
+            ),
+        ),
+        'RemoveTags' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'RemoveTags',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2012-06-01',
+                ),
+                'LoadBalancerNames' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'LoadBalancerNames.member',
+                    'items' => array(
+                        'name' => 'AccessPointName',
+                        'type' => 'string',
+                    ),
+                ),
+                'Tags' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'Tags.member',
+                    'minItems' => 1,
+                    'items' => array(
+                        'name' => 'TagKeyOnly',
+                        'type' => 'object',
+                        'properties' => array(
+                            'Key' => array(
+                                'type' => 'string',
+                                'minLength' => 1,
+                                'maxLength' => 128,
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The specified load balancer could not be found.',
+                    'class' => 'AccessPointNotFoundException',
                 ),
             ),
         ),
@@ -1387,6 +1590,10 @@ return array (
         ),
     ),
     'models' => array(
+        'EmptyOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+        ),
         'ApplySecurityGroupsToLoadBalancerOutput' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1443,10 +1650,6 @@ return array (
                     ),
                 ),
             ),
-        ),
-        'EmptyOutput' => array(
-            'type' => 'object',
-            'additionalProperties' => true,
         ),
         'CreateAccessPointOutput' => array(
             'type' => 'object',
@@ -1547,6 +1750,14 @@ return array (
                                     'type' => 'boolean',
                                 ),
                                 'Timeout' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
+                        'ConnectionSettings' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'IdleTimeout' => array(
                                     'type' => 'numeric',
                                 ),
                             ),
@@ -1856,6 +2067,42 @@ return array (
                 ),
             ),
         ),
+        'DescribeTagsOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'TagDescriptions' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'TagDescription',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'LoadBalancerName' => array(
+                                'type' => 'string',
+                            ),
+                            'Tags' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'Tag',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Value' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'DetachLoadBalancerFromSubnetsOutput' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1949,6 +2196,14 @@ return array (
                                 ),
                             ),
                         ),
+                        'ConnectionSettings' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'IdleTimeout' => array(
+                                    'type' => 'numeric',
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -1988,6 +2243,9 @@ return array (
             'input_token' => 'Marker',
             'output_token' => 'NextMarker',
             'result_key' => 'LoadBalancerDescriptions',
+        ),
+        'DescribeTags' => array(
+            'result_key' => 'TagDescriptions',
         ),
     ),
 );
