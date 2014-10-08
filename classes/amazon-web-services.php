@@ -40,7 +40,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		$title = __( 'Addons', 'amazon-web-services' );
 		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array( $this, 'render_page' ) );
-    	
+
     	global $submenu;
     	if ( isset( $submenu[$this->plugin_slug][0][0] ) ) {
     		$submenu[$this->plugin_slug][0][0] = __( 'Settings', 'amazon-web-services' );
@@ -76,6 +76,8 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $this->get_installed_version(), true );
 
 		if ( isset( $_GET['page'] ) && 'aws-addons' == $_GET['page'] ) {
+			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
+			wp_enqueue_script( 'plugin-install' );
 			add_thickbox();
 		}
 
@@ -112,12 +114,24 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$this->save_settings();
 	}
 
+	/**
+	 * Adds a class to admin page to style thickbox the same as the plugin directory pages.
+	 *
+	 * @param $classes
+	 *
+	 * @return string
+	 */
+	function admin_plugin_body_class( $classes) {
+		$classes .= 'plugin-install-php';
+
+		return $classes;
+	}
+
 	function render_page() {
 		if ( empty( $_GET['page'] ) ) {
 			// Not sure why we'd ever end up here, but just in case
 			wp_die( 'What the heck are we doin here?' );
 		}
-
 		$view = 'settings';
 		if ( preg_match( '@^aws-(.*)$@', $_GET['page'], $matches ) ) {
 			$allowed = array( 'addons' );
