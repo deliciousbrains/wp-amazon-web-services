@@ -157,6 +157,14 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		return $this->get_setting( 'access_key_id' );
 	}
 
+	function get_region() {
+		if ( defined('AWS_REGION') ) {
+			return AWS_REGION;
+		}
+
+		return null;
+	}
+
 	function get_secret_access_key() {
 		if ( $this->are_key_constants_set() ) {
 			return AWS_SECRET_ACCESS_KEY;
@@ -175,6 +183,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			    'key'    => $this->get_access_key_id(),
 			    'secret' => $this->get_secret_access_key()
 			);
+
+			if ( $this->get_region() ) {
+				$args['region'] = $this->get_region();
+			}
+
 			$args = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
 		}
