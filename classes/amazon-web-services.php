@@ -30,7 +30,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	function admin_menu() {
-		$icon_url = plugins_url( 'asset/img/icon16.png', $this->plugin_file_path );
+		$icon_url = plugins_url( 'assets/img/icon16.png', $this->plugin_file_path );
 
 		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array( $this, 'render_page' ), $icon_url );
 
