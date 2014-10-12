@@ -62,18 +62,21 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	function enqueue_menu_styles() {
+		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
 		$src = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-global-styles', $src, array(), $this->get_installed_version() );
+		wp_enqueue_style( 'aws-global-styles', $src, array(), $version );
 	}
 
 	function plugin_load() {
+		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
+
 		$src = plugins_url( 'assets/css/styles.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-styles', $src, array(), $this->get_installed_version() );
+		wp_enqueue_style( 'aws-styles', $src, array(), $version );
 		
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $this->get_installed_version(), true );
+		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $version, true );
 
 		if ( isset( $_GET['page'] ) && 'aws-addons' == $_GET['page'] ) {
 			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
