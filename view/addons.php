@@ -4,7 +4,7 @@
 	$addons = array(
 		'amazon-s3-and-cloudfront' => array(
 			'title' => __( 'Amazon S3 and CloudFront', 'amazon-web-services' ),
-			'path' => 'amazon-s3-and-cloudfront/wordpress-s3.php'
+			'file'  => 'wordpress-s3.php'
 		)
 	);
 
@@ -18,7 +18,7 @@
 				<ul class="actions">
 					<li><a class="thickbox" href="<?php echo $details_url; ?>"><?php _e( 'View Details', 'amazon-web-services' ); ?></a></li>
 					<?php
-					if ( file_exists( WP_PLUGIN_DIR . '/' . $addon['path'] ) ) {
+					if ( $this->is_plugin_installed( $addon['file'] ) ) {
 						echo '<li><span>' . _x( 'Already Installed', 'amazon-web-services' ) . '</span></li>';
 					}
 					else {
