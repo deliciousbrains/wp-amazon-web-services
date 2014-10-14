@@ -8,6 +8,8 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	const SETTINGS_KEY = 'aws_settings';
 
 	function __construct( $plugin_file_path ) {
+		$this->plugin_slug = 'amazon-web-services';
+
 		parent::__construct( $plugin_file_path );
 
 		do_action( 'aws_init', $this );
