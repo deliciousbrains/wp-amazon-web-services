@@ -20,7 +20,7 @@ Network: True
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************
 
-$GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2-dev';
+$GLOBALS['aws_meta'][ basename( __FILE__, '.php' ) ]['version'] = '0.2-dev';
 
 function amazon_web_services_incompatibile( $msg ) {
 	require_once ABSPATH . '/wp-admin/includes/plugin.php';

@@ -224,4 +224,22 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	function get_plugin_install_url( $slug ) {
 		return wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $slug ), 'install-plugin_' . $slug );
 	}
+
+	/**
+	 * Determine if a plugin is installed with no folder name dependency
+	 *
+	 * @param $file - filename of main plugin file, eg. wordpress-s3.php
+	 *
+	 * @return bool
+	 */
+	function is_plugin_installed( $file ) {
+		$all_plugins   = get_plugins();
+		foreach ( $all_plugins as $key => $plugin ) {
+			if ( stripos( $key, $file ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
