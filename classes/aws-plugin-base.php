@@ -7,7 +7,6 @@ class AWS_Plugin_Base {
 	function __construct( $plugin_file_path ) {
 		$this->plugin_file_path = $plugin_file_path;
 		$this->plugin_dir_path = rtrim( plugin_dir_path( $plugin_file_path ), '/' );
-		$this->plugin_slug = basename( $this->plugin_dir_path );
 		$this->plugin_basename = plugin_basename( $plugin_file_path );
 		$this->plugin_version = $GLOBALS['aws_meta'][ $this->plugin_slug ]['version'];
 	}
