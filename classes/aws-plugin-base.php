@@ -18,14 +18,14 @@ class AWS_Plugin_Base {
 		return $this->settings;
 	}
 
-	function get_setting( $key ) {
+	function get_setting( $key, $default = '' ) {
 		$this->get_settings();
 
 		if ( isset( $this->settings[$key] ) ) {
 			return $this->settings[$key];
 		}
 
-		return '';
+		return $default;
 	}
 
 	function render_view( $view, $args = array() ) {
