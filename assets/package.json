@@ -1,5 +1,5 @@
 {
-  "name": "wp-migrate-db",
+  "name": "amazon-web-services",
   "version": "0.1.0",
   "devDependencies": {
     "grunt": "^0.4.4",

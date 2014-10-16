@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		uglify: {
 			build: {
 				files: {
-					'js/main.min.js': 'js/main.js'
+					'js/script.min.js': 'js/script.js'
 				}
 			}
 		},
@@ -23,11 +23,7 @@ module.exports = function(grunt) {
 			sass: {
 				files: ['sass/*'],
 				tasks: ['compass']
-			}/*,
-			livereload: {
-				files: ['js/*.min.js','css/*'],
-				options: { livereload: true }
-			}*/
+			}
 		}
 	});
 
