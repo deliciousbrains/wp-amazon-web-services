@@ -28,6 +28,14 @@ class AWS_Plugin_Base {
 		return $default;
 	}
 
+	function remove_setting( $key ) {
+		$this->get_settings();
+
+		if ( isset( $this->settings[$key] ) ) {
+			unset( $this->settings[$key] );
+		}
+	}
+
 	function render_view( $view, $args = array() ) {
 		extract( $args );
 		include $this->plugin_dir_path . '/view/' . $view . '.php';
