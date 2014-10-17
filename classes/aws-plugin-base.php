@@ -11,6 +11,15 @@ class AWS_Plugin_Base {
 		$this->plugin_version = $GLOBALS['aws_meta'][ $this->plugin_slug ]['version'];
 	}
 
+	/**
+	 * Accessor for plugin version
+	 *
+	 * @return mixed
+	 */
+	public function get_plugin_version() {
+		return $this->plugin_version;
+	}
+
 	function get_settings( $force = false ) {
 		if ( is_null( $this->settings ) || $force ) {
 			$this->settings = get_site_option( static::SETTINGS_KEY );
