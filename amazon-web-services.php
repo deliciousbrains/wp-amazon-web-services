@@ -46,9 +46,10 @@ if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
 	}
 }
 
-require_once 'classes/aws-plugin-base.php';
-require_once 'classes/amazon-web-services.php';
-require_once 'vendor/aws/aws-autoloader.php';
+$abspath = dirname( __FILE__ );
+require_once $abspath . '/classes/aws-plugin-base.php';
+require_once $abspath . '/classes/amazon-web-services.php';
+require_once $abspath . '/vendor/aws/aws-autoloader.php';
 
 function amazon_web_services_init() {
     global $amazon_web_services;
