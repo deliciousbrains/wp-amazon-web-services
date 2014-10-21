@@ -21,13 +21,12 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'admin_menu' ) );
 			$this->plugin_permission = 'manage_network_options';
-		}
-		else {
+		} else {
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			$this->plugin_permission = 'manage_options';
 		}
 
-		$this->plugin_title = __( 'Amazon Web Services', 'amazon-web-services' );
+		$this->plugin_title      = __( 'Amazon Web Services', 'amazon-web-services' );
 		$this->plugin_menu_title = __( 'AWS', 'amazon-web-services' );
 	}
 
@@ -38,20 +37,26 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$icon_url = false;
 		}
 
-		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array( $this, 'render_page' ), $icon_url );
+		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array(
+				$this,
+				'render_page'
+			), $icon_url );
 
-		$title = __( 'Addons', 'amazon-web-services' );
-		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array( $this, 'render_page' ) );
+		$title           = __( 'Addons', 'amazon-web-services' );
+		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array(
+				$this,
+				'render_page'
+			) );
 
-    	global $submenu;
-    	if ( isset( $submenu[$this->plugin_slug][0][0] ) ) {
-    		$submenu[$this->plugin_slug][0][0] = __( 'Settings', 'amazon-web-services' );
+		global $submenu;
+		if ( isset( $submenu[ $this->plugin_slug ][0][0] ) ) {
+			$submenu[ $this->plugin_slug ][0][0] = __( 'Settings', 'amazon-web-services' );
 		}
 
 		do_action( 'aws_admin_menu', $this );
 
 		foreach ( $hook_suffixes as $hook_suffix ) {
-			add_action( 'load-' . $hook_suffix , array( $this, 'plugin_load' ) );
+			add_action( 'load-' . $hook_suffix, array( $this, 'plugin_load' ) );
 		}
 
 		if ( $icon_url === false ) {
@@ -65,7 +70,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 	function enqueue_menu_styles() {
 		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
-		$src = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
+		$src     = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
 		wp_enqueue_style( 'aws-global-styles', $src, array(), $version );
 	}
 
@@ -74,7 +79,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		$src = plugins_url( 'assets/css/styles.css', $this->plugin_file_path );
 		wp_enqueue_style( 'aws-styles', $src, array(), $version );
-		
+
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
@@ -96,7 +101,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			return;
 		}
 
-		if ( empty( $_POST['_wpnonce'] ) || !wp_verify_nonce( $_POST['_wpnonce'], 'aws-save-settings' ) ) {
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'aws-save-settings' ) ) {
 			die( __( "Cheatin' eh?", 'amazon-web-services' ) );
 		}
 
@@ -105,15 +110,15 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		$post_vars = array( 'access_key_id', 'secret_access_key' );
 		foreach ( $post_vars as $var ) {
-			if ( !isset( $_POST[$var] ) ) {
+			if ( ! isset( $_POST[ $var ] ) ) {
 				continue;
 			}
 
-			if ( 'secret_access_key' == $var && '-- not shown --' == $_POST[$var] ) {
+			if ( 'secret_access_key' == $var && '-- not shown --' == $_POST[ $var ] ) {
 				continue;
 			}
 
-			$this->set_setting( $var, $_POST[$var] );
+			$this->set_setting( $var, $_POST[ $var ] );
 		}
 
 		$this->save_settings();
@@ -126,7 +131,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 *
 	 * @return string
 	 */
-	function admin_plugin_body_class( $classes) {
+	function admin_plugin_body_class( $classes ) {
 		$classes .= 'plugin-install-php';
 
 		return $classes;
@@ -163,7 +168,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	function get_region() {
-		if ( defined('AWS_REGION') ) {
+		if ( defined( 'AWS_REGION' ) ) {
 			return AWS_REGION;
 		}
 
@@ -179,21 +184,21 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	function get_client() {
-		if ( !$this->get_access_key_id() || !$this->get_secret_access_key() ) {
+		if ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) {
 			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) );
 		}
 
 		if ( is_null( $this->client ) ) {
 			$args = array(
-			    'key'    => $this->get_access_key_id(),
-			    'secret' => $this->get_secret_access_key()
+				'key'    => $this->get_access_key_id(),
+				'secret' => $this->get_secret_access_key()
 			);
 
 			if ( $this->get_region() ) {
 				$args['region'] = $this->get_region();
 			}
 
-			$args = apply_filters( 'aws_get_client_args', $args );
+			$args         = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
 		}
 
