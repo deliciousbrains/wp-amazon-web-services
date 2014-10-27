@@ -20,6 +20,15 @@ class AWS_Plugin_Base {
 		return $this->plugin_version;
 	}
 
+	/**
+	 * Accessor for plugin slug
+	 *
+	 * @return mixed
+	 */
+	public function get_plugin_slug() {
+		return $this->plugin_slug;
+	}
+
 	function get_settings( $force = false ) {
 		if ( is_null( $this->settings ) || $force ) {
 			$this->settings = get_site_option( static::SETTINGS_KEY );
