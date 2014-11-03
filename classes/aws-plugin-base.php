@@ -1,4 +1,5 @@
 <?php
+
 class AWS_Plugin_Base {
 
 	protected $plugin_file_path, $plugin_dir_path, $plugin_slug, $plugin_basename, $plugin_version;
@@ -6,9 +7,9 @@ class AWS_Plugin_Base {
 
 	function __construct( $plugin_file_path ) {
 		$this->plugin_file_path = $plugin_file_path;
-		$this->plugin_dir_path = rtrim( plugin_dir_path( $plugin_file_path ), '/' );
-		$this->plugin_basename = plugin_basename( $plugin_file_path );
-		$this->plugin_version = $GLOBALS['aws_meta'][ $this->plugin_slug ]['version'];
+		$this->plugin_dir_path  = rtrim( plugin_dir_path( $plugin_file_path ), '/' );
+		$this->plugin_basename  = plugin_basename( $plugin_file_path );
+		$this->plugin_version   = $GLOBALS['aws_meta'][ $this->plugin_slug ]['version'];
 	}
 
 	/**
@@ -33,14 +34,15 @@ class AWS_Plugin_Base {
 		if ( is_null( $this->settings ) || $force ) {
 			$this->settings = get_site_option( static::SETTINGS_KEY );
 		}
+
 		return $this->settings;
 	}
 
 	function get_setting( $key, $default = '' ) {
 		$this->get_settings();
 
-		if ( isset( $this->settings[$key] ) ) {
-			return $this->settings[$key];
+		if ( isset( $this->settings[ $key ] ) ) {
+			return $this->settings[ $key ];
 		}
 
 		return $default;
@@ -49,8 +51,8 @@ class AWS_Plugin_Base {
 	function remove_setting( $key ) {
 		$this->get_settings();
 
-		if ( isset( $this->settings[$key] ) ) {
-			unset( $this->settings[$key] );
+		if ( isset( $this->settings[ $key ] ) ) {
+			unset( $this->settings[ $key ] );
 		}
 	}
 
@@ -60,7 +62,7 @@ class AWS_Plugin_Base {
 	}
 
 	function set_setting( $key, $value ) {
-		$this->settings[$key] = $value;
+		$this->settings[ $key ] = $value;
 	}
 
 	function set_settings( $settings ) {
