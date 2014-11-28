@@ -22,7 +22,7 @@ Network: True
 
 $GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2-dev';
 
-function amazon_web_services_incompatibile( $msg ) {
+function amazon_web_services_incompatible( $msg ) {
 	require_once ABSPATH . '/wp-admin/includes/plugin.php';
 	deactivate_plugins( __FILE__ );
 	wp_die( $msg );
@@ -30,16 +30,16 @@ function amazon_web_services_incompatibile( $msg ) {
 
 if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 	if ( version_compare( PHP_VERSION, '5.3.3', '<' ) ) {
-		amazon_web_services_incompatibile( __( 'The official Amazon Web Services SDK requires PHP 5.3.3 or higher. The plugin has now disabled itself.', 'amazon-web-services' ) );
+		amazon_web_services_incompatible( __( 'The official Amazon Web Services SDK requires PHP 5.3.3 or higher. The plugin has now disabled itself.', 'amazon-web-services' ) );
 	} elseif ( ! function_exists( 'curl_version' )
 	           || ! ( $curl = curl_version() ) || empty( $curl['version'] ) || empty( $curl['features'] )
 	           || version_compare( $curl['version'], '7.16.2', '<' )
 	) {
-		amazon_web_services_incompatibile( __( 'The official Amazon Web Services SDK requires cURL 7.16.2+. The plugin has now disabled itself.', 'amazon-web-services' ) );
+		amazon_web_services_incompatible( __( 'The official Amazon Web Services SDK requires cURL 7.16.2+. The plugin has now disabled itself.', 'amazon-web-services' ) );
 	} elseif ( ! ( $curl['features'] & CURL_VERSION_SSL ) ) {
-		amazon_web_services_incompatibile( __( 'The official Amazon Web Services SDK requires that cURL is compiled with OpenSSL. The plugin has now disabled itself.', 'amazon-web-services' ) );
+		amazon_web_services_incompatible( __( 'The official Amazon Web Services SDK requires that cURL is compiled with OpenSSL. The plugin has now disabled itself.', 'amazon-web-services' ) );
 	} elseif ( ! ( $curl['features'] & CURL_VERSION_LIBZ ) ) {
-		amazon_web_services_incompatibile( __( 'The official Amazon Web Services SDK requires that cURL is compiled with zlib. The plugin has now disabled itself.', 'amazon-web-services' ) );
+		amazon_web_services_incompatible( __( 'The official Amazon Web Services SDK requires that cURL is compiled with zlib. The plugin has now disabled itself.', 'amazon-web-services' ) );
 	}
 }
 
