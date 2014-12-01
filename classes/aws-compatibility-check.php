@@ -6,7 +6,8 @@ class AWS_Compatibility_Check {
 	function __construct( $plugin_file_path ) {
 		$this->plugin_file_path = $plugin_file_path;
 
-		add_action( 'network_admin_notices', array( $this, 'hook_network_admin_notices' ) );
+		add_action( 'admin_notices', array( $this, 'hook_admin_notices' ) );
+		add_action( 'network_admin_notices', array( $this, 'hook_admin_notices' ) );
 	}
 
 	function is_compatible() {
@@ -74,7 +75,22 @@ class AWS_Compatibility_Check {
 		return $msg;
 	}
 
-	function hook_network_admin_notices() {
+	function hook_admin_notices() {
+		if ( is_multisite() ) {
+			if ( ! current_user_can( 'manage_network_plugins' ) ) {
+				return; // Don't show notices if the user can't manage network plugins
+			}
+		}
+		else {
+			// Don't show notices if user doesn't have plugin management privileges
+			$caps = array( 'activate_plugins', 'update_plugins', 'install_plugins' );
+			foreach ( $caps as $cap ) {
+				if ( ! current_user_can( $cap ) ) {
+					return;
+				}
+			}
+		}
+
 		$error_msg = $this->get_sdk_requirements_error_msg();
 
 		if ( ! $error_msg ) {
