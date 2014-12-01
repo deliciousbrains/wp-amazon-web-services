@@ -3,7 +3,7 @@ Contributors: bradt
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5VPMGLLK94XJC
 Tags: amazon, amazon web services
 Requires at least: 3.5
-Tested up to: 3.9
+Tested up to: 4.0
 Stable tag: 0.2
 License: GPLv3
 
@@ -25,6 +25,16 @@ This plugin is required by other plugins, which uses its libraries and its setti
 1. Settings screen
 
 == Changelog ==
+
+= 0.2 - 2013-12-01 =
+* New: AWS SDK updated to 2.6.16
+* New: Set the region for the AWS client by defining `AWS_REGION` in your wp-config.php
+* New: Composer file for Packagist support
+* Improvement: Base plugin class performance of installed version
+* Improvement: Base plugin class accessor for various properties
+* Improvement: Addon plugin modal now responsive
+* Improvement: Better menu icon
+* Improvement: Code formatting to WordPress standards
 
 = 0.1 - 2013-09-20 =
 * First release
