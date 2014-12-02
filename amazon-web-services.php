@@ -22,7 +22,7 @@ Network: True
 
 $GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2';
 
-$GLOBALS['aws_meta']['supported_addon_versions'] = array(
+$GLOBALS['aws_meta']['amazon-web-services']['supported_addon_versions'] = array(
 	'amazon-s3-and-cloudfront' => '0.7'
 );
 
