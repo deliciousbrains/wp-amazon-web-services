@@ -26,7 +26,7 @@ This plugin is required by other plugins, which uses its libraries and its setti
 
 == Changelog ==
 
-= 0.2 - 2013-12-01 =
+= 0.2 - 2014-12-04 =
 * New: AWS SDK updated to 2.6.16
 * New: Set the region for the AWS client by defining `AWS_REGION` in your wp-config.php
 * New: Composer file for Packagist support
