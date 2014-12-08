@@ -7,6 +7,8 @@ Author: Brad Touesnard
 Version: 0.2
 Author URI: http://bradt.ca/
 Network: True
+Text Domain: amazon-web-services
+Domain Path: /languages/
 */
 
 // Copyright (c) 2013 Brad Touesnard. All rights reserved.
