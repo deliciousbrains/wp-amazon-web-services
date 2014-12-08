@@ -28,6 +28,8 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		$this->plugin_title      = __( 'Amazon Web Services', 'amazon-web-services' );
 		$this->plugin_menu_title = __( 'AWS', 'amazon-web-services' );
+
+		load_plugin_textdomain( 'amazon-web-services', false, dirname( plugin_basename( $plugin_file_path ) ) . '/languages/' );
 	}
 
 	function admin_menu() {
