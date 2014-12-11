@@ -1,4 +1,5 @@
 <?php
+
 class AWS_Compatibility_Check {
 
 	private $plugin_file_path;
@@ -70,8 +71,7 @@ class AWS_Compatibility_Check {
 
 		if ( count( $errors ) > 1 ) {
 			$last_one = ' and ' . array_pop( $errors );
-		}
-		else {
+		} else {
 			$last_one = '';
 		}
 
@@ -85,8 +85,7 @@ class AWS_Compatibility_Check {
 			if ( ! current_user_can( 'manage_network_plugins' ) ) {
 				return; // Don't show notices if the user can't manage network plugins
 			}
-		}
-		else {
+		} else {
 			// Don't show notices if user doesn't have plugin management privileges
 			$caps = array( 'activate_plugins', 'update_plugins', 'install_plugins' );
 			foreach ( $caps as $cap ) {
