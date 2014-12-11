@@ -52,7 +52,7 @@ class AWS_Compatibility_Check {
 			}
 
 			if ( $curl_errors ) {
-				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . implode( ' or ', $curl_errors );
+				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . esc_html( implode( ' or ', $curl_errors ) );
 			}
 		}
 
