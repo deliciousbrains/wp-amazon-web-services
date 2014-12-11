@@ -32,6 +32,9 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		load_plugin_textdomain( 'amazon-web-services', false, dirname( plugin_basename( $plugin_file_path ) ) . '/languages/' );
 	}
 
+	/**
+	 * Add the AWS menu item and sub pages
+	 */
 	function admin_menu() {
 		if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
 			$icon_url = plugins_url( 'assets/img/icon16.png', $this->plugin_file_path );
@@ -66,16 +69,33 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		}
 	}
 
+	/**
+	 * Add sub page to the AWS menu item
+	 *
+	 * @param        $page_title
+	 * @param        $menu_title
+	 * @param        $capability
+	 * @param        $menu_slug
+	 * @param string $function
+	 *
+	 * @return bool|string
+	 */
 	function add_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 		return add_submenu_page( $this->plugin_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 	}
 
+	/**
+	 * Load styles for the AWS menu item
+	 */
 	function enqueue_menu_styles() {
 		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
 		$src     = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
 		wp_enqueue_style( 'aws-global-styles', $src, array(), $version );
 	}
 
+	/**
+	 * Plugin loading enqueue scripts and styles
+	 */
 	function plugin_load() {
 		$version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
 
@@ -98,6 +118,9 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		do_action( 'aws_plugin_load', $this );
 	}
 
+	/**
+	 * Process the saving of the settings form
+	 */
 	function handle_post_request() {
 		if ( empty( $_POST['action'] ) || 'save' != $_POST['action'] ) {
 			return;
@@ -139,6 +162,9 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		return $classes;
 	}
 
+	/**
+	 * Render the output of a page
+	 */
 	function render_page() {
 		if ( empty( $_GET['page'] ) ) {
 			// Not sure why we'd ever end up here, but just in case
@@ -157,10 +183,20 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$this->render_view( 'footer' );
 	}
 
+	/**
+	 * Check if we are using constants for the AWS access credentials
+	 *
+	 * @return bool
+	 */
 	function are_key_constants_set() {
 		return defined( 'AWS_ACCESS_KEY_ID' ) && defined( 'AWS_SECRET_ACCESS_KEY' );
 	}
 
+	/**
+	 * Get the AWS key from a constant or the settings
+	 *
+	 * @return string
+	 */
 	function get_access_key_id() {
 		if ( $this->are_key_constants_set() ) {
 			return AWS_ACCESS_KEY_ID;
@@ -169,6 +205,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		return $this->get_setting( 'access_key_id' );
 	}
 
+	/**
+	 * Get a defined region to use for the AWS client
+	 *
+	 * @return string|null
+	 */
 	function get_region() {
 		if ( defined( 'AWS_REGION' ) ) {
 			return AWS_REGION;
@@ -177,6 +218,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		return null;
 	}
 
+	/**
+	 * Get the AWS secret from a constant or the settings
+	 *
+	 * @return string
+	 */
 	function get_secret_access_key() {
 		if ( $this->are_key_constants_set() ) {
 			return AWS_SECRET_ACCESS_KEY;
@@ -185,6 +231,12 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		return $this->get_setting( 'secret_access_key' );
 	}
 
+	/**
+	 * Instantiate a new AWS service client for the AWS SDK
+	 * using the defined AWS key and secret
+	 *
+	 * @return Aws|WP_Error
+	 */
 	function get_client() {
 		if ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) {
 			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) );
@@ -230,6 +282,13 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 	*/
 
+	/**
+	 * Get a nonced, network safe install URL for a plugin
+	 *
+	 * @param $slug Plugin slug
+	 *
+	 * @return string
+	 */
 	function get_plugin_install_url( $slug ) {
 		return wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $slug ), 'install-plugin_' . $slug );
 	}
