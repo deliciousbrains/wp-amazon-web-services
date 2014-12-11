@@ -28,7 +28,7 @@ class AWS_Compatibility_Check {
 		}
 
 		if ( ! function_exists( 'curl_version' ) ) {
-			$errors[] = __( 'no cURL version installed', 'amazon-web-services' );
+			$errors[] = __( 'no PHP cURL library activated', 'amazon-web-services' );
 
 			return $errors;
 		}
