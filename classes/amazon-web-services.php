@@ -39,15 +39,16 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$icon_url = false;
 		}
 
+		$hook_suffixes = array();
 		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array(
 				$this,
-				'render_page'
+				'render_page',
 			), $icon_url );
 
 		$title           = __( 'Addons', 'amazon-web-services' );
 		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array(
 				$this,
-				'render_page'
+				'render_page',
 			) );
 
 		global $submenu;
