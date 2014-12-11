@@ -3,7 +3,7 @@ use Aws\Common\Aws;
 
 class Amazon_Web_Services extends AWS_Plugin_Base {
 
-	private $plugin_title, $plugin_menu_title, $client;
+	private $plugin_title, $plugin_menu_title, $plugin_permission, $client;
 
 	const SETTINGS_KEY = 'aws_settings';
 
