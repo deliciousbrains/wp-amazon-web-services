@@ -20,6 +20,6 @@
 	</style>
 </head>
 <body>
-<?php echo $error_msg; ?>
+<?php echo esc_html( $error_msg ); ?>
 </body>
 </html>
