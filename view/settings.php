@@ -30,7 +30,7 @@ define( 'AWS_SECRET_ACCESS_KEY', '****************************************' );</
 		<form method="post" <?php echo ( ! $this->get_access_key_id() && ! $this->get_secret_access_key() ) ? 'style="display: none;"' : ''; ?>>
 
 			<?php if ( isset( $_POST['access_key_id'] ) ) : ?>
-				<div class="aws-updated">
+				<div class="aws-updated updated">
 					<p><strong>Settings saved.</strong></p>
 				</div>
 			<?php endif; ?>
