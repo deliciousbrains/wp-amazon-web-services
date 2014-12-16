@@ -24,12 +24,19 @@ class AWS_Plugin_Base {
 	/**
 	 * Accessor for plugin slug
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function get_plugin_slug() {
 		return $this->plugin_slug;
 	}
 
+	/**
+	 * Get the plugin's settings array
+	 *
+	 * @param bool $force
+	 *
+	 * @return array
+	 */
 	function get_settings( $force = false ) {
 		if ( is_null( $this->settings ) || $force ) {
 			$this->settings = get_site_option( static::SETTINGS_KEY );
@@ -38,6 +45,14 @@ class AWS_Plugin_Base {
 		return $this->settings;
 	}
 
+	/**
+	 * Get a specific setting
+	 *
+	 * @param        $key
+	 * @param string $default
+	 *
+	 * @return string
+	 */
 	function get_setting( $key, $default = '' ) {
 		$this->get_settings();
 
@@ -48,6 +63,11 @@ class AWS_Plugin_Base {
 		return $default;
 	}
 
+	/**
+	 * Delete a setting
+	 *
+	 * @param $key
+	 */
 	function remove_setting( $key ) {
 		$this->get_settings();
 
@@ -56,19 +76,39 @@ class AWS_Plugin_Base {
 		}
 	}
 
+	/**
+	 * Render a view template file
+	 *
+	 * @param       $view View filename without the extension
+	 * @param array $args Arguments to pass to the view
+	 */
 	function render_view( $view, $args = array() ) {
 		extract( $args );
 		include $this->plugin_dir_path . '/view/' . $view . '.php';
 	}
 
+	/**
+	 * Set a setting
+	 *
+	 * @param $key
+	 * @param $value
+	 */
 	function set_setting( $key, $value ) {
 		$this->settings[ $key ] = $value;
 	}
 
+	/**
+	 * Bulk set the settings array
+	 *
+	 * @param array $settings
+	 */
 	function set_settings( $settings ) {
 		$this->settings = $settings;
 	}
 
+	/**
+	 * Save the settings to the database
+	 */
 	function save_settings() {
 		update_site_option( static::SETTINGS_KEY, $this->settings );
 	}

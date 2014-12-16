@@ -10,10 +10,20 @@ class AWS_Compatibility_Check {
 		add_action( 'network_admin_notices', array( $this, 'hook_admin_notices' ) );
 	}
 
+	/**
+	 * Check the server is compatible with the AWS SDK
+	 *
+	 * @return bool
+	 */
 	function is_compatible() {
 		return $this->get_sdk_requirements_errors() ? false : true;
 	}
 
+	/**
+	 * Return an array of issues with the server's compatibility with the AWS SDK
+	 *
+	 * @return array
+	 */
 	function get_sdk_requirements_errors() {
 		static $errors;
 
@@ -59,6 +69,11 @@ class AWS_Compatibility_Check {
 		return $errors;
 	}
 
+	/**
+	 * Prepare an error message with compatibility issues
+	 *
+	 * @return string
+	 */
 	function get_sdk_requirements_error_msg() {
 		$errors = $this->get_sdk_requirements_errors();
 
@@ -80,6 +95,10 @@ class AWS_Compatibility_Check {
 		return $msg;
 	}
 
+	/**
+	 * Display the compatibility error message for users
+	 * Deactivate the plugin if there are errors
+	 */
 	function hook_admin_notices() {
 		if ( is_multisite() ) {
 			if ( ! current_user_can( 'manage_network_plugins' ) ) {

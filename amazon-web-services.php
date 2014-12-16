@@ -36,6 +36,9 @@ if ( $aws_compat_check->is_compatible() ) {
 	add_action( 'init', 'amazon_web_services_init' );
 }
 
+/**
+ * Fire up the plugin if compatibility checks have been met
+ */
 function amazon_web_services_require_files() {
 	$abspath = dirname( __FILE__ );
 	require_once $abspath . '/classes/aws-plugin-base.php';
@@ -49,6 +52,11 @@ function amazon_web_services_init() {
 	$amazon_web_services = new Amazon_Web_Services( __FILE__ );
 }
 
+/**
+ * On activation check the plugin meets compatibility checks
+ * and migrate any legacy settings over to the new option
+ *
+ */
 function amazon_web_services_activation() {
 	global $aws_compat_check;
 	if ( ! $aws_compat_check->is_compatible() ) {
