@@ -14,7 +14,7 @@
 
 		<article class="addon as3cf">
 			<div class="info">
-				<h1><?php echo esc_html( $addon['title'] ); ?></h1>
+				<h1><?php echo $addon['title']; // xss ok ?></h1>
 				<ul class="actions">
 					<li>
 						<a class="thickbox" href="<?php echo esc_url( $details_url ); ?>"><?php _e( 'View Details', 'amazon-web-services' ); ?></a>

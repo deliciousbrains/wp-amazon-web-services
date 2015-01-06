@@ -44,10 +44,7 @@ class AWS_Compatibility_Check {
 			return $errors;
 		}
 
-		if (
-			! ( $curl = curl_version() ) || empty( $curl['version'] ) || empty( $curl['features'] )
-			|| version_compare( $curl['version'], '7.16.2', '<' )
-		) {
+		if ( ! ( $curl = curl_version() ) || empty( $curl['version'] ) || empty( $curl['features'] ) || version_compare( $curl['version'], '7.16.2', '<' ) ) {
 			$errors[] = __( 'a cURL version less than 7.16.2', 'amazon-web-services' );
 		}
 
@@ -63,7 +60,7 @@ class AWS_Compatibility_Check {
 			}
 
 			if ( $curl_errors ) {
-				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . esc_html( implode( ' or ', $curl_errors ) );
+				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . implode( ' or ', $curl_errors ); // xss ok
 			}
 		}
 

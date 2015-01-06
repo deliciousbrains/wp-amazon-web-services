@@ -20,6 +20,6 @@
 	</style>
 </head>
 <body>
-<?php echo esc_html( $error_msg ); ?>
+<?php echo $error_msg; // xss ok ?>
 </body>
 </html>
