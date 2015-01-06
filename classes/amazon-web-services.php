@@ -3,7 +3,7 @@ use Aws\Common\Aws;
 
 class Amazon_Web_Services extends AWS_Plugin_Base {
 
-	private $plugin_title, $plugin_menu_title, $client;
+	private $plugin_title, $plugin_menu_title, $plugin_permission, $client;
 
 	const SETTINGS_KEY = 'aws_settings';
 
@@ -42,15 +42,16 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$icon_url = false;
 		}
 
+		$hook_suffixes = array();
 		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array(
 				$this,
-				'render_page'
+				'render_page',
 			), $icon_url );
 
 		$title           = __( 'Addons', 'amazon-web-services' );
 		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array(
 				$this,
-				'render_page'
+				'render_page',
 			) );
 
 		global $submenu;
@@ -107,7 +108,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
 		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $version, true );
 
-		if ( isset( $_GET['page'] ) && 'aws-addons' == $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'aws-addons' == sanitize_key( $_GET['page'] ) ) { // input var okay
 			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
 			wp_enqueue_script( 'plugin-install' );
 			add_thickbox();
@@ -122,11 +123,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * Process the saving of the settings form
 	 */
 	function handle_post_request() {
-		if ( empty( $_POST['action'] ) || 'save' != $_POST['action'] ) {
+		if ( empty( $_POST['action'] ) || 'save' != sanitize_key( $_POST['action'] ) ) { // input var okay
 			return;
 		}
 
-		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'aws-save-settings' ) ) {
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'aws-save-settings' ) ) { // input var okay
 			die( __( "Cheatin' eh?", 'amazon-web-services' ) );
 		}
 
@@ -135,15 +136,17 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		$post_vars = array( 'access_key_id', 'secret_access_key' );
 		foreach ( $post_vars as $var ) {
-			if ( ! isset( $_POST[ $var ] ) ) {
+			if ( ! isset( $_POST[ $var ] ) ) { // input var okay
 				continue;
 			}
 
-			if ( 'secret_access_key' == $var && '-- not shown --' == $_POST[ $var ] ) {
+			$value = sanitize_text_field( $_POST[ $var ] ); // input var okay
+
+			if ( 'secret_access_key' == $var && '-- not shown --' == $value ) {
 				continue;
 			}
 
-			$this->set_setting( $var, $_POST[ $var ] );
+			$this->set_setting( $var, $value );
 		}
 
 		$this->save_settings();
@@ -166,7 +169,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * Render the output of a page
 	 */
 	function render_page() {
-		if ( empty( $_GET['page'] ) ) {
+		if ( empty( $_GET['page'] ) ) { // input var okay
 			// Not sure why we'd ever end up here, but just in case
 			wp_die( 'What the heck are we doin here?' );
 		}
@@ -239,7 +242,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 */
 	function get_client() {
 		if ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) {
-			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) );
+			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) ); // xss ok
 		}
 
 		if ( is_null( $this->client ) ) {
