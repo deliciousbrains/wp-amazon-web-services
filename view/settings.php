@@ -27,14 +27,13 @@ define( 'AWS_SECRET_ACCESS_KEY', '****************************************' );</
 			<?php _e( 'If you&#8217;d rather not to edit your wp-config.php and are ok storing the keys in the database (not recommended), <a href="">click here to reveal a form.</a>', 'amazon-web-services' ); ?>
 		</p>
 
-		<form method="post" <?php echo esc_attr( ( ! $this->get_access_key_id()  && ! $this->get_secret_access_key() ) ? 'style="display: none;"' : '' ); ?>>
+		<form method="post" <?php echo ( ! $this->get_access_key_id() && ! $this->get_secret_access_key() ) ? 'style="display: none;"' : ''; ?>>
 
-			<?php if ( isset( $_POST['access_key_id'] ) ) { // input var okay
-				?>
-				<div class="aws-updated">
+			<?php if ( isset( $_POST['access_key_id'] ) ) : ?>
+				<div class="aws-updated updated">
 					<p><strong>Settings saved.</strong></p>
 				</div>
-			<?php } ?>
+			<?php endif; ?>
 
 			<input type="hidden" name="action" value="save" />
 			<?php wp_nonce_field( 'aws-save-settings' ) ?>
@@ -49,7 +48,7 @@ define( 'AWS_SECRET_ACCESS_KEY', '****************************************' );</
 				<tr valign="top">
 					<th width="33%" scope="row"><?php _e( 'Secret Access Key:', 'amazon-web-services' ); ?></th>
 					<td>
-						<input type="text" name="secret_access_key" value="<?php echo esc_attr( $this->get_secret_access_key() ) ? '-- not shown --' : ''; ?>" size="50" autocomplete="off" />
+						<input type="text" name="secret_access_key" value="<?php echo $this->get_secret_access_key() ? '-- not shown --' : ''; ?>" size="50" autocomplete="off" />
 					</td>
 				</tr>
 				<tr valign="top">
