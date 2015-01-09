@@ -26,6 +26,13 @@ This plugin is required by other plugins, which uses its libraries and its setti
 
 == Changelog ==
 
+= 0.2.1 - 2015-01-10 =
+* New: AWS SDK updated to 2.7.13
+* New: Translation ready
+* Improvement: Code cleanup to WordPress coding standards
+* Improvement: Settings notice UI aligned with WordPress style
+* Bug: Error if migrating keys over from old Amazon S3 and CloudFront plugin settings
+
 = 0.2 - 2014-12-04 =
 * New: AWS SDK updated to 2.6.16
 * New: Set the region for the AWS client by defining `AWS_REGION` in your wp-config.php
