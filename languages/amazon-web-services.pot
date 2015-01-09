@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Amazon Web Services\n"
-"POT-Creation-Date: 2014-12-08 17:21-0000\n"
-"PO-Revision-Date: 2014-12-08 17:22-0000\n"
+"POT-Creation-Date: 2015-01-09 17:14-0000\n"
+"PO-Revision-Date: 2015-01-09 17:14-0000\n"
 "Last-Translator: Delicious Brains <nom@deliciousbrains.com>\n"
 "Language-Team: Delicious Brains <nom@deliciousbrains.com>\n"
 "Language: en\n"
@@ -12,8 +12,9 @@ msgstr ""
 "X-Generator: Poedit 1.7\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
-"esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor\n"
@@ -27,42 +28,47 @@ msgstr ""
 msgid "AWS"
 msgstr ""
 
-#: classes/amazon-web-services.php:47
+#: classes/amazon-web-services.php:51
 msgid "Addons"
 msgstr ""
 
-#: classes/amazon-web-services.php:55
+#: classes/amazon-web-services.php:59
 msgid "Settings"
 msgstr ""
 
-#: classes/amazon-web-services.php:107
+#: classes/amazon-web-services.php:131
 msgid "Cheatin' eh?"
 msgstr ""
 
-#: classes/amazon-web-services.php:190
+#: classes/amazon-web-services.php:245
 #, php-format
-msgid "You must first <a href=\"%s\">set your AWS access keys</a> to use this addon."
+msgid ""
+"You must first <a href=\"%s\">set your AWS access keys</a> to use this addon."
 msgstr ""
 
-#: classes/aws-compatibility-check.php:27
+#: classes/aws-compatibility-check.php:38
 msgid "a PHP version less than 5.3.3"
 msgstr ""
 
-#: classes/aws-compatibility-check.php:35
+#: classes/aws-compatibility-check.php:42
+msgid "no PHP cURL library activated"
+msgstr ""
+
+#: classes/aws-compatibility-check.php:48
 msgid "a cURL version less than 7.16.2"
 msgstr ""
 
-#: classes/aws-compatibility-check.php:50
+#: classes/aws-compatibility-check.php:63
 msgid "cURL compiled without"
 msgstr ""
 
-#: classes/aws-compatibility-check.php:64
+#: classes/aws-compatibility-check.php:82
 msgid ""
-"The official Amazon&nbsp;Web&nbsp;Services SDK requires PHP 5.3.3+ and cURL 7.16.2+ compiled with OpenSSL and zlib. Your server "
-"currently has"
+"The official Amazon&nbsp;Web&nbsp;Services SDK requires PHP 5.3.3+ and cURL "
+"7.16.2+ compiled with OpenSSL and zlib. Your server currently has"
 msgstr ""
 
-#: classes/aws-compatibility-check.php:100
+#: classes/aws-compatibility-check.php:120
 msgid "The Amazon&nbsp;Web&nbsp;Services plugin has been deactivated."
 msgstr ""
 
@@ -89,32 +95,38 @@ msgstr ""
 
 #: view/settings.php:8
 msgid ""
-"You&#8217;ve already defined your AWS access keys in your wp-config.php. If you&#8217;d prefer to manage them here and store them in "
-"the database (not recommended), simply remove the lines from your wp-config."
+"You&#8217;ve already defined your AWS access keys in your wp-config.php. If "
+"you&#8217;d prefer to manage them here and store them in the database (not "
+"recommended), simply remove the lines from your wp-config."
 msgstr ""
 
 #: view/settings.php:14
 #, php-format
-msgid "If you don&#8217;t have an Amazon Web Services account yet, you need to <a href=\"%s\">sign up</a>."
+msgid ""
+"If you don&#8217;t have an Amazon Web Services account yet, you need to <a "
+"href=\"%s\">sign up</a>."
 msgstr ""
 
 #: view/settings.php:17
 #, php-format
 msgid ""
-"Once you&#8217;ve signed up, you will need to <a href=\"%s\">create a new IAM user</a> and grant access to the specific services which "
-"this plugin will use (e.g. S3)."
+"Once you&#8217;ve signed up, you will need to <a href=\"%s\">create a new "
+"IAM user</a> and grant access to the specific services which this plugin "
+"will use (e.g. S3)."
 msgstr ""
 
 #: view/settings.php:20
 msgid ""
-"Once the user has been created, you will be presented with a couple of keys. Copy the folowing code to your wp-config.php and replace "
-"the stars with the keys."
+"Once the user has been created, you will be presented with a couple of keys. "
+"Copy the folowing code to your wp-config.php and replace the stars with the "
+"keys."
 msgstr ""
 
 #: view/settings.php:27
 msgid ""
-"If you&#8217;d rather not to edit your wp-config.php and are ok storing the keys in the database (not recommended), <a href=\"\">click "
-"here to reveal a form.</a>"
+"If you&#8217;d rather not to edit your wp-config.php and are ok storing the "
+"keys in the database (not recommended), <a href=\"\">click here to reveal a "
+"form.</a>"
 msgstr ""
 
 #: view/settings.php:43
