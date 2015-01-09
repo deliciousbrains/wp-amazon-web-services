@@ -209,20 +209,6 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	}
 
 	/**
-	 * Get a defined region to use for the AWS client
-	 * Defaults to US Standard, as required for setting signature to v4
-	 *
-	 * @return string
-	 */
-	function get_region() {
-		if ( defined( 'AWS_REGION' ) ) {
-			return AWS_REGION;
-		}
-
-		return 'us-east-1';
-	}
-
-	/**
 	 * Get the AWS secret from a constant or the settings
 	 *
 	 * @return string
@@ -250,7 +236,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$args = array(
 				'key'       => $this->get_access_key_id(),
 				'secret'    => $this->get_secret_access_key(),
-				'region'    => $this->get_region(),
+				'region'    => 'us-east-1',
 				'signature' => 'v4',
 			);
 
