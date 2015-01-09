@@ -77,6 +77,53 @@ return array (
         ),
     ),
     'operations' => array(
+        'AddClientIDToOpenIDConnectProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'AddClientIDToOpenIDConnectProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'OpenIDConnectProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+                'ClientID' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 255,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+            ),
+        ),
         'AddRoleToInstanceProfile' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -437,6 +484,69 @@ return array (
                 ),
             ),
         ),
+        'CreateOpenIDConnectProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'CreateOpenIDConnectProviderResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'CreateOpenIDConnectProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'Url' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 255,
+                ),
+                'ClientIDList' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'ClientIDList.member',
+                    'items' => array(
+                        'name' => 'clientIDType',
+                        'type' => 'string',
+                        'minLength' => 1,
+                        'maxLength' => 255,
+                    ),
+                ),
+                'ThumbprintList' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'ThumbprintList.member',
+                    'items' => array(
+                        'name' => 'thumbprintType',
+                        'type' => 'string',
+                        'minLength' => 40,
+                        'maxLength' => 40,
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create a resource that already exists.',
+                    'class' => 'EntityAlreadyExistsException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+            ),
+        ),
         'CreateRole' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -524,6 +634,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
                     'class' => 'InvalidInputException',
                 ),
                 array(
@@ -940,6 +1051,42 @@ return array (
                 ),
             ),
         ),
+        'DeleteOpenIDConnectProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'DeleteOpenIDConnectProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'OpenIDConnectProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
         'DeleteRole' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -1050,6 +1197,7 @@ return array (
             ),
             'errorResponses' => array(
                 array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
                     'class' => 'InvalidInputException',
                 ),
                 array(
@@ -1361,6 +1509,46 @@ return array (
                 ),
             ),
         ),
+        'GetAccountAuthorizationDetails' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'GetAccountAuthorizationDetailsResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'GetAccountAuthorizationDetails',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'Filter' => array(
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'Filter.member',
+                    'items' => array(
+                        'name' => 'EntityType',
+                        'type' => 'string',
+                    ),
+                ),
+                'MaxItems' => array(
+                    'type' => 'numeric',
+                    'location' => 'aws.query',
+                    'minimum' => 1,
+                    'maximum' => 1000,
+                ),
+                'Marker' => array(
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 320,
+                ),
+            ),
+        ),
         'GetAccountPasswordPolicy' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -1585,6 +1773,42 @@ return array (
                 ),
             ),
         ),
+        'GetOpenIDConnectProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'GetOpenIDConnectProviderResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'GetOpenIDConnectProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'OpenIDConnectProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
         'GetRole' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -1687,6 +1911,7 @@ return array (
                     'class' => 'NoSuchEntityException',
                 ),
                 array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
                     'class' => 'InvalidInputException',
                 ),
             ),
@@ -2113,6 +2338,25 @@ return array (
                 array(
                     'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
                     'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
+        'ListOpenIDConnectProviders' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'ListOpenIDConnectProvidersResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'ListOpenIDConnectProviders',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
                 ),
             ),
         ),
@@ -2574,6 +2818,49 @@ return array (
                 ),
             ),
         ),
+        'RemoveClientIDFromOpenIDConnectProvider' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'RemoveClientIDFromOpenIDConnectProvider',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'OpenIDConnectProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+                'ClientID' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 1,
+                    'maxLength' => 255,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
         'RemoveRoleFromInstanceProfile' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -3003,6 +3290,54 @@ return array (
                 ),
             ),
         ),
+        'UpdateOpenIDConnectProviderThumbprint' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\QueryCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Action' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => 'UpdateOpenIDConnectProviderThumbprint',
+                ),
+                'Version' => array(
+                    'static' => true,
+                    'location' => 'aws.query',
+                    'default' => '2010-05-08',
+                ),
+                'OpenIDConnectProviderArn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'aws.query',
+                    'minLength' => 20,
+                    'maxLength' => 2048,
+                ),
+                'ThumbprintList' => array(
+                    'required' => true,
+                    'type' => 'array',
+                    'location' => 'aws.query',
+                    'sentAs' => 'ThumbprintList.member',
+                    'items' => array(
+                        'name' => 'thumbprintType',
+                        'type' => 'string',
+                        'minLength' => 40,
+                        'maxLength' => 40,
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
+                    'class' => 'InvalidInputException',
+                ),
+                array(
+                    'reason' => 'The request was rejected because it referenced an entity that does not exist. The error message describes the entity.',
+                    'class' => 'NoSuchEntityException',
+                ),
+            ),
+        ),
         'UpdateSAMLProvider' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -3041,6 +3376,7 @@ return array (
                     'class' => 'NoSuchEntityException',
                 ),
                 array(
+                    'reason' => 'The request was rejected because an invalid or out-of-range value was supplied for an input parameter.',
                     'class' => 'InvalidInputException',
                 ),
                 array(
@@ -3468,6 +3804,16 @@ return array (
                 ),
             ),
         ),
+        'CreateOpenIDConnectProviderResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'OpenIDConnectProviderArn' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
         'CreateRoleResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -3531,6 +3877,9 @@ return array (
                         'CreateDate' => array(
                             'type' => 'string',
                         ),
+                        'PasswordLastUsed' => array(
+                            'type' => 'string',
+                        ),
                     ),
                 ),
             ),
@@ -3570,6 +3919,9 @@ return array (
                                 'CreateDate' => array(
                                     'type' => 'string',
                                 ),
+                                'PasswordLastUsed' => array(
+                                    'type' => 'string',
+                                ),
                             ),
                         ),
                         'EnableDate' => array(
@@ -3588,6 +3940,210 @@ return array (
                     'location' => 'xml',
                 ),
                 'Description' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+            ),
+        ),
+        'GetAccountAuthorizationDetailsResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'UserDetailList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'UserDetail',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'Path' => array(
+                                'type' => 'string',
+                            ),
+                            'UserName' => array(
+                                'type' => 'string',
+                            ),
+                            'UserId' => array(
+                                'type' => 'string',
+                            ),
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
+                            'CreateDate' => array(
+                                'type' => 'string',
+                            ),
+                            'UserPolicyList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'PolicyDetail',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'PolicyName' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'PolicyDocument' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'GroupList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'groupNameType',
+                                    'type' => 'string',
+                                    'sentAs' => 'member',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'GroupDetailList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'GroupDetail',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'Path' => array(
+                                'type' => 'string',
+                            ),
+                            'GroupName' => array(
+                                'type' => 'string',
+                            ),
+                            'GroupId' => array(
+                                'type' => 'string',
+                            ),
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
+                            'CreateDate' => array(
+                                'type' => 'string',
+                            ),
+                            'GroupPolicyList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'PolicyDetail',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'PolicyName' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'PolicyDocument' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'RoleDetailList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'RoleDetail',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'Path' => array(
+                                'type' => 'string',
+                            ),
+                            'RoleName' => array(
+                                'type' => 'string',
+                            ),
+                            'RoleId' => array(
+                                'type' => 'string',
+                            ),
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
+                            'CreateDate' => array(
+                                'type' => 'string',
+                            ),
+                            'AssumeRolePolicyDocument' => array(
+                                'type' => 'string',
+                            ),
+                            'InstanceProfileList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'InstanceProfile',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'Path' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InstanceProfileName' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InstanceProfileId' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Arn' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'CreateDate' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Roles' => array(
+                                            'type' => 'array',
+                                            'items' => array(
+                                                'name' => 'Role',
+                                                'type' => 'object',
+                                                'sentAs' => 'member',
+                                                'properties' => array(
+                                                    'Path' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'RoleName' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'RoleId' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Arn' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'CreateDate' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'AssumeRolePolicyDocument' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'RolePolicyList' => array(
+                                'type' => 'array',
+                                'items' => array(
+                                    'name' => 'PolicyDetail',
+                                    'type' => 'object',
+                                    'sentAs' => 'member',
+                                    'properties' => array(
+                                        'PolicyName' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'PolicyDocument' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'IsTruncated' => array(
+                    'type' => 'boolean',
+                    'location' => 'xml',
+                ),
+                'Marker' => array(
                     'type' => 'string',
                     'location' => 'xml',
                 ),
@@ -3755,6 +4311,9 @@ return array (
                             'CreateDate' => array(
                                 'type' => 'string',
                             ),
+                            'PasswordLastUsed' => array(
+                                'type' => 'string',
+                            ),
                         ),
                     ),
                 ),
@@ -3859,6 +4418,38 @@ return array (
                             'type' => 'boolean',
                         ),
                     ),
+                ),
+            ),
+        ),
+        'GetOpenIDConnectProviderResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'Url' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                ),
+                'ClientIDList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'clientIDType',
+                        'type' => 'string',
+                        'sentAs' => 'member',
+                    ),
+                ),
+                'ThumbprintList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'thumbprintType',
+                        'type' => 'string',
+                        'sentAs' => 'member',
+                    ),
+                ),
+                'CreateDate' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
                 ),
             ),
         ),
@@ -3990,6 +4581,9 @@ return array (
                             'type' => 'string',
                         ),
                         'CreateDate' => array(
+                            'type' => 'string',
+                        ),
+                        'PasswordLastUsed' => array(
                             'type' => 'string',
                         ),
                     ),
@@ -4347,6 +4941,26 @@ return array (
                 ),
             ),
         ),
+        'ListOpenIDConnectProvidersResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'OpenIDConnectProviderList' => array(
+                    'type' => 'array',
+                    'location' => 'xml',
+                    'items' => array(
+                        'name' => 'OpenIDConnectProviderListEntry',
+                        'type' => 'object',
+                        'sentAs' => 'member',
+                        'properties' => array(
+                            'Arn' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
         'ListRolePoliciesResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -4572,6 +5186,9 @@ return array (
                             'CreateDate' => array(
                                 'type' => 'string',
                             ),
+                            'PasswordLastUsed' => array(
+                                'type' => 'string',
+                            ),
                         ),
                     ),
                 ),
@@ -4622,6 +5239,9 @@ return array (
                                         'type' => 'string',
                                     ),
                                     'CreateDate' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'PasswordLastUsed' => array(
                                         'type' => 'string',
                                     ),
                                 ),
@@ -4711,6 +5331,13 @@ return array (
         ),
     ),
     'iterators' => array(
+        'GetAccountAuthorizationDetails' => array(
+            'input_token' => 'Marker',
+            'output_token' => 'Marker',
+            'more_results' => 'IsTruncated',
+            'limit_key' => 'MaxItems',
+            'result_key' => 'UserDetailList || GroupDetailList || RoleDetailList',
+        ),
         'GetGroup' => array(
             'input_token' => 'Marker',
             'output_token' => 'Marker',
