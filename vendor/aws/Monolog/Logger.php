@@ -76,6 +76,21 @@ class Logger implements LoggerInterface
      */
     const EMERGENCY = 600;
 
+    /**
+     * Monolog API version
+     *
+     * This is only bumped when API breaks are done and should
+     * follow the major version of the library
+     *
+     * @var int
+     */
+    const API = 1;
+
+    /**
+     * Logging levels from syslog protocol defined in RFC 5424
+     *
+     * @var array $levels Logging levels
+     */
     protected static $levels = array(
         100 => 'DEBUG',
         200 => 'INFO',
@@ -88,16 +103,19 @@ class Logger implements LoggerInterface
     );
 
     /**
-     * @var DateTimeZone
+     * @var \DateTimeZone
      */
     protected static $timezone;
 
+    /**
+     * @var string
+     */
     protected $name;
 
     /**
      * The handler stack
      *
-     * @var array of Monolog\Handler\HandlerInterface
+     * @var HandlerInterface[]
      */
     protected $handlers;
 
@@ -106,14 +124,14 @@ class Logger implements LoggerInterface
      *
      * To process records of a single handler instead, add the processor on that specific handler
      *
-     * @var array of callables
+     * @var callable[]
      */
     protected $processors;
 
     /**
-     * @param string $name       The logging channel
-     * @param array  $handlers   Optional stack of handlers, the first one in the array is called first, etc.
-     * @param array  $processors Optional array of processors
+     * @param string             $name       The logging channel
+     * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
+     * @param callable[]         $processors Optional array of processors
      */
     public function __construct($name, array $handlers = array(), array $processors = array())
     {
@@ -155,6 +173,14 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * @return HandlerInterface[]
+     */
+    public function getHandlers()
+    {
+        return $this->handlers;
+    }
+
+    /**
      * Adds a processor on to the stack.
      *
      * @param callable $callback
@@ -179,6 +205,14 @@ class Logger implements LoggerInterface
         }
 
         return array_shift($this->processors);
+    }
+
+    /**
+     * @return callable[]
+     */
+    public function getProcessors()
+    {
+        return $this->processors;
     }
 
     /**
@@ -326,7 +360,17 @@ class Logger implements LoggerInterface
      */
     public function addEmergency($message, array $context = array())
     {
-      return $this->addRecord(static::EMERGENCY, $message, $context);
+        return $this->addRecord(static::EMERGENCY, $message, $context);
+    }
+
+    /**
+     * Gets all supported logging levels.
+     *
+     * @return array Assoc array with human-readable level names => level codes.
+     */
+    public static function getLevels()
+    {
+        return array_flip(static::$levels);
     }
 
     /**
@@ -345,6 +389,21 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * Converts PSR-3 levels to Monolog ones if necessary
+     *
+     * @param string|int Level number (monolog) or name (PSR-3)
+     * @return int
+     */
+    public static function toMonologLevel($level)
+    {
+        if (is_string($level) && defined(__CLASS__.'::'.strtoupper($level))) {
+            return constant(__CLASS__.'::'.strtoupper($level));
+        }
+
+        return $level;
+    }
+
+    /**
      * Checks whether the Logger has a handler that listens on the given level
      *
      * @param  integer $level
@@ -356,7 +415,7 @@ class Logger implements LoggerInterface
             'level' => $level,
         );
 
-        foreach ($this->handlers as $key => $handler) {
+        foreach ($this->handlers as $handler) {
             if ($handler->isHandling($record)) {
                 return true;
             }

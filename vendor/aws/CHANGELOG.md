@@ -1,8 +1,127 @@
-CHANGELOG
-=========
+# CHANGELOG
 
-2.6.16 (2014-09-11)
--------------------
+## 2.7.13 - 2015-01-08
+
+* Added the Amazon EC2 Container Service client.
+* Added the Amazon CloudHSM client.
+* Added support for dynamic fields to the Amazon CloudSearch client.
+* Added support for the ClassicLink feature to the Amazon EC2 client.
+* Updated the Amazon RDS client to use the latest 2014-10-31 API.
+* Updated S3 signature so retries use a new Date header on each attempt.
+
+## 2.7.12 - 2014-12-18
+
+* Added support for task priorities to Amazon Simple Workflow Service.
+
+## 2.7.11 - 2014-12-17
+
+* Updated Amazon EMR to the latest API version.
+* Added support for for the new ResetCache API operation to AWS Storage Gateway.
+
+## 2.7.10 - 2014-12-12
+
+* Added support for user data to Amazon Elastic Transcoder.
+* Added support for data retrieval policies and audit logging to the Amazon
+  Glacier client.
+* Corrected the AWS Security Token Service endpoint.
+
+## 2.7.9 - 2014-12-08
+
+* The Amazon Simple Queue Service client adds support for the PurgeQueue
+  operation.
+* You can now use AWS OpsWorks with existing EC2 instances and on-premises
+  servers.
+
+## 2.7.8 - 2014-12-04
+
+* Added support for the `PutRecords` batch operation to `KinesisClient`.
+* Added support for the `GetAccountAuthorizationDetails` operation to the
+  `IamClient`.
+* Added support for the `UpdateHostedZoneComment` operation to `Route53Client`.
+* Added iterators for `ListEventSources` and `ListFunctions` operations the
+  `LambdaClient`.
+
+## 2.7.7 - 2014-11-25
+
+* Added a DynamoDB `Marshaler` class, that allows you to marshal JSON documents
+  or native PHP arrays to the format that DynamoDB requires. You can also
+  unmarshal item data from operation results back into JSON documents or native
+  PHP arrays.
+* Added support for media file encryption to Amazon Elastic Transcoder.
+* Removing a few superfluous `x-amz-server-side-encryption-aws-kms-key-id` from
+  the Amazon S3 model.
+* Added support for using AWS Data Pipeline templates to create pipelines and
+  bind values to parameters in the pipeline.
+
+## 2.7.6 - 2014-11-20
+
+* Added support for AWS KMS integration to the Amazon Redshift Client.
+* Fixed cn-north-1 endpoint for AWS Identity and Access Management.
+* Updated `S3Client::getBucketLocation` method to work cross-region regardless
+  of the region's signature requirements.
+* Fixed an issue with the DynamoDbClient that allows it to work better with
+  with DynamoDB Local.
+
+## 2.7.5 - 2014-11-13
+
+* Added support for AWS Lambda.
+* Added support for event notifications to the Amazon S3 client.
+* Fixed an issue with S3 pre-signed URLs when using Signature V4.
+
+## 2.7.4 - 2014-11-12
+
+* Added support for the AWS Key Management Service (AWS KMS).
+* Added support for AWS CodeDeploy.
+* Added support for AWS Config.
+* Added support for AWS KMS encryption to the Amazon S3 client.
+* Added support for AWS KMS encryption to the Amazon EC2 client.
+* Added support for Amazon CloudWatch Logs delivery to the AWS CloudTrail
+  client.
+* Added the GetTemplateSummary operation to the AWS CloudFormation client.
+* Fixed an issue with sending signature version 4 Amazon S3 requests that
+  contained a 0 length body.
+
+## 2.7.3 - 2014-11-06
+
+* Added support for private DNS for Amazon Virtual Private Clouds, health check
+  failure reasons, and reusable delegation sets to the Amazon Route 53 client.
+* Updated the CloudFront model.
+* Added support for configuring push synchronization to the Cognito Sync client.
+* Updated docblocks in a few S3 and Glacier classes to improve IDE experience.
+
+## 2.7.2 - 2014-10-23
+
+* Updated AWS Identity and Access Management (IAM) to the latest version.
+* Updated Amazon Cognito Identity client to the latest version.
+* Added auto-renew support to the Amazon Route 53 Domains client.
+* Updated Amazon EC2 to the latest version.
+
+## 2.7.1 - 2014-10-16
+
+* Updated the Amazon RDS client to the 2014-09-01 API version.
+* Added support for advanced Japanese language processing to the Amazon
+  CloudSearch client.
+
+## 2.7.0 - 2014-10-08
+
+* Added document model support to the Amazon DynamoDB client, including support
+  for the new data types (`L`, `M`, `BOOL`, and `NULL`), nested attributes, and
+  expressions.
+* Deprecated the `Aws\DynamoDb\Model\Attribute`, `Aws\DynamoDb\Model\Item`,
+  and `Aws\DynamoDb\Iterator\ItemIterator` classes, and the
+  `Aws\DynamoDb\DynamoDbClient::formatValue` and
+  `Aws\DynamoDb\DynamoDbClient::formatAttribute` methods, since they do not
+  support the new types in the DynamoDB document model. These deprecated classes
+  and methods still work reliably with `S`, `N`, `B`, `SS`, `NS`, and `BS`
+  attributes.
+* Updated the Amazon DynamoDB client to permanently disable client-side
+  parameter validation. This needed to be done in order to support the new
+  document model features.
+* Updated the Amazon EC2 client to sign requests with Signature V4.
+* Fixed an issue in the S3 service description to make the `VersionId`
+  work in `S3Client::restoreObject`.
+
+## 2.6.16 - 2014-09-11
 
 * Added support for tagging to the Amazon Kinesis client.
 * Added support for setting environment variables to the AWS OpsWorks client.
@@ -11,19 +130,16 @@ CHANGELOG
 * Fixed an issue in the Signature V4 signer that was causing an issue with some
   CloudSearch Domain operations.
 
-2.6.15 (2014-08-14)
--------------------
+## 2.6.15 - 2014-08-14
 
 * Added support for signing requests to the Amazon CloudSearch Domain client.
 * Added support for creating anonymous clients.
 
-2.6.14 (2014-08-11)
--------------------
+## 2.6.14 - 2014-08-11
 
 * Added support for tagging to the Elastic Load Balancing client.
 
-2.6.13 (2014-07-31)
--------------------
+## 2.6.13 - 2014-07-31
 
 * Added support for configurable idle timeouts to the Elastic Load Balancing
   client.
@@ -41,8 +157,7 @@ CHANGELOG
   communication works correctly.
 * Added stricter validation to the Amazon SNS MessageValidator.
 
-2.6.12 (2014-07-16)
--------------------
+## 2.6.12 - 2014-07-16
 
 * Added support for adding attachments to support case communications to the
   AWS Support API client.
@@ -59,8 +174,7 @@ CHANGELOG
   the SSE-C parameters are provided.
 * Updated the Travis configuration to include running HHVM tests.
 
-2.6.11 (2014-07-09)
--------------------
+## 2.6.11 - 2014-07-09
 
 * Added support for **Amazon Cognito Identity**.
 * Added support for **Amazon Cognito Sync**.
@@ -69,8 +183,7 @@ CHANGELOG
   with tags to the Amazon Route 53 client.
 * Added the ModifySubnetAttribute operation to the Amazon EC2 client.
 
-2.6.10 (2014-07-02)
--------------------
+## 2.6.10 - 2014-07-02
 
 * Added the `ap-northeast-1`, `ap-southeast-1`, and `sa-east-1` regions to the
   Amazon CloudTrail client.
@@ -79,8 +192,7 @@ CHANGELOG
 * Fixed an issue with a test that was causing failures when run on EC2 instances
   that have associated Instance Metadata credentials.
 
-2.6.9 (2014-06-26)
-------------------
+## 2.6.9 - 2014-06-26
 
 * Added support for the CloudSearchDomain client, which allows you to search and
   upload documents to your CloudSearch domains.
@@ -88,8 +200,7 @@ CHANGELOG
 * Updated the CloudFront client to support the 2014-05-31 API.
 * Merged PR #316 as a better solution for issue #309.
 
-2.6.8 (2014-06-20)
-------------------
+## 2.6.8 - 2014-06-20
 
 * Added support for closed captions to the Elastic Transcoder client.
 * Added support for IAM roles to the Elastic MapReduce client.
@@ -99,8 +210,7 @@ CHANGELOG
 * Fixed issue #309, where the `url_stat()` logic in the S3 Stream Wrapper was
   affected by a change in PHP 5.5.13.
 
-2.6.7 (2014-06-12)
-------------------
+## 2.6.7 - 2014-06-12
 
 * Added support for Amazon S3 server-side encryption using customer-provided
   encryption keys.
@@ -108,8 +218,7 @@ CHANGELOG
 * Updated the Amazon Redshift model to support new cluster parameters.
 * Updated PHPUnit dev dependency to 4.* to work around a PHP serializing bug.
 
-2.6.6 (2014-05-29)
-------------------
+## 2.6.6 - 2014-05-29
 
 * Added support for the [Desired Partition Count scaling
   option](http://aws.amazon.com/releasenotes/2440176739861815) to the
@@ -119,8 +228,7 @@ CHANGELOG
 * Fixed an issue with the regular expression in the `S3Client::isValidBucketName`
   method. See #298.
 
-2.6.5 (2014-05-22)
-------------------
+## 2.6.5 - 2014-05-22
 
 * Added cross-region support for the Amazon EC2 CopySnapshot operation.
 * Added AWS Relational Database (RDS) support to the AWS OpsWorks client.
@@ -128,8 +236,7 @@ CHANGELOG
 * Refactored the signature version 4 implementation to be able to pre-sign
   most operations.
 
-2.6.4 (2014-05-20)
-------------------
+## 2.6.4 - 2014-05-20
 
 * Added support for lifecycles on versioning enabled buckets to the Amazon S3
   client.
@@ -140,8 +247,7 @@ CHANGELOG
 * Corrected the sending of Amazon S3 PutBucketVersioning requests that utilize
   the `MFADelete` parameter.
 
-2.6.3 (2014-05-14)
-------------------
+## 2.6.3 - 2014-05-14
 
 * Added the ability to modify Amazon SNS topic settings to the UpdateStack
   operation of the AWS CloudFormation client.
@@ -149,8 +255,7 @@ CHANGELOG
   AWS CloudTrail client.
 * Removed no longer utilized AWS CloudTrail shapes from the model.
 
-2.6.2 (2014-05-06)
-------------------
+## 2.6.2 - 2014-05-06
 
 * Added support for Amazon SQS message attributes.
 * Fixed Amazon S3 multi-part uploads so that manually set ContentType values are not overwritten.
@@ -158,8 +263,7 @@ CHANGELOG
   multi-part uploads and it is very unlikely ever the culprit of a socket timeout.
 * Added better environment variable detection.
 
-2.6.1 (2014-04-25)
-------------------
+## 2.6.1 - 2014-04-25
 
 * Added support for the `~/.aws/credentials` INI file and credential profiles (via the `profile` option) as a safer
   alternative to using explicit credentials with the `key` and `secret` options.
@@ -176,8 +280,7 @@ CHANGELOG
   due to exceeding provisioned throughput.
 * Updated the SDK to support Guzzle 3.9.x
 
-2.6.0 (2014-03-25)
-------------------
+## 2.6.0 - 2014-03-25
 
 * [BC] Updated the Amazon CloudSearch client to use the new 2013-01-01 API version (see [their release
   notes](http://aws.amazon.com/releasenotes/6125075708216342)). This API version of CloudSearch is significantly
@@ -189,8 +292,7 @@ CHANGELOG
   parameter](http://aws.amazon.com/releasenotes/0485739709714318) to the Amazon Redshift client.
 * Added the `ap-northeast-1`, `ap-southeast-2`, and `sa-east-1` regions to the Amazon CloudSearch client.
 
-2.5.4 (2014-03-20)
-------------------
+## 2.5.4 - 2014-03-20
 
 * Added support for [access logs](http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/access-log-collection.html)
   to the Elastic Load Balancing client.
@@ -206,8 +308,7 @@ CHANGELOG
   resolved. Removing the dot segments consistently helps to ensure that files are uploaded to their intended.
   destinations and that file key comparisons are accurately performed when determining which files to upload.
 
-2.5.3 (2014-02-27)
-------------------
+## 2.5.3 - 2014-02-27
 
 * Added support for HTTP and HTTPS string-match health checks and HTTPS health checks to the Amazon Route 53 client
 * Added support for the UPSERT action for the Amazon Route 53 ChangeResourceRecordSets operation
@@ -226,8 +327,7 @@ CHANGELOG
   header to a request that uses a non-rewindable stream.
 * Updated the Amazon S3 PostObject class to work with CNAME style buckets.
 
-2.5.2 (2014-01-29)
-------------------
+## 2.5.2 - 2014-01-29
 
 * Added support for dead letter queues to Amazon SQS
 * Added support for the new M3 medium and large instance types to the Amazon EC2 client
@@ -246,8 +346,7 @@ CHANGELOG
   pages](http://docs.aws.amazon.com/aws-sdk-php/guide/latest/index.html#service-specific-guides) to the bottom so
   the page's content takes priority
 
-2.5.1 (2014-01-09)
-------------------
+## 2.5.1 - 2014-01-09
 
 * Added support for attaching existing Amazon EC2 instances to an Auto Scaling group to the Auto Scaling client
 * Added support for creating launch configurations from existing Amazon EC2 instances to the Auto Scaling client
@@ -261,8 +360,7 @@ CHANGELOG
 * Fixed an issue with the Amazon S3 stream wrapper where empty place holder keys were being marked as files instead of directories
 * Added the ability to specify a custom signature implementation using a string identifier (e.g., 'v4', 'v2', etc)
 
-2.5.0 (2013-12-20)
-------------------
+## 2.5.0 - 2013-12-20
 
 * Added support for the new **China (Beijing) Region** to various services. This region is currently in limited preview.
   Please see <http://www.amazonaws.cn> for more information
@@ -284,8 +382,7 @@ CHANGELOG
   for the change
 * [BC] Removed Signature V3 support (no longer needed) and refactored parts of the signature-related classes
 
-2.4.12 (2013-12-12)
--------------------
+## 2.4.12 - 2013-12-12
 
 * Added support for **Amazon Kinesis**
 * Added the CloudTrail `LogRecordIterator`, `LogFileIterator`, and `LogFileReader` classes for reading log files
@@ -301,8 +398,7 @@ CHANGELOG
   existing waiters
 * Fixed issue #187, where the DynamoDB Session Handler would fail to save the session if all the data is removed
 
-2.4.11 (2013-11-26)
--------------------
+## 2.4.11 - 2013-11-26
 
 * Added support for copying DB snapshots from one AWS region to another to the Amazon RDS client
 * Added support for pagination of the `DescribeInstances` and `DescribeTags` operations to the Amazon EC2 client
@@ -313,8 +409,7 @@ CHANGELOG
 * Updated the Amazon RDS client to use the 2013-09-09 API version
 * Updated the Amazon CloudWatch client to use Signature Version 4
 
-2.4.10 (2013-11-14)
--------------------
+## 2.4.10 - 2013-11-14
 
 * Added support for **AWS CloudTrail**
 * Added support for identity federation using SAML 2.0 to the AWS STS client
@@ -324,8 +419,7 @@ CHANGELOG
 * Added support for encryption key rotation to the Amazon Redshift client
 * Added support for database audit logging to the Amazon Redshift client
 
-2.4.9 (2013-11-08)
-------------------
+## 2.4.9 - 2013-11-08
 
 * Added support for [cross-zone load balancing](http://aws.amazon.com/about-aws/whats-new/2013/11/06/elastic-load-balancing-adds-cross-zone-load-balancing/)
   to the Elastic Load Balancing client.
@@ -335,15 +429,13 @@ CHANGELOG
 * Fixed issue #176 where attempting to upload a direct to Amazon S3 using the `UploadBuilder` failed when using a custom
   iterator that needs to be rewound.
 
-2.4.8 (2013-10-31)
-------------------
+## 2.4.8 - 2013-10-31
 
 * Updated the AWS Direct Connect client
 * Updated the Amazon Elastic MapReduce client to add support for new EMR APIs, termination of specific cluster
   instances, and unlimited EMR steps.
 
-2.4.7 (2013-10-17)
-------------------
+## 2.4.7 - 2013-10-17
 
 * Added support for audio transcoding features to the Amazon Elastic Transcoder client
 * Added support for modifying Reserved Instances in a region to the Amazon EC2 client
@@ -367,8 +459,7 @@ CHANGELOG
 * Fixed an issue with the Signature Version 4 implementation where headers with multiple values were sometimes sorted
   and signed incorrectly
 
-2.4.6 (2013-09-12)
-------------------
+## 2.4.6 - 2013-09-12
 
 * Added support for modifying EC2 Reserved Instances to the Amazon EC2 client
 * Added support for VPC features to the AWS OpsWorks client
@@ -378,14 +469,12 @@ CHANGELOG
 * Fixed an issue in the S3 client where the Sydney region was not allowed as a `LocationConstraint` for the
   `PutObject` operation
 
-2.4.5 (2013-09-04)
-------------------
+## 2.4.5 - 2013-09-04
 
 * Added support for replication groups to the Amazon ElastiCache client
 * Added support for using the `us-gov-west-1` region to the AWS CloudFormation client
 
-2.4.4 (2013-08-29)
-------------------
+## 2.4.4 - 2013-08-29
 
 * Added support for assigning a public IP address to an instance at launch to the Amazon EC2 client
 * Updated the Amazon EC2 client to use the 2013-07-15 API version
@@ -400,8 +489,7 @@ CHANGELOG
 * [Docs] Updated the API docs to include more information in the descriptions of operations and parameters
 * [Docs] Added a page about Iterators to the user guide
 
-2.4.3 (2013-08-12)
-------------------
+## 2.4.3 - 2013-08-12
 
 * Added support for mobile push notifications to the Amazon SNS client
 * Added support for progress reporting on snapshot restore operations to the the Amazon Redshift client
@@ -413,8 +501,7 @@ CHANGELOG
   `Aws\Common\Exception\AwsExceptionInterface` to catch any exception that can be thrown by an AWS client
 * Fixed an issue with the Amazon S3 stream wrapper where trailing slashes were being added when listing directories
 
-2.4.2 (2013-07-25)
-------------------
+## 2.4.2 - 2013-07-25
 
 * Added support for cross-account snapshot access control to the Amazon Redshift client
 * Added support for decoding authorization messages to the AWS STS client
@@ -427,8 +514,7 @@ CHANGELOG
 * Fixed an issue with the Amazon S3 stream wrapper "x" fopen mode
 * Fixed an issue with `Aws\S3\S3Client::downloadBucket` by removing leading slashes from the passed `$keyPrefix` argument
 
-2.4.1 (2013-06-08)
-------------------
+## 2.4.1 - 2013-06-08
 
 * Added support for setting watermarks and max framerates to the Amazon Elastic Transcoder client
 * Added the `Aws\DynamoDb\Iterator\ItemIterator` class to make it easier to get items from the results of DynamoDB
@@ -448,8 +534,7 @@ CHANGELOG
   to upload is less than 1 byte
 * Added MD5 validation to Amazon SQS ReceiveMessage operations
 
-2.4.0 (2013-06-18)
-------------------
+## 2.4.0 - 2013-06-18
 
 * [BC] Updated the Amazon CloudFront client to use the new 2013-05-12 API version which includes changes in how you
   configure distributions. If you are not ready to upgrade to the new API, you can configure the SDK to use the previous
@@ -483,21 +568,18 @@ CHANGELOG
 * Fixed an issue so that the `CORSRules.AllowedHeaders` parameter is now available when configuring CORS for Amazon S3
 * Set the Guzzle dependency to ~3.7.0
 
-2.3.4 (2013-05-30)
-------------------
+## 2.3.4 - 2013-05-30
 
 * Set the Guzzle dependency to ~3.6.0
 
-2.3.3 (2013-05-28)
-------------------
+## 2.3.3 - 2013-05-28
 
 * Added support for web identity federation in the AWS Security Token Service (STS) API
 * Fixed an issue with creating pre-signed Amazon CloudFront RTMP URLs
 * Fixed issue #85 to correct the parameter serialization of NetworkInterfaces within the Amazon EC2 RequestSpotInstances
   operation
 
-2.3.2 (2013-05-15)
-------------------
+## 2.3.2 - 2013-05-15
 
 * Added support for doing parallel scans to the Amazon DynamoDB client
 * [OpsWorks] Added support for using Elastic Load Balancer to the AWS OpsWorks client
@@ -515,8 +597,7 @@ CHANGELOG
 * Updated the required version of Guzzle to `">=3.4.3,<4"` to support Guzzle 3.5 which provides the SDK with improved
   memory management
 
-2.3.1 (2013-04-30)
-------------------
+## 2.3.1 - 2013-04-30
 
 * Added support for **AWS Support**
 * Added support for using the `eu-west-1` region to the Amazon Redshift client
@@ -529,8 +610,7 @@ CHANGELOG
 * Fixed an issue where the Amazon S3 class was not throwing an exception for a non-followable 301 redirect response
 * Fixed an issue where `fflush()` was called during the shutdown process of the stream handler for read-only streams
 
-2.3.0 (2013-04-18)
-------------------
+## 2.3.0 - 2013-04-18
 
 * Added support for Local Secondary Indexes to the Amazon DynamoDB client
 * [BC] Updated the Amazon DynamoDB client to use the new 2012-08-10 API version which includes changes in how you
@@ -558,8 +638,7 @@ CHANGELOG
 * [Docs] Added a page about response Models to the user guide
 * Bumped the required version of Guzzle to ~3.4.1
 
-2.2.1 (2013-03-18)
-------------------
+## 2.2.1 - 2013-03-18
 
 * Added support for viewing and downloading DB log files to the Amazon RDS client
 * Added the ability to validate incoming Amazon SNS messages. See the `Aws\Sns\MessageValidator` namespace
@@ -576,8 +655,7 @@ CHANGELOG
 * Added a `createPresignedUrl()` method to any command object created by the Amazon S3 client to more easily create
   presigned URLs
 
-2.2.0 (2013-03-11)
-------------------
+## 2.2.0 - 2013-03-11
 
 * Added support for **Amazon Elastic MapReduce (Amazon EMR)**
 * Added support for **AWS Direct Connect**
@@ -615,13 +693,11 @@ CHANGELOG
 * Removed endpoint providers and now placing service region information directly in service descriptions
 * Removed client resolvers when creating clients in a client's factory method (this should not have any impact to end users)
 
-2.1.2 (2013-02-18)
-------------------
+## 2.1.2 - 2013-02-18
 
 * Added support for **AWS OpsWorks**
 
-2.1.1 (2013-02-15)
-------------------
+## 2.1.1 - 2013-02-15
 
 * Added support for **Amazon Redshift**
 * Added support for **Amazon Simple Queue Service (Amazon SQS)**
@@ -643,8 +719,7 @@ CHANGELOG
 * Set Guzzle dependency to [~3.2.0](https://github.com/guzzle/guzzle/blob/master/CHANGELOG.md#320-2013-02-14)
 * Minimum version of PHP is now 5.3.3
 
-2.1.0 (2013-01-28)
-------------------
+## 2.1.0 - 2013-01-28
 
 * Waiters now require an associative array as input for the underlying operation performed by a waiter. See
   `UPGRADING.md` for details.
@@ -664,8 +739,7 @@ CHANGELOG
 * Fixed an issue where the Amazon Glacier client was not using the correct User-Agent header
 * Fixed issue #13 in which constants defined by referencing other constants caused errors with early versions of PHP 5.3
 
-2.0.3 (2012-12-20)
-------------------
+## 2.0.3 - 2012-12-20
 
 * Added support for **AWS Data Pipeline**
 * Added support for **Amazon Route 53**
@@ -673,8 +747,7 @@ CHANGELOG
 * Added a `SaveAs` parameter to the Amazon S3 `GetObject` operation to allow saving the object directly to a file
 * Refactored iterators to remove code duplication and ease creation of future iterators
 
-2.0.2 (2012-12-10)
-------------------
+## 2.0.2 - 2012-12-10
 
 * Fixed an issue with the Amazon S3 client where non-DNS compatible buckets that was previously causing a signature
   mismatch error
@@ -689,8 +762,7 @@ CHANGELOG
 * Added new region endpoints, including sa-east-1 and us-gov-west-1 for Amazon DynamoDB
 * Added methods to `Aws\S3\Model\MultipartUpload\UploadBuilder` class to make setting ACL and Content-Type easier
 
-2.0.1 (2012-11-13)
-------------------
+## 2.0.1 - 2012-11-13
 
 * Fixed a signature issue encountered when a request to Amazon S3 is redirected
 * Added support for archiving Amazon S3 objects to Amazon Glacier
@@ -698,8 +770,7 @@ CHANGELOG
 * Added ConsistentRead support to the `BatchGetItem` operation of Amazon DynamoDB
 * Added new region endpoints, including Sydney
 
-2.0.0 (2012-11-02)
-------------------
+## 2.0.0 - 2012-11-02
 
 * Initial release of the AWS SDK for PHP Version 2. See <http://aws.amazon.com/sdkforphp2/> for more information.
 * Added support for **Amazon Simple Storage Service (Amazon S3)**

@@ -130,6 +130,25 @@ return array (
                         'Container' => array(
                             'type' => 'string',
                         ),
+                        'Encryption' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'Mode' => array(
+                                    'type' => 'string',
+                                ),
+                                'Key' => array(
+                                    'type' => 'string',
+                                ),
+                                'KeyMd5' => array(
+                                    'type' => 'string',
+                                ),
+                                'InitializationVector' => array(
+                                    'type' => 'string',
+                                    'minLength' => 1,
+                                    'maxLength' => 255,
+                                ),
+                            ),
+                        ),
                     ),
                 ),
                 'Output' => array(
@@ -143,6 +162,25 @@ return array (
                         ),
                         'ThumbnailPattern' => array(
                             'type' => 'string',
+                        ),
+                        'ThumbnailEncryption' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'Mode' => array(
+                                    'type' => 'string',
+                                ),
+                                'Key' => array(
+                                    'type' => 'string',
+                                ),
+                                'KeyMd5' => array(
+                                    'type' => 'string',
+                                ),
+                                'InitializationVector' => array(
+                                    'type' => 'string',
+                                    'minLength' => 1,
+                                    'maxLength' => 255,
+                                ),
+                            ),
                         ),
                         'Rotate' => array(
                             'type' => 'string',
@@ -168,6 +206,25 @@ return array (
                                         'type' => 'string',
                                         'minLength' => 1,
                                         'maxLength' => 255,
+                                    ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                                'minLength' => 1,
+                                                'maxLength' => 255,
+                                            ),
+                                        ),
                                     ),
                                 ),
                             ),
@@ -203,6 +260,25 @@ return array (
                                             ),
                                             'AlbumArtFormat' => array(
                                                 'type' => 'string',
+                                            ),
+                                            'Encryption' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'Mode' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Key' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'KeyMd5' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'InitializationVector' => array(
+                                                        'type' => 'string',
+                                                        'minLength' => 1,
+                                                        'maxLength' => 255,
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -260,6 +336,25 @@ return array (
                                                 'minLength' => 1,
                                                 'maxLength' => 40,
                                             ),
+                                            'Encryption' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'Mode' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Key' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'KeyMd5' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'InitializationVector' => array(
+                                                        'type' => 'string',
+                                                        'minLength' => 1,
+                                                        'maxLength' => 255,
+                                                    ),
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -276,8 +371,46 @@ return array (
                                             'Pattern' => array(
                                                 'type' => 'string',
                                             ),
+                                            'Encryption' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'Mode' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Key' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'KeyMd5' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'InitializationVector' => array(
+                                                        'type' => 'string',
+                                                        'minLength' => 1,
+                                                        'maxLength' => 255,
+                                                    ),
+                                                ),
+                                            ),
                                         ),
                                     ),
+                                ),
+                            ),
+                        ),
+                        'Encryption' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'Mode' => array(
+                                    'type' => 'string',
+                                ),
+                                'Key' => array(
+                                    'type' => 'string',
+                                ),
+                                'KeyMd5' => array(
+                                    'type' => 'string',
+                                ),
+                                'InitializationVector' => array(
+                                    'type' => 'string',
+                                    'minLength' => 1,
+                                    'maxLength' => 255,
                                 ),
                             ),
                         ),
@@ -298,6 +431,25 @@ return array (
                             ),
                             'ThumbnailPattern' => array(
                                 'type' => 'string',
+                            ),
+                            'ThumbnailEncryption' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Mode' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Key' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeyMd5' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'InitializationVector' => array(
+                                        'type' => 'string',
+                                        'minLength' => 1,
+                                        'maxLength' => 255,
+                                    ),
+                                ),
                             ),
                             'Rotate' => array(
                                 'type' => 'string',
@@ -323,6 +475,25 @@ return array (
                                             'type' => 'string',
                                             'minLength' => 1,
                                             'maxLength' => 255,
+                                        ),
+                                        'Encryption' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'Mode' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Key' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyMd5' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'InitializationVector' => array(
+                                                    'type' => 'string',
+                                                    'minLength' => 1,
+                                                    'maxLength' => 255,
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -358,6 +529,25 @@ return array (
                                                 ),
                                                 'AlbumArtFormat' => array(
                                                     'type' => 'string',
+                                                ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                            'minLength' => 1,
+                                                            'maxLength' => 255,
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -415,6 +605,25 @@ return array (
                                                     'minLength' => 1,
                                                     'maxLength' => 40,
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                            'minLength' => 1,
+                                                            'maxLength' => 255,
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -431,8 +640,46 @@ return array (
                                                 'Pattern' => array(
                                                     'type' => 'string',
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                            'minLength' => 1,
+                                                            'maxLength' => 255,
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
+                                    ),
+                                ),
+                            ),
+                            'Encryption' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'Mode' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'Key' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'KeyMd5' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'InitializationVector' => array(
+                                        'type' => 'string',
+                                        'minLength' => 1,
+                                        'maxLength' => 255,
                                     ),
                                 ),
                             ),
@@ -471,6 +718,16 @@ return array (
                                     'maxLength' => 255,
                                 ),
                             ),
+                        ),
+                    ),
+                ),
+                'UserMetadata' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'additionalProperties' => array(
+                        'type' => 'string',
+                        'data' => array(
+                            'shape_name' => 'String',
                         ),
                     ),
                 ),
@@ -528,6 +785,11 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
+                ),
+                'AwsKmsKeyArn' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'maxLength' => 255,
                 ),
                 'Notifications' => array(
                     'type' => 'object',
@@ -1264,6 +1526,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                 ),
+                'AwsKmsKeyArn' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'maxLength' => 255,
+                ),
                 'Notifications' => array(
                     'type' => 'object',
                     'location' => 'json',
@@ -1531,6 +1798,23 @@ return array (
                                 'Container' => array(
                                     'type' => 'string',
                                 ),
+                                'Encryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         'Output' => array(
@@ -1544,6 +1828,23 @@ return array (
                                 ),
                                 'ThumbnailPattern' => array(
                                     'type' => 'string',
+                                ),
+                                'ThumbnailEncryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
                                 ),
                                 'Rotate' => array(
                                     'type' => 'string',
@@ -1581,6 +1882,23 @@ return array (
                                             'InputKey' => array(
                                                 'type' => 'string',
                                             ),
+                                            'Encryption' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'Mode' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Key' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'KeyMd5' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'InitializationVector' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -1613,6 +1931,23 @@ return array (
                                                     ),
                                                     'AlbumArtFormat' => array(
                                                         'type' => 'string',
+                                                    ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -1663,6 +1998,23 @@ return array (
                                                     'Label' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -1678,8 +2030,42 @@ return array (
                                                     'Pattern' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
+                                        ),
+                                    ),
+                                ),
+                                'Encryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
                                         ),
                                     ),
                                 ),
@@ -1699,6 +2085,23 @@ return array (
                                     ),
                                     'ThumbnailPattern' => array(
                                         'type' => 'string',
+                                    ),
+                                    'ThumbnailEncryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
                                     ),
                                     'Rotate' => array(
                                         'type' => 'string',
@@ -1736,6 +2139,23 @@ return array (
                                                 'InputKey' => array(
                                                     'type' => 'string',
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -1768,6 +2188,23 @@ return array (
                                                         ),
                                                         'AlbumArtFormat' => array(
                                                             'type' => 'string',
+                                                        ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -1818,6 +2255,23 @@ return array (
                                                         'Label' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -1833,8 +2287,42 @@ return array (
                                                         'Pattern' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
                                             ),
                                         ),
                                     ),
@@ -1875,6 +2363,12 @@ return array (
                         'Status' => array(
                             'type' => 'string',
                         ),
+                        'UserMetadata' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -1906,6 +2400,9 @@ return array (
                             'type' => 'string',
                         ),
                         'Role' => array(
+                            'type' => 'string',
+                        ),
+                        'AwsKmsKeyArn' => array(
                             'type' => 'string',
                         ),
                         'Notifications' => array(
@@ -2213,6 +2710,23 @@ return array (
                                     'Container' => array(
                                         'type' => 'string',
                                     ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                             'Output' => array(
@@ -2226,6 +2740,23 @@ return array (
                                     ),
                                     'ThumbnailPattern' => array(
                                         'type' => 'string',
+                                    ),
+                                    'ThumbnailEncryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
                                     ),
                                     'Rotate' => array(
                                         'type' => 'string',
@@ -2263,6 +2794,23 @@ return array (
                                                 'InputKey' => array(
                                                     'type' => 'string',
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -2295,6 +2843,23 @@ return array (
                                                         ),
                                                         'AlbumArtFormat' => array(
                                                             'type' => 'string',
+                                                        ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2345,6 +2910,23 @@ return array (
                                                         'Label' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -2360,8 +2942,42 @@ return array (
                                                         'Pattern' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
                                             ),
                                         ),
                                     ),
@@ -2381,6 +2997,23 @@ return array (
                                         ),
                                         'ThumbnailPattern' => array(
                                             'type' => 'string',
+                                        ),
+                                        'ThumbnailEncryption' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'Mode' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Key' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyMd5' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'InitializationVector' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
                                         ),
                                         'Rotate' => array(
                                             'type' => 'string',
@@ -2418,6 +3051,23 @@ return array (
                                                     'InputKey' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -2450,6 +3100,23 @@ return array (
                                                             ),
                                                             'AlbumArtFormat' => array(
                                                                 'type' => 'string',
+                                                            ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
                                                             ),
                                                         ),
                                                     ),
@@ -2500,6 +3167,23 @@ return array (
                                                             'Label' => array(
                                                                 'type' => 'string',
                                                             ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2515,8 +3199,42 @@ return array (
                                                             'Pattern' => array(
                                                                 'type' => 'string',
                                                             ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
+                                                ),
+                                            ),
+                                        ),
+                                        'Encryption' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'Mode' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Key' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyMd5' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'InitializationVector' => array(
+                                                    'type' => 'string',
                                                 ),
                                             ),
                                         ),
@@ -2556,6 +3274,12 @@ return array (
                             ),
                             'Status' => array(
                                 'type' => 'string',
+                            ),
+                            'UserMetadata' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'string',
+                                ),
                             ),
                         ),
                     ),
@@ -2607,6 +3331,23 @@ return array (
                                     'Container' => array(
                                         'type' => 'string',
                                     ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
+                                    ),
                                 ),
                             ),
                             'Output' => array(
@@ -2620,6 +3361,23 @@ return array (
                                     ),
                                     'ThumbnailPattern' => array(
                                         'type' => 'string',
+                                    ),
+                                    'ThumbnailEncryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
                                     ),
                                     'Rotate' => array(
                                         'type' => 'string',
@@ -2657,6 +3415,23 @@ return array (
                                                 'InputKey' => array(
                                                     'type' => 'string',
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -2689,6 +3464,23 @@ return array (
                                                         ),
                                                         'AlbumArtFormat' => array(
                                                             'type' => 'string',
+                                                        ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2739,6 +3531,23 @@ return array (
                                                         'Label' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -2754,8 +3563,42 @@ return array (
                                                         'Pattern' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
                                             ),
                                         ),
                                     ),
@@ -2775,6 +3618,23 @@ return array (
                                         ),
                                         'ThumbnailPattern' => array(
                                             'type' => 'string',
+                                        ),
+                                        'ThumbnailEncryption' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'Mode' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Key' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyMd5' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'InitializationVector' => array(
+                                                    'type' => 'string',
+                                                ),
+                                            ),
                                         ),
                                         'Rotate' => array(
                                             'type' => 'string',
@@ -2812,6 +3672,23 @@ return array (
                                                     'InputKey' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -2844,6 +3721,23 @@ return array (
                                                             ),
                                                             'AlbumArtFormat' => array(
                                                                 'type' => 'string',
+                                                            ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
                                                             ),
                                                         ),
                                                     ),
@@ -2894,6 +3788,23 @@ return array (
                                                             'Label' => array(
                                                                 'type' => 'string',
                                                             ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -2909,8 +3820,42 @@ return array (
                                                             'Pattern' => array(
                                                                 'type' => 'string',
                                                             ),
+                                                            'Encryption' => array(
+                                                                'type' => 'object',
+                                                                'properties' => array(
+                                                                    'Mode' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'Key' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'KeyMd5' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                    'InitializationVector' => array(
+                                                                        'type' => 'string',
+                                                                    ),
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
+                                                ),
+                                            ),
+                                        ),
+                                        'Encryption' => array(
+                                            'type' => 'object',
+                                            'properties' => array(
+                                                'Mode' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'Key' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'KeyMd5' => array(
+                                                    'type' => 'string',
+                                                ),
+                                                'InitializationVector' => array(
+                                                    'type' => 'string',
                                                 ),
                                             ),
                                         ),
@@ -2951,6 +3896,12 @@ return array (
                             'Status' => array(
                                 'type' => 'string',
                             ),
+                            'UserMetadata' => array(
+                                'type' => 'object',
+                                'additionalProperties' => array(
+                                    'type' => 'string',
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -2990,6 +3941,9 @@ return array (
                                 'type' => 'string',
                             ),
                             'Role' => array(
+                                'type' => 'string',
+                            ),
+                            'AwsKmsKeyArn' => array(
                                 'type' => 'string',
                             ),
                             'Notifications' => array(
@@ -3303,6 +4257,23 @@ return array (
                                 'Container' => array(
                                     'type' => 'string',
                                 ),
+                                'Encryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
+                                ),
                             ),
                         ),
                         'Output' => array(
@@ -3316,6 +4287,23 @@ return array (
                                 ),
                                 'ThumbnailPattern' => array(
                                     'type' => 'string',
+                                ),
+                                'ThumbnailEncryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
+                                        ),
+                                    ),
                                 ),
                                 'Rotate' => array(
                                     'type' => 'string',
@@ -3353,6 +4341,23 @@ return array (
                                             'InputKey' => array(
                                                 'type' => 'string',
                                             ),
+                                            'Encryption' => array(
+                                                'type' => 'object',
+                                                'properties' => array(
+                                                    'Mode' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'Key' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'KeyMd5' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                    'InitializationVector' => array(
+                                                        'type' => 'string',
+                                                    ),
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
@@ -3385,6 +4390,23 @@ return array (
                                                     ),
                                                     'AlbumArtFormat' => array(
                                                         'type' => 'string',
+                                                    ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -3435,6 +4457,23 @@ return array (
                                                     'Label' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
                                         ),
@@ -3450,8 +4489,42 @@ return array (
                                                     'Pattern' => array(
                                                         'type' => 'string',
                                                     ),
+                                                    'Encryption' => array(
+                                                        'type' => 'object',
+                                                        'properties' => array(
+                                                            'Mode' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'Key' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'KeyMd5' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                            'InitializationVector' => array(
+                                                                'type' => 'string',
+                                                            ),
+                                                        ),
+                                                    ),
                                                 ),
                                             ),
+                                        ),
+                                    ),
+                                ),
+                                'Encryption' => array(
+                                    'type' => 'object',
+                                    'properties' => array(
+                                        'Mode' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'Key' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'KeyMd5' => array(
+                                            'type' => 'string',
+                                        ),
+                                        'InitializationVector' => array(
+                                            'type' => 'string',
                                         ),
                                     ),
                                 ),
@@ -3471,6 +4544,23 @@ return array (
                                     ),
                                     'ThumbnailPattern' => array(
                                         'type' => 'string',
+                                    ),
+                                    'ThumbnailEncryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
+                                            ),
+                                        ),
                                     ),
                                     'Rotate' => array(
                                         'type' => 'string',
@@ -3508,6 +4598,23 @@ return array (
                                                 'InputKey' => array(
                                                     'type' => 'string',
                                                 ),
+                                                'Encryption' => array(
+                                                    'type' => 'object',
+                                                    'properties' => array(
+                                                        'Mode' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'Key' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'KeyMd5' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                        'InitializationVector' => array(
+                                                            'type' => 'string',
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
                                         ),
                                     ),
@@ -3540,6 +4647,23 @@ return array (
                                                         ),
                                                         'AlbumArtFormat' => array(
                                                             'type' => 'string',
+                                                        ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
                                                         ),
                                                     ),
                                                 ),
@@ -3590,6 +4714,23 @@ return array (
                                                         'Label' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
                                             ),
@@ -3605,8 +4746,42 @@ return array (
                                                         'Pattern' => array(
                                                             'type' => 'string',
                                                         ),
+                                                        'Encryption' => array(
+                                                            'type' => 'object',
+                                                            'properties' => array(
+                                                                'Mode' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'Key' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'KeyMd5' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                                'InitializationVector' => array(
+                                                                    'type' => 'string',
+                                                                ),
+                                                            ),
+                                                        ),
                                                     ),
                                                 ),
+                                            ),
+                                        ),
+                                    ),
+                                    'Encryption' => array(
+                                        'type' => 'object',
+                                        'properties' => array(
+                                            'Mode' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'Key' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'KeyMd5' => array(
+                                                'type' => 'string',
+                                            ),
+                                            'InitializationVector' => array(
+                                                'type' => 'string',
                                             ),
                                         ),
                                     ),
@@ -3647,6 +4822,12 @@ return array (
                         'Status' => array(
                             'type' => 'string',
                         ),
+                        'UserMetadata' => array(
+                            'type' => 'object',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -3678,6 +4859,9 @@ return array (
                             'type' => 'string',
                         ),
                         'Role' => array(
+                            'type' => 'string',
+                        ),
+                        'AwsKmsKeyArn' => array(
                             'type' => 'string',
                         ),
                         'Notifications' => array(
@@ -3987,6 +5171,9 @@ return array (
                         'Role' => array(
                             'type' => 'string',
                         ),
+                        'AwsKmsKeyArn' => array(
+                            'type' => 'string',
+                        ),
                         'Notifications' => array(
                             'type' => 'object',
                             'properties' => array(
@@ -4103,6 +5290,9 @@ return array (
                         'Role' => array(
                             'type' => 'string',
                         ),
+                        'AwsKmsKeyArn' => array(
+                            'type' => 'string',
+                        ),
                         'Notifications' => array(
                             'type' => 'object',
                             'properties' => array(
@@ -4217,6 +5407,9 @@ return array (
                             'type' => 'string',
                         ),
                         'Role' => array(
+                            'type' => 'string',
+                        ),
+                        'AwsKmsKeyArn' => array(
                             'type' => 'string',
                         ),
                         'Notifications' => array(
