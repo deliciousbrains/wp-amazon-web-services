@@ -25,7 +25,7 @@ Domain Path: /languages/
 $GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2.1';
 
 $GLOBALS['aws_meta']['amazon-web-services']['supported_addon_versions'] = array(
-	'amazon-s3-and-cloudfront' => '0.7',
+	'amazon-s3-and-cloudfront' => '0.8',
 );
 
 require dirname( __FILE__ ) . '/classes/aws-compatibility-check.php';
