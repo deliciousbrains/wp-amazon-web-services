@@ -25,7 +25,7 @@ Domain Path: /languages/
 $GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2';
 
 $GLOBALS['aws_meta']['amazon-web-services']['supported_addon_versions'] = array(
-	'amazon-s3-and-cloudfront' => '0.7'
+	'amazon-s3-and-cloudfront' => '0.7',
 );
 
 require dirname( __FILE__ ) . '/classes/aws-compatibility-check.php';
@@ -79,7 +79,7 @@ function amazon_web_services_activation() {
 	if ( ! get_site_option( Amazon_Web_Services::SETTINGS_KEY ) ) {
 		add_site_option( Amazon_Web_Services::SETTINGS_KEY, array(
 			'access_key_id'     => $as3cf['key'],
-			'secret_access_key' => $as3cf['secret']
+			'secret_access_key' => $as3cf['secret'],
 		) );
 	}
 
