@@ -207,15 +207,16 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 	/**
 	 * Get a defined region to use for the AWS client
+	 * Defaults to US Standard, as required for setting signature to v4
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	function get_region() {
 		if ( defined( 'AWS_REGION' ) ) {
 			return AWS_REGION;
 		}
 
-		return null;
+		return 'us-east-1';
 	}
 
 	/**
@@ -244,13 +245,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 
 		if ( is_null( $this->client ) ) {
 			$args = array(
-				'key'    => $this->get_access_key_id(),
-				'secret' => $this->get_secret_access_key()
+				'key'       => $this->get_access_key_id(),
+				'secret'    => $this->get_secret_access_key(),
+				'region'    => $this->get_region(),
+				'signature' => 'v4',
 			);
-
-			if ( $this->get_region() ) {
-				$args['region'] = $this->get_region();
-			}
 
 			$args         = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
