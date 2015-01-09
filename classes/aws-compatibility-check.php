@@ -1,4 +1,5 @@
 <?php
+
 class AWS_Compatibility_Check {
 
 	private $plugin_file_path;
@@ -43,10 +44,7 @@ class AWS_Compatibility_Check {
 			return $errors;
 		}
 
-		if (
-			! ( $curl = curl_version() ) || empty( $curl['version'] ) || empty( $curl['features'] )
-			|| version_compare( $curl['version'], '7.16.2', '<' )
-		) {
+		if ( ! ( $curl = curl_version() ) || empty( $curl['version'] ) || empty( $curl['features'] ) || version_compare( $curl['version'], '7.16.2', '<' ) ) {
 			$errors[] = __( 'a cURL version less than 7.16.2', 'amazon-web-services' );
 		}
 
@@ -62,7 +60,7 @@ class AWS_Compatibility_Check {
 			}
 
 			if ( $curl_errors ) {
-				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . implode( ' or ', $curl_errors );
+				$errors[] = __( 'cURL compiled without', 'amazon-web-services' ) . ' ' . implode( ' or ', $curl_errors ); // xss ok
 			}
 		}
 
@@ -85,8 +83,7 @@ class AWS_Compatibility_Check {
 
 		if ( count( $errors ) > 1 ) {
 			$last_one = ' and ' . array_pop( $errors );
-		}
-		else {
+		} else {
 			$last_one = '';
 		}
 
@@ -104,8 +101,7 @@ class AWS_Compatibility_Check {
 			if ( ! current_user_can( 'manage_network_plugins' ) ) {
 				return; // Don't show notices if the user can't manage network plugins
 			}
-		}
-		else {
+		} else {
 			// Don't show notices if user doesn't have plugin management privileges
 			$caps = array( 'activate_plugins', 'update_plugins', 'install_plugins' );
 			foreach ( $caps as $cap ) {
