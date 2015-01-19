@@ -236,8 +236,6 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$args = array(
 				'key'       => $this->get_access_key_id(),
 				'secret'    => $this->get_secret_access_key(),
-				'region'    => 'us-east-1',
-				'signature' => 'v4',
 			);
 
 			$args         = apply_filters( 'aws_get_client_args', $args );

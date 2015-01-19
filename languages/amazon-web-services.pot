@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Amazon Web Services\n"
-"POT-Creation-Date: 2015-01-09 17:14-0000\n"
-"PO-Revision-Date: 2015-01-09 17:14-0000\n"
+"POT-Creation-Date: 2015-01-19 16:01-0000\n"
+"PO-Revision-Date: 2015-01-19 16:01-0000\n"
 "Last-Translator: Delicious Brains <nom@deliciousbrains.com>\n"
 "Language-Team: Delicious Brains <nom@deliciousbrains.com>\n"
 "Language: en\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Cheatin' eh?"
 msgstr ""
 
-#: classes/amazon-web-services.php:245
+#: classes/amazon-web-services.php:232
 #, php-format
 msgid ""
 "You must first <a href=\"%s\">set your AWS access keys</a> to use this addon."

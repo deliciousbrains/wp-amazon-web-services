@@ -4,7 +4,7 @@ Plugin Name: Amazon Web Services
 Plugin URI: http://wordpress.org/extend/plugins/amazon-web-services/
 Description: Includes the Amazon Web Services PHP libraries, stores access keys, and allows other plugins to hook into it
 Author: Brad Touesnard
-Version: 0.2.1
+Version: 0.2.2
 Author URI: http://bradt.ca/
 Network: True
 Text Domain: amazon-web-services
@@ -22,10 +22,10 @@ Domain Path: /languages/
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************
 
-$GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2.1';
+$GLOBALS['aws_meta']['amazon-web-services']['version'] = '0.2.2';
 
 $GLOBALS['aws_meta']['amazon-web-services']['supported_addon_versions'] = array(
-	'amazon-s3-and-cloudfront' => '0.8',
+	'amazon-s3-and-cloudfront' => '0.8.1',
 );
 
 require dirname( __FILE__ ) . '/classes/aws-compatibility-check.php';

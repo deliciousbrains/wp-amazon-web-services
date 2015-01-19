@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: amazon, amazon web services
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
@@ -25,6 +25,9 @@ This plugin is required by other plugins, which uses its libraries and its setti
 1. Settings screen
 
 == Changelog ==
+
+= 0.2.2 - 2015-01-19 =
+* Bug Fix: Reverting AWS client config of region and signature
 
 = 0.2.1 - 2015-01-10 =
 * New: AWS SDK updated to 2.7.13
