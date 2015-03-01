@@ -238,6 +238,10 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 				'secret'    => $this->get_secret_access_key(),
 			);
 
+			if (defined('AWS_SESSION_TOKEN')) {
+				$args['token'] = AWS_SESSION_TOKEN;
+			}
+
 			$args         = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
 		}
