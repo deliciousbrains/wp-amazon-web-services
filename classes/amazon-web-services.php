@@ -233,13 +233,13 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		}
 
 		if ( is_null( $this->client ) ) {
+			$args = array();
 			if (strpos($this->get_access_key_id(), 'AKI', 0)) {
 				$args = array(
 					'key'       => $this->get_access_key_id(),
 					'secret'    => $this->get_secret_access_key(),
 				);
 			}
-
 			$args         = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
 		}
