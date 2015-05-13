@@ -228,21 +228,25 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * @return Aws|WP_Error
 	 */
 	function get_client() {
-		if ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) {
-			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) ); // xss ok
-		}
+       { if ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) {
+            // Create a cache adapter that stores data on the filesystem (AWS Example)
+            $cacheAdapter = new DoctrineCacheAdapter(new FilesystemCache('/tmp/cache'));
 
-		if ( is_null( $this->client ) ) {
-			$args = array(
-				'key'       => $this->get_access_key_id(),
-				'secret'    => $this->get_secret_access_key(),
-			);
+            $this->client = Aws::factory( array('credentials.cache' => $cacheAdapter ));
 
-			$args         = apply_filters( 'aws_get_client_args', $args );
-			$this->client = Aws::factory( $args );
-		}
+        }
 
-		return $this->client;
+        if ( is_null( $this->client ) ) {
+            $args = array(
+                'key'       => $this->get_access_key_id(),
+                'secret'    => $this->get_secret_access_key(),
+                );
+
+                $args         = apply_filters( 'aws_get_client_args', $args );
+                $this->client = Aws::factory( $args );
+        }
+
+        return $this->client;}
 	}
 
 	/*
