@@ -1,5 +1,7 @@
 <?php
 use Aws\Common\Aws;
+use Doctrine\Common\Cache\FilesystemCache;
+use Guzzle\Cache\DoctrineCacheAdapter;
 
 class Amazon_Web_Services extends AWS_Plugin_Base {
 
@@ -224,6 +226,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	/**
 	 * Instantiate a new AWS service client for the AWS SDK
 	 * using the defined AWS key and secret
+	 * if the AWS keys do not exist try to use the IAM instance role credentials
 	 *
 	 * @return Aws|WP_Error
 	 */
