@@ -32,7 +32,7 @@ This plugin is required by other plugins, which uses its libraries and its setti
 == Changelog ==
 
 = 0.3.2 - 2015-08-26 =
-# New: WP Offload S3 Pro upgrade and addons added to the _Addons_ screen
+* New: WP Offload S3 Pro upgrade and addons added to the _Addons_ screen
 
 = 0.3.1 - 2015-07-29 =
 * Bug fix: Style inconsistencies on the _Addons_ screen
