@@ -355,17 +355,32 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 						'addons' => array(
 							'amazon-s3-and-cloudfront-assets'      => array(
 								'title' => __( 'Assets', 'amazon-web-services' ),
-								'url'   => 'https://deliciousbrains.com/wp-offload-s3/#assets-addon',
-								'label' => __( 'Addon', 'amazon-web-services' ),
-							),
-							'amazon-s3-and-cloudfront-edd'         => array(
-								'title' => __( 'Easy Digital Downloads', 'amazon-web-services' ),
-								'url'   => 'https://deliciousbrains.com/wp-offload-s3/#edd-addon',
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/',
 								'label' => __( 'Addon', 'amazon-web-services' ),
 							),
 							'amazon-s3-and-cloudfront-woocommerce' => array(
 								'title' => __( 'WooCommerce', 'amazon-web-services' ),
-								'url'   => 'https://deliciousbrains.com/wp-offload-s3/#woocommerce-addon',
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/woocommerce-addon/',
+								'label' => __( 'Addon', 'amazon-web-services' ),
+							),
+							'amazon-s3-and-cloudfront-edd'         => array(
+								'title' => __( 'Easy Digital Downloads', 'amazon-web-services' ),
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/edd-addon/',
+								'label' => __( 'Addon', 'amazon-web-services' ),
+							),
+							'amazon-s3-and-cloudfront-wpml' => array(
+								'title' => __( 'WPML', 'amazon-web-services' ),
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/wpml-addon/',
+								'label' => __( 'Addon', 'amazon-web-services' ),
+							),
+							'amazon-s3-and-cloudfront-meta-slider' => array(
+								'title' => __( 'Meta Slider', 'amazon-web-services' ),
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/meta-slider-addon/',
+								'label' => __( 'Addon', 'amazon-web-services' ),
+							),
+							'amazon-s3-and-cloudfront-enable-media-replace' => array(
+								'title' => __( 'Enable Media Replace', 'amazon-web-services' ),
+								'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/enable-media-replace-addon/',
 								'label' => __( 'Addon', 'amazon-web-services' ),
 							),
 						),
