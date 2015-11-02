@@ -33,6 +33,9 @@ This plugin is required by other plugins, which uses its libraries and its setti
 
 ## Changelog ##
 
+### 0.3.4 - 2015-11-02 ###
+* Improvement: Compatibility with WP Offload S3 Pro 1.0.3
+
 ### 0.3.3 - 2015-10-26 ###
 * Improvement: Updated Amazon SDK to version 2.8.18
 * Improvement: Fix inconsistent notice widths on _Access Keys_ screen
