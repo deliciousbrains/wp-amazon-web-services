@@ -2,8 +2,8 @@
 Contributors: bradt, deliciousbrains
 Tags: amazon, amazon web services
 Requires at least: 4.4
-Tested up to: 4.6
-Stable tag: 0.3.7
+Tested up to: 4.6.1
+Stable tag: 1.0
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
@@ -32,6 +32,10 @@ This plugin is required by other plugins, which use its libraries and its settin
 1. Settings screen
 
 == Changelog ==
+
+= 1.0 - 2016-10-29 =
+* Improvement: Compatibility with WP Offload S3 Lite 1.1
+* Improvement: Compatibility with WP Offload S3 1.2
 
 = 0.3.7 - 2016-09-01 =
 * Improvement: No longer delete plugin data on uninstall. Manual removal possible, as per this [doc](https://deliciousbrains.com/wp-offload-s3/doc/uninstall/).
