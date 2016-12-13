@@ -458,13 +458,13 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$activated = $this->is_plugin_activated( $slug );
 
 		if ( $installed && $activated ) {
-			echo '<li>' . esc_html( _x( 'Installed & Activated', 'Plugin already installed and activated', 'amazon-web-services' ) ) . '</li>';
+			echo '<li class="installed activated">' . esc_html( _x( 'Installed & Activated', 'Plugin already installed and activated', 'amazon-web-services' ) ) . '</li>';
 		} elseif ( $installed ) {
-			echo '<li>' . esc_html( _x( 'Installed', 'Plugin already installed', 'amazon-web-services' ) ) . '</li>';
-			echo '<li><a href="' . esc_url( $this->get_plugin_activate_url( $slug ) ) . '">' . esc_html( _x( 'Activate Now', 'Activate plugin now', 'amazon-web-services' ) ) . '</a></li>';
+			echo '<li class="installed">' . esc_html( _x( 'Installed', 'Plugin already installed', 'amazon-web-services' ) ) . '</li>';
+			echo '<li class="activate"><a href="' . esc_url( $this->get_plugin_activate_url( $slug ) ) . '">' . esc_html( _x( 'Activate Now', 'Activate plugin now', 'amazon-web-services' ) ) . '</a></li>';
 		} else {
 			if ( isset( $addon['install'] ) && $addon['install'] ) {
-				echo '<li><a href="' . esc_url( $this->get_plugin_install_url( $slug ) ) . '">' . esc_html( _x( 'Install Now', 'Install plugin now', 'amazon-web-services' ) ) . '</a></li>';
+				echo '<li class="install"><a href="' . esc_url( $this->get_plugin_install_url( $slug ) ) . '">' . esc_html( _x( 'Install Now', 'Install plugin now', 'amazon-web-services' ) ) . '</a></li>';
 			}
 		}
 
@@ -508,7 +508,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$class = 'thickbox';
 		}
 
-		echo '<li><a class="' . $class . '" href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
+		echo '<li class="visit-site"><a class="' . $class . '" href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
 	}
 
 	/**

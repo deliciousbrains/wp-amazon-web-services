@@ -2,8 +2,8 @@
 Contributors: bradt, deliciousbrains
 Tags: amazon, amazon web services
 Requires at least: 4.4
-Tested up to: 4.6.1
-Stable tag: 1.0
+Tested up to: 4.7
+Stable tag: 1.0.1
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
@@ -33,7 +33,10 @@ This plugin is required by other plugins, which use its libraries and its settin
 
 == Changelog ==
 
-= 1.0 - 2016-10-29 =
+= 1.0.1 - 2016-12-13 =
+* New: Mumbai and Seoul regions added
+
+= 1.0 - 2016-09-29 =
 * Improvement: Compatibility with WP Offload S3 Lite 1.1
 * Improvement: Compatibility with WP Offload S3 1.2
 

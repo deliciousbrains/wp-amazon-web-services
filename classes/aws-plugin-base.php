@@ -257,8 +257,25 @@ class AWS_Plugin_Base {
 	/**
 	 * Save the settings to the database
 	 */
-	function save_settings() {
-		update_site_option( static::SETTINGS_KEY, $this->settings );
+	public function save_settings() {
+		$this->update_site_option( static::SETTINGS_KEY, $this->settings );
+	}
+
+	/**
+	 * Update site option.
+	 *
+	 * @param string $option
+	 * @param mixed  $value
+	 * @param bool   $autoload
+	 *
+	 * @return bool
+	 */
+	public function update_site_option( $option, $value, $autoload = true ) {
+		if ( is_multisite() ) {
+			return update_site_option( $option, $value );
+		}
+
+		return update_option( $option, $value, $autoload );
 	}
 
 	/**
@@ -318,5 +335,28 @@ class AWS_Plugin_Base {
 	 */
 	public function get_asset_suffix() {
 		return defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	}
+
+	/**
+	 * Get all AWS regions
+	 *
+	 * @return array
+	 */
+	public function get_aws_regions() {
+		$regions = array(
+			'us-east-1'      => 'US Standard',
+			'us-west-1'      => 'Northern California',
+			'us-west-2'      => 'Oregon',
+			'eu-west-1'      => 'Ireland',
+			'eu-central-1'   => 'Frankfurt',
+			'ap-southeast-1' => 'Singapore',
+			'ap-southeast-2' => 'Sydney',
+			'ap-northeast-1' => 'Tokyo',
+			'ap-south-1'     => 'Mumbai',
+			'ap-northeast-2' => 'Seoul',
+			'sa-east-1'      => 'Sao Paulo',
+		);
+
+		return apply_filters( 'aws_get_regions', $regions );
 	}
 }
