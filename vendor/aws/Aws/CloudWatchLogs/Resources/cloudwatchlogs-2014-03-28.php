@@ -17,6 +17,138 @@ return array (
         ),
     ),
     'operations' => array(
+        'CancelExportTask' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Logs_20140328.CancelExportTask',
+                ),
+                'taskId' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Returned if a parameter of the request is incorrectly specified.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Returned if the specified resource does not exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Returned if the operation is not valid on the specified resource',
+                    'class' => 'InvalidOperationException',
+                ),
+                array(
+                    'reason' => 'Returned if the service cannot complete the request.',
+                    'class' => 'ServiceUnavailableException',
+                ),
+            ),
+        ),
+        'CreateExportTask' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'CreateExportTaskResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Logs_20140328.CreateExportTask',
+                ),
+                'taskName' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'logGroupName' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'logStreamNamePrefix' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'from' => array(
+                    'required' => true,
+                    'type' => 'numeric',
+                    'location' => 'json',
+                ),
+                'to' => array(
+                    'required' => true,
+                    'type' => 'numeric',
+                    'location' => 'json',
+                ),
+                'destination' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'destinationPrefix' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Returned if a parameter of the request is incorrectly specified.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Returned if you have reached the maximum number of resources that can be created.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'Returned if multiple requests to update the same resource were in conflict.',
+                    'class' => 'OperationAbortedException',
+                ),
+                array(
+                    'reason' => 'Returned if the service cannot complete the request.',
+                    'class' => 'ServiceUnavailableException',
+                ),
+                array(
+                    'reason' => 'Returned if the specified resource does not exist.',
+                    'class' => 'ResourceNotFoundException',
+                ),
+                array(
+                    'reason' => 'Returned if the specified resource already exists.',
+                    'class' => 'ResourceAlreadyExistsException',
+                ),
+            ),
+        ),
         'CreateLogGroup' => array(
             'httpMethod' => 'POST',
             'uri' => '/',
@@ -43,7 +175,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -95,14 +226,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -150,7 +279,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -198,7 +326,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -246,14 +373,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -301,14 +426,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -356,7 +479,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -404,14 +526,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
             ),
             'errorResponses' => array(
@@ -458,7 +578,59 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
+                ),
+                'nextToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'limit' => array(
+                    'type' => 'numeric',
+                    'location' => 'json',
+                    'minimum' => 1,
+                    'maximum' => 50,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'Returned if a parameter of the request is incorrectly specified.',
+                    'class' => 'InvalidParameterException',
+                ),
+                array(
+                    'reason' => 'Returned if the service cannot complete the request.',
+                    'class' => 'ServiceUnavailableException',
+                ),
+            ),
+        ),
+        'DescribeExportTasks' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'DescribeExportTasksResponse',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'Logs_20140328.DescribeExportTasks',
+                ),
+                'taskId' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 1,
+                ),
+                'statusCode' => array(
+                    'type' => 'string',
+                    'location' => 'json',
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -508,7 +680,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -559,13 +730,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamNamePrefix' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'orderBy' => array(
                     'type' => 'string',
@@ -629,13 +798,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterNamePrefix' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -690,13 +857,11 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterNamePrefix' => array(
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -751,7 +916,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamNames' => array(
                     'type' => 'array',
@@ -762,7 +926,6 @@ return array (
                         'name' => 'LogStreamName',
                         'type' => 'string',
                         'minLength' => 1,
-                        'maxLength' => 512,
                     ),
                 ),
                 'startTime' => array(
@@ -776,7 +939,6 @@ return array (
                 'filterPattern' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 512,
                 ),
                 'nextToken' => array(
                     'type' => 'string',
@@ -836,14 +998,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'startTime' => array(
                     'type' => 'numeric',
@@ -911,7 +1071,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'targetArn' => array(
                     'required' => true,
@@ -967,7 +1126,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'accessPolicy' => array(
                     'required' => true,
@@ -1017,14 +1175,12 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logStreamName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'logEvents' => array(
                     'required' => true,
@@ -1105,20 +1261,17 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterPattern' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 512,
                 ),
                 'metricTransformations' => array(
                     'required' => true,
@@ -1133,17 +1286,14 @@ return array (
                             'metricName' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 255,
                             ),
                             'metricNamespace' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 255,
                             ),
                             'metricValue' => array(
                                 'required' => true,
                                 'type' => 'string',
-                                'maxLength' => 100,
                             ),
                         ),
                     ),
@@ -1198,7 +1348,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'retentionInDays' => array(
                     'required' => true,
@@ -1251,20 +1400,17 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterName' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 1,
-                    'maxLength' => 512,
                 ),
                 'filterPattern' => array(
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 512,
                 ),
                 'destinationArn' => array(
                     'required' => true,
@@ -1326,7 +1472,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 512,
                 ),
                 'logEventMessages' => array(
                     'required' => true,
@@ -1358,6 +1503,16 @@ return array (
             'type' => 'object',
             'additionalProperties' => true,
         ),
+        'CreateExportTaskResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'taskId' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+        ),
         'DescribeDestinationsResponse' => array(
             'type' => 'object',
             'additionalProperties' => true,
@@ -1386,6 +1541,69 @@ return array (
                             ),
                             'creationTime' => array(
                                 'type' => 'numeric',
+                            ),
+                        ),
+                    ),
+                ),
+                'nextToken' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+        ),
+        'DescribeExportTasksResponse' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'exportTasks' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'ExportTask',
+                        'type' => 'object',
+                        'properties' => array(
+                            'taskId' => array(
+                                'type' => 'string',
+                            ),
+                            'taskName' => array(
+                                'type' => 'string',
+                            ),
+                            'logGroupName' => array(
+                                'type' => 'string',
+                            ),
+                            'from' => array(
+                                'type' => 'numeric',
+                            ),
+                            'to' => array(
+                                'type' => 'numeric',
+                            ),
+                            'destination' => array(
+                                'type' => 'string',
+                            ),
+                            'destinationPrefix' => array(
+                                'type' => 'string',
+                            ),
+                            'status' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'code' => array(
+                                        'type' => 'string',
+                                    ),
+                                    'message' => array(
+                                        'type' => 'string',
+                                    ),
+                                ),
+                            ),
+                            'executionInfo' => array(
+                                'type' => 'object',
+                                'properties' => array(
+                                    'creationTime' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'completionTime' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                ),
                             ),
                         ),
                     ),
@@ -1755,6 +1973,21 @@ return array (
             'output_token' => 'nextToken',
             'limit_key' => 'limit',
             'result_key' => 'metricFilters',
+        ),
+        'DescribeSubscriptionFilters' => array(
+            'input_token' => 'nextToken',
+            'output_token' => 'nextToken',
+            'limit_key' => 'limit',
+            'result_key' => 'subscriptionFilters',
+        ),
+        'FilterLogEvents' => array(
+            'input_token' => 'nextToken',
+            'output_token' => 'nextToken',
+            'limit_key' => 'limit',
+            'result_key' => array(
+                'events',
+                'searchedLogStreams',
+            ),
         ),
         'GetLogEvents' => array(
             'input_token' => 'nextToken',

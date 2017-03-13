@@ -18,6 +18,9 @@ use Monolog\Logger;
 /**
  * Sends errors to Rollbar
  *
+ * If the context data contains a `payload` key, that is used as an array
+ * of payload options to RollbarNotifier's report_message/report_exception methods.
+ *
  * @author Paul Statezny <paulstatezny@gmail.com>
  */
 class RollbarHandler extends AbstractProcessingHandler
@@ -38,8 +41,8 @@ class RollbarHandler extends AbstractProcessingHandler
 
     /**
      * @param RollbarNotifier $rollbarNotifier RollbarNotifier object constructed with valid token
-     * @param integer         $level           The minimum logging level at which this handler will be triggered
-     * @param boolean         $bubble          Whether the messages that are handled can bubble up the stack or not
+     * @param int             $level           The minimum logging level at which this handler will be triggered
+     * @param bool            $bubble          Whether the messages that are handled can bubble up the stack or not
      */
     public function __construct(RollbarNotifier $rollbarNotifier, $level = Logger::ERROR, $bubble = true)
     {
@@ -54,7 +57,17 @@ class RollbarHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         if (isset($record['context']['exception']) && $record['context']['exception'] instanceof Exception) {
-            $this->rollbarNotifier->report_exception($record['context']['exception']);
+            $context = $record['context'];
+            $exception = $context['exception'];
+            unset($context['exception']);
+
+            $payload = array();
+            if (isset($context['payload'])) {
+                $payload = $context['payload'];
+                unset($context['payload']);
+            }
+
+            $this->rollbarNotifier->report_exception($exception, $context, $payload);
         } else {
             $extraData = array(
                 'level' => $record['level'],
@@ -62,10 +75,18 @@ class RollbarHandler extends AbstractProcessingHandler
                 'datetime' => $record['datetime']->format('U'),
             );
 
+            $context = $record['context'];
+            $payload = array();
+            if (isset($context['payload'])) {
+                $payload = $context['payload'];
+                unset($context['payload']);
+            }
+
             $this->rollbarNotifier->report_message(
                 $record['message'],
                 $record['level_name'],
-                array_merge($record['context'], $record['extra'], $extraData)
+                array_merge($record['context'], $record['extra'], $extraData),
+                $payload
             );
         }
 

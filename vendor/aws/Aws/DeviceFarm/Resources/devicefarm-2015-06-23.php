@@ -41,12 +41,10 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 256,
                 ),
                 'description' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 8192,
                 ),
                 'rules' => array(
                     'required' => true,
@@ -113,7 +111,6 @@ return array (
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 256,
                 ),
             ),
             'errorResponses' => array(
@@ -159,6 +156,194 @@ return array (
                 '' => array(
                     'type' => 'object',
                     'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
+        'DeleteDevicePool' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.DeleteDevicePool',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
+        'DeleteProject' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.DeleteProject',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
+        'DeleteRun' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.DeleteRun',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
+        'DeleteUpload' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'EmptyOutput',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.DeleteUpload',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
                 ),
             ),
             'errorResponses' => array(
@@ -343,7 +528,6 @@ return array (
                     'minLength' => 32,
                 ),
                 'appArn' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 32,
@@ -774,7 +958,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -827,7 +1010,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -879,7 +1061,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -932,7 +1113,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -985,7 +1165,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1038,7 +1217,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1091,7 +1269,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1144,7 +1321,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1197,7 +1373,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 4,
-                    'maxLength' => 1024,
                 ),
             ),
             'errorResponses' => array(
@@ -1247,7 +1422,6 @@ return array (
                     'minLength' => 32,
                 ),
                 'appArn' => array(
-                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                     'minLength' => 32,
@@ -1261,7 +1435,6 @@ return array (
                 'name' => array(
                     'type' => 'string',
                     'location' => 'json',
-                    'maxLength' => 256,
                 ),
                 'test' => array(
                     'required' => true,
@@ -1359,6 +1532,131 @@ return array (
                 ),
             ),
         ),
+        'UpdateDevicePool' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'UpdateDevicePoolResult',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.UpdateDevicePool',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
+                ),
+                'name' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'description' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+                'rules' => array(
+                    'type' => 'array',
+                    'location' => 'json',
+                    'items' => array(
+                        'name' => 'Rule',
+                        'type' => 'object',
+                        'properties' => array(
+                            'attribute' => array(
+                                'type' => 'string',
+                            ),
+                            'operator' => array(
+                                'type' => 'string',
+                            ),
+                            'value' => array(
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
+        'UpdateProject' => array(
+            'httpMethod' => 'POST',
+            'uri' => '/',
+            'class' => 'Aws\\Common\\Command\\JsonCommand',
+            'responseClass' => 'UpdateProjectResult',
+            'responseType' => 'model',
+            'parameters' => array(
+                'Content-Type' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'application/x-amz-json-1.1',
+                ),
+                'command.expects' => array(
+                    'static' => true,
+                    'default' => 'application/json',
+                ),
+                'X-Amz-Target' => array(
+                    'static' => true,
+                    'location' => 'header',
+                    'default' => 'DeviceFarm_20150623.UpdateProject',
+                ),
+                'arn' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'minLength' => 32,
+                ),
+                'name' => array(
+                    'type' => 'string',
+                    'location' => 'json',
+                ),
+            ),
+            'errorResponses' => array(
+                array(
+                    'reason' => 'An invalid argument was specified.',
+                    'class' => 'ArgumentException',
+                ),
+                array(
+                    'reason' => 'The specified entity was not found.',
+                    'class' => 'NotFoundException',
+                ),
+                array(
+                    'reason' => 'A limit was exceeded.',
+                    'class' => 'LimitExceededException',
+                ),
+                array(
+                    'reason' => 'There was a problem with the service account.',
+                    'class' => 'ServiceAccountException',
+                ),
+            ),
+        ),
     ),
     'models' => array(
         'CreateDevicePoolResult' => array(
@@ -1411,6 +1709,10 @@ return array (
                     ),
                 ),
             ),
+        ),
+        'EmptyOutput' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
         ),
         'GetAccountSettingsResult' => array(
             'type' => 'object',
@@ -2260,6 +2562,42 @@ return array (
                     'properties' => array(
                         '' => array(
                             'type' => 'object',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'UpdateDevicePoolResult' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'devicePool' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        '' => array(
+                            'type' => 'object',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'UpdateProjectResult' => array(
+            'type' => 'object',
+            'additionalProperties' => true,
+            'properties' => array(
+                'project' => array(
+                    'type' => 'object',
+                    'location' => 'json',
+                    'properties' => array(
+                        'arn' => array(
+                            'type' => 'string',
+                        ),
+                        'name' => array(
+                            'type' => 'string',
+                        ),
+                        'created' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),

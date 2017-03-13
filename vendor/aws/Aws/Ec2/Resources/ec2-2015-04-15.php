@@ -8256,8 +8256,17 @@ return array (
                                         'type' => 'boolean',
                                         'format' => 'boolean-string',
                                     ),
+                                    'WeightedCapacity' => array(
+                                        'type' => 'numeric',
+                                    ),
+                                    'SpotPrice' => array(
+                                        'type' => 'string',
+                                    ),
                                 ),
                             ),
+                        ),
+                        'AllocationStrategy' => array(
+                            'type' => 'string',
                         ),
                     ),
                 ),
@@ -10915,6 +10924,11 @@ return array (
                     'location' => 'xml',
                     'sentAs' => 'status',
                 ),
+                'StateMessage' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                    'sentAs' => 'statusMessage',
+                ),
                 'StartTime' => array(
                     'type' => 'string',
                     'location' => 'xml',
@@ -10954,6 +10968,11 @@ return array (
                     'type' => 'string',
                     'location' => 'xml',
                     'sentAs' => 'kmsKeyId',
+                ),
+                'DataEncryptionKeyId' => array(
+                    'type' => 'string',
+                    'location' => 'xml',
+                    'sentAs' => 'dataEncryptionKeyId',
                 ),
             ),
         ),
@@ -15256,6 +15275,10 @@ return array (
                                 'type' => 'string',
                                 'sentAs' => 'status',
                             ),
+                            'StateMessage' => array(
+                                'type' => 'string',
+                                'sentAs' => 'statusMessage',
+                            ),
                             'StartTime' => array(
                                 'type' => 'string',
                                 'sentAs' => 'startTime',
@@ -15306,6 +15329,10 @@ return array (
                             'KmsKeyId' => array(
                                 'type' => 'string',
                                 'sentAs' => 'kmsKeyId',
+                            ),
+                            'DataEncryptionKeyId' => array(
+                                'type' => 'string',
+                                'sentAs' => 'dataEncryptionKeyId',
                             ),
                         ),
                     ),
@@ -15742,8 +15769,20 @@ return array (
                                                     'type' => 'boolean',
                                                     'sentAs' => 'ebsOptimized',
                                                 ),
+                                                'WeightedCapacity' => array(
+                                                    'type' => 'numeric',
+                                                    'sentAs' => 'weightedCapacity',
+                                                ),
+                                                'SpotPrice' => array(
+                                                    'type' => 'string',
+                                                    'sentAs' => 'spotPrice',
+                                                ),
                                             ),
                                         ),
+                                    ),
+                                    'AllocationStrategy' => array(
+                                        'type' => 'string',
+                                        'sentAs' => 'allocationStrategy',
                                     ),
                                 ),
                             ),

@@ -149,7 +149,7 @@ class ErrorHandler
         // fatal error codes are ignored if a fatal error handler is present as well to avoid duplicate log entries
         if (!$this->hasFatalErrorHandler || !in_array($code, self::$fatalErrors, true)) {
             $level = isset($this->errorLevelMap[$code]) ? $this->errorLevelMap[$code] : LogLevel::CRITICAL;
-            $this->logger->log($level, self::codeToString($code).': '.$message, array('code' => $code, 'message' => $message, 'file' => $file, 'line' => $line));
+            $this->logger->log($level, self::codeToString($code).': '.$message, array('code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'context' => $context));
         }
 
         if ($this->previousErrorHandler === true) {
@@ -174,9 +174,11 @@ class ErrorHandler
                 array('code' => $lastError['type'], 'message' => $lastError['message'], 'file' => $lastError['file'], 'line' => $lastError['line'])
             );
 
-            foreach ($this->logger->getHandlers() as $handler) {
-                if ($handler instanceof AbstractHandler) {
-                    $handler->close();
+            if ($this->logger instanceof Logger) {
+                foreach ($this->logger->getHandlers() as $handler) {
+                    if ($handler instanceof AbstractHandler) {
+                        $handler->close();
+                    }
                 }
             }
         }
