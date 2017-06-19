@@ -6,7 +6,9 @@
 	<?php if ( ! $this->are_access_keys_set() && ! $use_ec2_iam_roles ) : ?>
 
 		<p class="need-help dashicons-before dashicons-info">
-			<?php printf( __( 'Need help getting your Access Keys? <a href="%s">Check out the Quick Start Guide &rarr;</a>', 'amazon-web-services' ), 'https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/' ); ?>
+			<?php printf( __( 'Need help getting your Access Keys? <a href="%s">Check out the Quick Start Guide &rarr;</a>', 'amazon-web-services' ), $this->dbrains_url( '/wp-offload-s3/doc/quick-start-guide/', array(
+				'utm_campaign' => 'support+docs',
+			) ) ); ?>
 		</p>
 
 	<?php endif; ?>

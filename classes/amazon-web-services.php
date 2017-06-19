@@ -112,25 +112,18 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	/**
 	 * Load styles for the AWS menu item
 	 */
-	function enqueue_menu_styles() {
-		$src = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-global-styles', $src, array(), $this->get_asset_version() );
+	public function enqueue_menu_styles() {
+		$this->enqueue_style( 'aws-global-styles', 'assets/css/global' );
 	}
 
 	/**
 	 * Plugin loading enqueue scripts and styles
 	 */
-	function plugin_load() {
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
+	public function plugin_load() {
+		$this->enqueue_style( 'aws-styles', 'assets/css/styles' );
+		$this->enqueue_script( 'aws-script', 'assets/js/script', array( 'jquery' ) );
 
-		$src = plugins_url( 'assets/css/styles.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-styles', $src, array(), $version );
-
-		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $version, true );
-
-		if ( isset( $_GET['page'] ) && 'aws-addons' == sanitize_key( $_GET['page'] ) ) { // input var okay
+		if ( isset( $_GET['page'] ) && 'aws-addons' === sanitize_key( $_GET['page'] ) ) { // input var okay
 			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
 			wp_enqueue_script( 'plugin-install' );
 			add_thickbox();
@@ -356,64 +349,26 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 *
 	 * @return array
 	 */
-	function get_addons( $unfiltered = false ) {
+	public function get_addons( $unfiltered = false ) {
 		$addons = array(
-			'amazon-s3-and-cloudfront' => array(
+			'amazon-s3-and-cloudfront'     => array(
 				'title'   => __( 'WP Offload S3 Lite', 'amazon-web-services' ),
 				'url'     => 'https://wordpress.org/plugins/amazon-s3-and-cloudfront/',
 				'install' => true,
 			),
 			'amazon-s3-and-cloudfront-pro' => array(
 				'title'  => __( 'WP Offload S3', 'amazon-web-services' ),
-				'url'    => 'https://deliciousbrains.com/wp-offload-s3/',
+				'url'    => $this->dbrains_url( '/wp-offload-s3', array(
+					'utm_campaign' => 'WP+Offload+S3',
+				) ),
 				'addons' => array(
-					'amazon-s3-and-cloudfront-assets'               => array(
+					'amazon-s3-and-cloudfront-assets' => array(
 						'title' => __( 'Assets', 'amazon-web-services' ),
-						'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/',
+						'url'   => $this->dbrains_url( '/wp-offload-s3/doc/assets-addon/', array(
+							'utm_campaign' => 'addons+install',
+						) ),
 						'label' => __( 'Feature', 'amazon-web-services' ),
 						'icon'  => true,
-					),
-					'amazon-s3-and-cloudfront-woocommerce'          => array(
-						'title'                  => __( 'WooCommerce', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/woocommerce-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'woocommerce/woocommerce.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-edd'                  => array(
-						'title'                  => __( 'Easy Digital Downloads', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/edd-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'easy-digital-downloads/easy-digital-downloads.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-wpml'                 => array(
-						'title'                  => __( 'WPML', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/wpml-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'wpml-media/plugin.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-meta-slider'          => array(
-						'title'                  => __( 'Meta Slider', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/meta-slider-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'ml-slider/ml-slider.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-enable-media-replace' => array(
-						'title'                  => __( 'Enable Media Replace', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/enable-media-replace-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'enable-media-replace/enable-media-replace.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-acf-image-crop' => array(
-						'title'                  => __( 'ACF Image Crop', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/acf-image-crop-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'acf-image-crop-add-on/acf-image-crop.php',
-						'icon'                   => true,
 					),
 				),
 			),
