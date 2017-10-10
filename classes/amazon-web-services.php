@@ -300,6 +300,18 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 					'secret' => $this->get_secret_access_key(),
 				);
 			}
+			
+			// if wordpress is behind a corporate proxy and this proxy is defined in wordpress, use it
+			
+			if (defined('WP_PROXY_HOST') && defined('WP_PROXY_PORT'))
+			{
+				$args['request.options']  =
+				[
+					'proxy' => WP_PROXY_HOST.':'.WP_PROXY_PORT
+				];		
+			}
+			
+			
 
 			$args         = apply_filters( 'aws_get_client_args', $args );
 			$this->client = Aws::factory( $args );
