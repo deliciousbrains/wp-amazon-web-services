@@ -213,7 +213,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * @return bool
 	 */
 	function are_key_constants_set() {
-		return defined( 'AWS_ACCESS_KEY_ID' ) && defined( 'AWS_SECRET_ACCESS_KEY' );
+		return defined( 'AWS_ACCESS_KEY_ID' ) || defined( 'AWS_SECRET_ACCESS_KEY' );
 	}
 
 	/**
@@ -222,7 +222,22 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * @return bool
 	 */
 	function are_prefixed_key_constants_set() {
-		return defined( 'DBI_AWS_ACCESS_KEY_ID' ) && defined( 'DBI_AWS_SECRET_ACCESS_KEY' );
+		return defined( 'DBI_AWS_ACCESS_KEY_ID' ) || defined( 'DBI_AWS_SECRET_ACCESS_KEY' );
+	}
+
+	/**
+	 * Whether or not IAM access keys are needed.
+	 *
+	 * Keys are needed if we are not using EC2 roles or not defined/set yet.
+	 *
+	 * @return bool
+	 */
+	public function needs_access_keys() {
+		if ( $this->use_ec2_iam_roles() ) {
+			return false;
+		}
+
+		return ! $this->are_access_keys_set();
 	}
 
 	/**
@@ -237,31 +252,43 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	/**
 	 * Get the AWS key from a constant or the settings
 	 *
+	 * Falls back to settings only if neither constant is defined.
+	 *
 	 * @return string
 	 */
 	function get_access_key_id() {
-		if ( defined( 'DBI_AWS_ACCESS_KEY_ID' ) ) {
-			return DBI_AWS_ACCESS_KEY_ID;
-		} elseif ( defined( 'AWS_ACCESS_KEY_ID' ) ) {
-			return AWS_ACCESS_KEY_ID; // Deprecated
+		if ( $this->are_prefixed_key_constants_set() || $this->are_key_constants_set() ) {
+			if ( defined( 'DBI_AWS_ACCESS_KEY_ID' ) ) {
+				return DBI_AWS_ACCESS_KEY_ID;
+			} elseif ( defined( 'AWS_ACCESS_KEY_ID' ) ) {
+				return AWS_ACCESS_KEY_ID; // Deprecated
+			}
+		} else {
+			return $this->get_setting( 'access_key_id' );
 		}
 
-		return $this->get_setting( 'access_key_id' );
+		return '';
 	}
 
 	/**
 	 * Get the AWS secret from a constant or the settings
 	 *
+	 * Falls back to settings only if neither constant is defined.
+	 *
 	 * @return string
 	 */
 	function get_secret_access_key() {
-		if ( defined( 'DBI_AWS_SECRET_ACCESS_KEY' ) ) {
-			return DBI_AWS_SECRET_ACCESS_KEY;
-		} elseif ( defined( 'AWS_SECRET_ACCESS_KEY' ) ) {
-			return AWS_SECRET_ACCESS_KEY; // Deprecated
+		if ( $this->are_prefixed_key_constants_set() || $this->are_key_constants_set() ) {
+			if ( defined( 'DBI_AWS_SECRET_ACCESS_KEY' ) ) {
+				return DBI_AWS_SECRET_ACCESS_KEY;
+			} elseif ( defined( 'AWS_SECRET_ACCESS_KEY' ) ) {
+				return AWS_SECRET_ACCESS_KEY; // Deprecated
+			}
+		} else {
+			return $this->get_setting( 'secret_access_key' );
 		}
 
-		return $this->get_setting( 'secret_access_key' );
+		return '';
 	}
 
 	/**
@@ -283,15 +310,15 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * Instantiate a new AWS service client for the AWS SDK
 	 * using the defined AWS key and secret
 	 *
-	 * @return Aws|WP_Error
+	 * @return Aws
+	 * @throws Exception
 	 */
 	function get_client() {
-		if ( ! $this->use_ec2_iam_roles() && ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) ) {
-			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) ); // xss ok
+		if ( $this->needs_access_keys() ) {
+			throw new Exception( sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) );
 		}
 
 		if ( is_null( $this->client ) ) {
-
 			$args = array();
 
 			if ( ! $this->use_ec2_iam_roles() ) {
@@ -362,9 +389,9 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 					'utm_campaign' => 'WP+Offload+S3',
 				) ),
 				'addons' => array(
-					'amazon-s3-and-cloudfront-assets' => array(
-						'title' => __( 'Assets', 'amazon-web-services' ),
-						'url'   => $this->dbrains_url( '/wp-offload-s3/doc/assets-addon/', array(
+					'amazon-s3-and-cloudfront-assets-pull' => array(
+						'title' => __( 'Assets Pull', 'amazon-web-services' ),
+						'url'   => $this->dbrains_url( '/wp-offload-s3/doc/assets-pull-addon/', array(
 							'utm_campaign' => 'addons+install',
 						) ),
 						'label' => __( 'Feature', 'amazon-web-services' ),

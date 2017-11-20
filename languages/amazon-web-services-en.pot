@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-web-services\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2017-06-19 14:44+0100\n"
+"POT-Creation-Date: 2017-11-20 14:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Addons"
 msgstr ""
 
 #: classes/amazon-web-services.php:83
-#: classes/amazon-web-services.php:342
+#: classes/amazon-web-services.php:369
 #: view/settings.php:16
 msgid "Access Keys"
 msgstr ""
@@ -44,53 +44,53 @@ msgstr ""
 msgid "Amazon Web Services: Addons"
 msgstr ""
 
-#: classes/amazon-web-services.php:290
+#: classes/amazon-web-services.php:318
 #, php-format
 msgid ""
 "You must first <a href=\"%s\">set your AWS access keys</a> to use this addon."
 msgstr ""
 
-#: classes/amazon-web-services.php:355
+#: classes/amazon-web-services.php:382
 msgid "WP Offload S3 Lite"
 msgstr ""
 
-#: classes/amazon-web-services.php:360
+#: classes/amazon-web-services.php:387
 msgid "WP Offload S3"
 msgstr ""
 
-#: classes/amazon-web-services.php:366
-msgid "Assets"
+#: classes/amazon-web-services.php:393
+msgid "Assets Pull"
 msgstr ""
 
-#: classes/amazon-web-services.php:370
+#: classes/amazon-web-services.php:397
 msgid "Feature"
 msgstr ""
 
-#: classes/amazon-web-services.php:416
+#: classes/amazon-web-services.php:443
 msgctxt "Plugin already installed and activated"
 msgid "Installed & Activated"
 msgstr ""
 
-#: classes/amazon-web-services.php:418
+#: classes/amazon-web-services.php:445
 msgctxt "Plugin already installed"
 msgid "Installed"
 msgstr ""
 
-#: classes/amazon-web-services.php:419
+#: classes/amazon-web-services.php:446
 msgctxt "Activate plugin now"
 msgid "Activate Now"
 msgstr ""
 
-#: classes/amazon-web-services.php:422
+#: classes/amazon-web-services.php:449
 msgctxt "Install plugin now"
 msgid "Install Now"
 msgstr ""
 
-#: classes/amazon-web-services.php:458
+#: classes/amazon-web-services.php:485
 msgid "Visit Site"
 msgstr ""
 
-#: classes/amazon-web-services.php:461
+#: classes/amazon-web-services.php:488
 msgctxt "View plugin details"
 msgid "View Details"
 msgstr ""
@@ -121,7 +121,7 @@ msgid ""
 "7.16.2+ compiled with OpenSSL and zlib. Your server currently has"
 msgstr ""
 
-#: classes/aws-plugin-base.php:298
+#: classes/aws-plugin-base.php:360
 msgid "Settings"
 msgstr ""
 
@@ -217,38 +217,53 @@ msgstr ""
 msgid "You have enabled the use of IAM roles for Amazon EC2 instances."
 msgstr ""
 
-#: view/settings.php:27
+#: view/settings.php:29
 msgid ""
-"You&#8217;ve already defined your AWS access keys in your wp-config.php. If "
-"you&#8217;d prefer to manage them here and store them in the database (not "
-"recommended), simply remove the lines from your wp-config."
+"Please check your wp-config.php file as it looks like one of your defines is "
+"missing or incorrect."
 msgstr ""
 
-#: view/settings.php:33
+#: view/settings.php:35
+#, php-format
+msgid ""
+"You&#8217;ve already defined your AWS access keys in your wp-config.php. If "
+"you&#8217;d prefer to manage them here and store them in the database (<a "
+"href=\"%s\">not recommended</a>), simply remove the lines from your wp-"
+"config."
+msgstr ""
+
+#: view/settings.php:43
 msgid ""
 "We recommend defining your Access Keys in wp-config.php so long as you "
 "don&#8217;t commit it to source control (you shouldn&#8217;t be). Simply "
 "copy the following snippet and replace the stars with the keys."
 msgstr ""
 
-#: view/settings.php:40
+#: view/settings.php:51
+#, php-format
+msgid ""
+"You&#8217;re storing your Access Keys in the database (<a href=\"%s\">not "
+"recommended</a>).</a>"
+msgstr ""
+
+#: view/settings.php:57
 msgid ""
 "If you&#8217;d rather store your Access Keys in the database, <a href="
 "\"\">click here to reveal a form.</a>"
 msgstr ""
 
-#: view/settings.php:56
+#: view/settings.php:74
 msgid "Access Key ID:"
 msgstr ""
 
-#: view/settings.php:62
+#: view/settings.php:80
 msgid "Secret Access Key:"
 msgstr ""
 
-#: view/settings.php:69
+#: view/settings.php:87
 msgid "Save Changes"
 msgstr ""
 
-#: view/settings.php:72
+#: view/settings.php:90
 msgid "Remove Keys"
 msgstr ""

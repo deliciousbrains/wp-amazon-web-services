@@ -2,8 +2,8 @@
 Contributors: bradt, deliciousbrains
 Tags: amazon, amazon web services
 Requires at least: 4.6
-Tested up to: 4.8
-Stable tag: 1.0.3
+Tested up to: 4.9
+Stable tag: 1.0.4
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
@@ -32,6 +32,13 @@ This plugin is required by other plugins, which use its libraries and its settin
 1. Settings screen
 
 == Changelog ==
+
+= 1.0.4 - 2017-11-20 =
+* Improvement: Compatibility with WordPress 4.9
+* Improvement: Compatibility with WP Offload S3 1.5.1
+* Bug fix: Reveal access keys form option shown when keys partially defined
+* Bug fix: WP_Error being passed to AWS methods
+* Bug fix: "More info" links can be broken across two lines
 
 = 1.0.3 - 2017-06-19 =
 * Improvement: Compatibility with WP Offload S3 1.5
