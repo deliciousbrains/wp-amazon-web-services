@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-web-services\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2017-11-20 14:50+0000\n"
+"POT-Creation-Date: 2018-02-20 13:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,82 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: classes/amazon-web-services.php:51
-#: classes/amazon-web-services.php:188
+#: classes/amazon-web-services.php:52
+#: classes/amazon-web-services.php:178
 msgid "Amazon Web Services"
 msgstr ""
 
-#: classes/amazon-web-services.php:52
+#: classes/amazon-web-services.php:53
 msgid "AWS"
 msgstr ""
 
-#: classes/amazon-web-services.php:75
-msgid "Addons"
-msgstr ""
-
-#: classes/amazon-web-services.php:83
-#: classes/amazon-web-services.php:369
+#: classes/amazon-web-services.php:79
+#: classes/amazon-web-services.php:349
 #: view/settings.php:16
 msgid "Access Keys"
 msgstr ""
 
-#: classes/amazon-web-services.php:146
+#: classes/amazon-web-services.php:136
 msgid "Cheatin' eh?"
 msgstr ""
 
-#: classes/amazon-web-services.php:197
-msgid "Amazon Web Services: Addons"
-msgstr ""
-
-#: classes/amazon-web-services.php:318
+#: classes/amazon-web-services.php:298
 #, php-format
 msgid ""
 "You must first <a href=\"%s\">set your AWS access keys</a> to use this addon."
-msgstr ""
-
-#: classes/amazon-web-services.php:382
-msgid "WP Offload S3 Lite"
-msgstr ""
-
-#: classes/amazon-web-services.php:387
-msgid "WP Offload S3"
-msgstr ""
-
-#: classes/amazon-web-services.php:393
-msgid "Assets Pull"
-msgstr ""
-
-#: classes/amazon-web-services.php:397
-msgid "Feature"
-msgstr ""
-
-#: classes/amazon-web-services.php:443
-msgctxt "Plugin already installed and activated"
-msgid "Installed & Activated"
-msgstr ""
-
-#: classes/amazon-web-services.php:445
-msgctxt "Plugin already installed"
-msgid "Installed"
-msgstr ""
-
-#: classes/amazon-web-services.php:446
-msgctxt "Activate plugin now"
-msgid "Activate Now"
-msgstr ""
-
-#: classes/amazon-web-services.php:449
-msgctxt "Install plugin now"
-msgid "Install Now"
-msgstr ""
-
-#: classes/amazon-web-services.php:485
-msgid "Visit Site"
-msgstr ""
-
-#: classes/amazon-web-services.php:488
-msgctxt "View plugin details"
-msgid "View Details"
 msgstr ""
 
 #: classes/aws-compatibility-check.php:25
@@ -252,18 +199,18 @@ msgid ""
 "\"\">click here to reveal a form.</a>"
 msgstr ""
 
-#: view/settings.php:74
+#: view/settings.php:76
 msgid "Access Key ID:"
 msgstr ""
 
-#: view/settings.php:80
+#: view/settings.php:82
 msgid "Secret Access Key:"
 msgstr ""
 
-#: view/settings.php:87
+#: view/settings.php:89
 msgid "Save Changes"
 msgstr ""
 
-#: view/settings.php:90
+#: view/settings.php:92
 msgid "Remove Keys"
 msgstr ""

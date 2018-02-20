@@ -3,17 +3,18 @@ Contributors: bradt, deliciousbrains
 Tags: amazon, amazon web services
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3
 
-Houses the Amazon Web Services (AWS) PHP libraries and manages access keys. Required by other AWS plugins.
+Houses the Amazon Web Services (AWS) PHP SDK v2 libraries and manages access keys.
 
 == Description ==
 
-This plugin is required by other plugins, which use its libraries and its settings to connect to AWS services. Currently, there are only two plugins that require this plugin:
+This plugin allows the user to define AWS access keys and allows other plugins to hook into it and use the AWS SDK that's included.
 
-* [WP Offload S3 Lite](http://wordpress.org/plugins/amazon-s3-and-cloudfront/)
-* [WP Offload S3](https://deliciousbrains.com/wp-offload-s3/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS)
+The plan was for this plugin to be a dependency of several plugins and all could use the same AWS SDK. We realized however that there are [problems with this idea](https://deliciousbrains.com/wp-offload-s3-1-6-released/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS) and we've taken [another approach](https://deliciousbrains.com/wp-offload-s3-1-6-released/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS).
+
+This plugin was used by our plugins ([WP Offload S3](https://deliciousbrains.com/wp-offload-s3/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS) and [WP Offload S3 Lite](http://wordpress.org/plugins/amazon-s3-and-cloudfront/)) but it is almost certainly used by other plugins we're not aware of. So although it is no longer needed for our plugins, we'll leave it here for others.
 
 = Requirements =
 
@@ -32,6 +33,12 @@ This plugin is required by other plugins, which use its libraries and its settin
 1. Settings screen
 
 == Changelog ==
+
+= 1.0.5 - 2018-02-20 =
+* Change: Plugins page removed as this plugin is no longer required by [WP Offload S3](https://deliciousbrains.com/wp-offload-s3/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS) or [WP Offload S3 Lite](http://wordpress.org/plugins/amazon-s3-and-cloudfront/)
+* Bug fix: Update checking broken for version 1.5 or less of WP Offload S3
+* Bug fix: `WP_Offload_S3_Autoloader` class included in plugin
+* Bug fix: License in composer.json fails Packagist validation
 
 = 1.0.4 - 2017-11-20 =
 * Improvement: Compatibility with WordPress 4.9

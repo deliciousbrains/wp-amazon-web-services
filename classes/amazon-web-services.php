@@ -1,4 +1,5 @@
 <?php
+
 use Aws\Common\Aws;
 
 class Amazon_Web_Services extends AWS_Plugin_Base {
@@ -52,6 +53,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$this->plugin_menu_title = __( 'AWS', 'amazon-web-services' );
 
 		add_filter( 'plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
+		add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_actions_settings_link' ), 10, 2 );
 
 		load_plugin_textdomain( 'amazon-web-services', false, dirname( plugin_basename( $plugin_file_path ) ) . '/languages/' );
 	}
@@ -66,17 +68,11 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$icon_url = false;
 		}
 
-		$hook_suffixes = array();
+		$hook_suffixes   = array();
 		$hook_suffixes[] = add_menu_page( $this->plugin_title, $this->plugin_menu_title, $this->plugin_permission, $this->plugin_slug, array(
-				$this,
-				'render_page',
-			), $icon_url );
-
-		$title           = __( 'Addons', 'amazon-web-services' );
-		$hook_suffixes[] = $this->add_page( $title, $title, $this->plugin_permission, 'aws-addons', array(
-				$this,
-				'render_page',
-			) );
+			$this,
+			'render_page',
+		), $icon_url );
 
 		global $submenu;
 		if ( isset( $submenu[ $this->plugin_slug ][0][0] ) ) {
@@ -122,12 +118,6 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	public function plugin_load() {
 		$this->enqueue_style( 'aws-styles', 'assets/css/styles' );
 		$this->enqueue_script( 'aws-script', 'assets/js/script', array( 'jquery' ) );
-
-		if ( isset( $_GET['page'] ) && 'aws-addons' === sanitize_key( $_GET['page'] ) ) { // input var okay
-			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
-			wp_enqueue_script( 'plugin-install' );
-			add_thickbox();
-		}
 
 		$this->handle_post_request();
 
@@ -190,16 +180,6 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		if ( empty( $_GET['page'] ) ) { // input var okay
 			// Not sure why we'd ever end up here, but just in case
 			wp_die( 'What the heck are we doin here?' );
-		}
-
-		if ( preg_match( '@^aws-(.*)$@', $_GET['page'], $matches ) ) {
-			$allowed = array(
-				'addons' => __( 'Amazon Web Services: Addons', 'amazon-web-services' ),
-			);
-			if ( array_key_exists( $matches[1], $allowed ) ) {
-				$view       = $matches[1];
-				$page_title = $allowed[ $view ];
-			}
 		}
 
 		$this->render_view( 'header', array( 'page' => $view, 'page_title' => $page_title ) );
@@ -367,130 +347,6 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 */
 	function get_plugin_action_settings_text() {
 		return __( 'Access Keys', 'amazon-web-services' );
-	}
-
-	/**
-	 * Get all defined addons that use this plugin
-	 *
-	 * @param bool $unfiltered
-	 *
-	 * @return array
-	 */
-	public function get_addons( $unfiltered = false ) {
-		$addons = array(
-			'amazon-s3-and-cloudfront'     => array(
-				'title'   => __( 'WP Offload S3 Lite', 'amazon-web-services' ),
-				'url'     => 'https://wordpress.org/plugins/amazon-s3-and-cloudfront/',
-				'install' => true,
-			),
-			'amazon-s3-and-cloudfront-pro' => array(
-				'title'  => __( 'WP Offload S3', 'amazon-web-services' ),
-				'url'    => $this->dbrains_url( '/wp-offload-s3', array(
-					'utm_campaign' => 'WP+Offload+S3',
-				) ),
-				'addons' => array(
-					'amazon-s3-and-cloudfront-assets-pull' => array(
-						'title' => __( 'Assets Pull', 'amazon-web-services' ),
-						'url'   => $this->dbrains_url( '/wp-offload-s3/doc/assets-pull-addon/', array(
-							'utm_campaign' => 'addons+install',
-						) ),
-						'label' => __( 'Feature', 'amazon-web-services' ),
-						'icon'  => true,
-					),
-				),
-			),
-		);
-
-		if ( $unfiltered ) {
-			return $addons;
-		}
-
-		$addons = apply_filters( 'aws_addons', $addons );
-
-		return $addons;
-	}
-
-	/**
-	 * Recursively build addons list
-	 *
-	 * @param array|null $addons
-	 */
-	function render_addons( $addons = null ) {
-		if ( is_null( $addons ) ) {
-			$addons = $this->get_addons();
-		}
-
-		if ( class_exists( 'Amazon_S3_And_CloudFront_Pro' ) ) {
-			unset( $addons['amazon-s3-and-cloudfront'] );
-		}
-
-		foreach ( $addons as $slug => $addon ) {
-			$this->render_view( 'addon', array( 'slug' => $slug, 'addon' => $addon ) );
-		}
-	}
-
-	/**
-	 * Add install links to AWS addon page
-	 *
-	 * @param string $slug
-	 * @param array  $addon Details of the addon
-	 */
-	function get_addon_install_link( $slug, $addon ) {
-		$installed = file_exists( WP_PLUGIN_DIR . '/' . $slug );
-		$activated = $this->is_plugin_activated( $slug );
-
-		if ( $installed && $activated ) {
-			echo '<li class="installed activated">' . esc_html( _x( 'Installed & Activated', 'Plugin already installed and activated', 'amazon-web-services' ) ) . '</li>';
-		} elseif ( $installed ) {
-			echo '<li class="installed">' . esc_html( _x( 'Installed', 'Plugin already installed', 'amazon-web-services' ) ) . '</li>';
-			echo '<li class="activate"><a href="' . esc_url( $this->get_plugin_activate_url( $slug ) ) . '">' . esc_html( _x( 'Activate Now', 'Activate plugin now', 'amazon-web-services' ) ) . '</a></li>';
-		} else {
-			if ( isset( $addon['install'] ) && $addon['install'] ) {
-				echo '<li class="install"><a href="' . esc_url( $this->get_plugin_install_url( $slug ) ) . '">' . esc_html( _x( 'Install Now', 'Install plugin now', 'amazon-web-services' ) ) . '</a></li>';
-			}
-		}
-
-		// Other links
-		if ( isset( $addon['links'] ) ) {
-			foreach ( $addon['links'] as $link ) {
-				if ( ! isset( $link['url'] ) || ! isset( $link['text'] ) ) {
-					continue;
-				}
-				echo '<li><a href="' . esc_url( $link['url'] ) . '">' . esc_html( $link['text'] ) . '</a></li>';
-			}
-		}
-	}
-
-	/**
-	 * Get the URL of the addon's icon
-	 *
-	 * @param string $slug
-	 *
-	 * @return string
-	 */
-	function get_addon_icon_url( $slug ) {
-		$filename = str_replace( 'amazon-s3-and-cloudfront-', '', $slug );
-		$filename = 'icon-' . $filename . '.svg';
-		echo plugins_url( 'assets/img/' . $filename, $this->plugin_file_path );
-	}
-
-	/**
-	 * Add details link to AWS addon page
-	 *
-	 * @param string $slug
-	 * @param array  $addon Details of the addon
-	 */
-	function get_addon_details_link( $slug, $addon ) {
-		$url   = $addon['url'];
-		$title = __( 'Visit Site', 'amazon-web-services' );
-		$class = '';
-		if ( isset( $addon['free'] ) && $addon['free'] ) {
-			$title = _x( 'View Details', 'View plugin details', 'amazon-web-services' );
-			$url   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $slug . '&amp;TB_iframe=true&amp;width=600&amp;height=800' );
-			$class = 'thickbox';
-		}
-
-		echo '<li class="visit-site"><a class="' . $class . '" href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
 	}
 
 	/**

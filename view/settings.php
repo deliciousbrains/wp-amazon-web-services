@@ -60,6 +60,8 @@ define( 'DBI_AWS_SECRET_ACCESS_KEY', '****************************************' 
 
 		<form method="post" <?php echo ( ! $this->get_access_key_id() && ! $this->get_secret_access_key() ) ? 'style="display: none;"' : ''; // xss ok ?>>
 
+			<?php do_action( 'aws_access_key_form_header' ); ?>
+
 			<?php if ( isset( $_POST['access_key_id'] ) ) { // input var okay ?>
 				<div class="aws-updated updated">
 					<p><strong>Settings saved.</strong></p>
