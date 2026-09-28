@@ -10,6 +10,14 @@ Houses the Amazon Web Services (AWS) PHP SDK v2 libraries and manages access key
 
 == Description ==
 
+**⚠️ WARNING ⚠️**
+
+**Amazon Web Services is no longer actively maintained.**
+
+This software is still free to use under the license provided, but users should be aware that it is not currently maintained. No additional releases, including security releases, will be made available.
+
+---
+
 This plugin allows the user to define AWS access keys and allows other plugins to hook into it and use the AWS SDK that's included.
 
 The plan was for this plugin to be a dependency of several plugins and all could use the same AWS SDK. We realized however that there are [problems with this idea](https://deliciousbrains.com/wp-offload-s3-1-6-released/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS) and we've taken [another approach](https://deliciousbrains.com/wp-offload-s3-1-6-released/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS).
