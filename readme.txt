@@ -1,9 +1,9 @@
 === Amazon Web Services ===
-Contributors: bradt, deliciousbrains
+Contributors: bradt, deliciousbrains, wpengine
 Tags: amazon, amazon web services
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv3
 
 Houses the Amazon Web Services (AWS) PHP SDK v2 libraries and manages access keys.
@@ -41,6 +41,9 @@ This plugin was used by our plugins ([WP Offload S3](https://deliciousbrains.com
 1. Settings screen
 
 == Changelog ==
+
+= 1.0.6 - 2026-09-29 =
+* Change: Update project status in readme
 
 = 1.0.5 - 2018-02-20 =
 * Change: Plugins page removed as this plugin is no longer required by [WP Offload S3](https://deliciousbrains.com/wp-offload-s3/?utm_campaign=WP%2BOffload%2BS3&utm_source=wordpress.org&utm_medium=free%2Bplugin%2Blisting&utm_content=AWS) or [WP Offload S3 Lite](http://wordpress.org/plugins/amazon-s3-and-cloudfront/)

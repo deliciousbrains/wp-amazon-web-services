@@ -4,7 +4,7 @@ Plugin Name: Amazon Web Services
 Plugin URI: http://wordpress.org/extend/plugins/amazon-web-services/
 Description: Includes the Amazon Web Services PHP libraries, stores access keys, and allows other plugins to hook into it.
 Author: Delicious Brains
-Version: 1.0.5
+Version: 1.0.6
 Author URI: https://deliciousbrains.com/
 Network: True
 Text Domain: amazon-web-services
@@ -22,7 +22,7 @@ Domain Path: /languages/
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // **********************************************************************
 
-$GLOBALS['aws_meta']['amazon-web-services']['version'] = '1.0.5';
+$GLOBALS['aws_meta']['amazon-web-services']['version'] = '1.0.6';
 
 $GLOBALS['aws_meta']['amazon-web-services']['supported_addon_versions'] = array(
 	'amazon-s3-and-cloudfront'     => '1.2.1',

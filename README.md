@@ -1,10 +1,10 @@
 # Amazon Web Services
 
-**Contributors:** bradt, deliciousbrains \
+**Contributors:** bradt, deliciousbrains, wpengine \
 **Tags:** amazon, amazon web services \
 **Requires at least:** 4.6 \
 **Tested up to:** 4.9 \
-**Stable tag:** 1.0.5 \
+**Stable tag:** 1.0.6 \
 **License:** GPLv3
 
 Houses the Amazon Web Services (AWS) PHP SDK v2 libraries and manages access keys.
@@ -38,6 +38,10 @@ This plugin was used by our plugins ([WP Offload S3](https://deliciousbrains.com
 2. A new AWS menu will appear in the side menu
 
 ## Changelog
+
+### 1.0.6 - 2026-09-29
+
+* Change: Update project status in readme
 
 ### 1.0.5 - 2018-02-20
 
